@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer utilities {
+    .focused-btn {
+      @apply focus:outline-none focus:pointer-events-none;
+    }
+}
+
+@layer utilities {
+    .responsive-text {
+      @apply text-sm md:text-lg lg:text-lg
+    }
+}

@@ -5,7 +5,17 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0)' },
+          '100%': { transform: 'rotate(180deg)' },
+        },
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear',
+      },
+    },
   },
   plugins: [],
 }

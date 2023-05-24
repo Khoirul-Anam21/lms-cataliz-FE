@@ -24,7 +24,7 @@
             </nav>
 
             <div class="mt-10">
-              <h1 class="space-x-1 text-3xl font-bold border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 pb-6 space-x-7 space-x-reverse">Fundamental of Web Design</h1>
+              <h1 class="space-x-1 text-3xl font-bold border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 pb-6 space-x-reverse">Fundamental of Web Design</h1>
               <h2 class="text-xl mt-5 font-bold">Learning Purposes</h2>
               <div class="text-xl mt-5 mb-5">
                 <li>Create visually appealing website</li>
