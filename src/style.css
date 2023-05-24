@@ -3,6 +3,30 @@
 @tailwind utilities;
 
 
+@layer components {
+  .auth-input {
+    @apply p-4 border border-t-0 border-l-0 border-r-0
+  }
+}
+
+@layer components {
+  .auth-input-sm {
+    @apply p-2 border border-t-0 border-l-0 border-r-0
+  }
+}
+
+@layer components {
+  .main-btn-wide {
+    @apply px-8 py-4 bg-slate-800 text-white min-w-full cursor-pointer hover:shadow-xl
+  }
+}
+
+@layer components {
+  .main-btn-fit {
+    @apply p-6 bg-slate-800 text-white w-fit
+  }
+}
+
 @layer utilities {
     .focused-btn {
       @apply focus:outline-none focus:pointer-events-none;
