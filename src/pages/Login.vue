@@ -1,22 +1,19 @@
 
+<script setup lang="ts">
+import TheLoginInput from '../components/TheLoginInput.vue';
+
+</script>
+
+
 
 <template>
-    <div class="flex flex-col space-y-10 items-center justify-start w-full h-screen bg-slate-400">
+    <div
+        class="flex items-center justify-center w-full h-screen bg-slate-400 md:bg-slate-400 md:justify-center">
+        <div class="flex flex-col md:flex-row space-y-8 md:space-y-0 justify-center items-center md:bg-slate-600">
+            <h1 class="text-4xl font-bold md:p-6 text-white md:bg-slate-600">Ini Halaman Login</h1>
 
-        <h1 class="text-4xl font-bold pt-14 text-white">Ini Halaman Login</h1>
-
-        <!-- Login Card -->
-        <div class="flex flex-col px-6 py-8 bg-white items-center space-y-10">
-            <h2 class="text-2xl font-bold">Login</h2>
-            <div class="flex flex-col space-y-2">
-                <input type="text" placeholder="Email" class="auth-input">
-                <input type="text" placeholder="Password" class="auth-input">
-            </div>
-            <div class="w-full flex flex-col space-y-4 px-8">
-                <input type="submit" class="main-btn-wide rounded-md" value="Log In">
-                <p>Don't have account? <router-link to="/signup" class="text-blue-400 cursor-pointer" >Sign Up</router-link></p>
-            </div>
+            <!-- Login Card -->
+            <TheLoginInput />
         </div>
     </div>
-    <RouterView />
-</template>
+    <RouterView /></template>

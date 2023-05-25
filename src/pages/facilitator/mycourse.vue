@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CourseItem from '../../components/CourseItem.vue';
+import CourseItem from '../../components/course/CourseItem.vue';
 
 const mockArr: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const dropdownOpen = ref(false)
@@ -18,7 +18,7 @@ const toggleOpenDropdown = () => {
             class="flex items-center justify-between mt-10 ml-5 font-medium border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 p-6 pl-6 space-x-7 space-x-reverse">
             <span class="responsive-text">My Course</span>
             <div class="relative">
-                <button @click="toggleOpenDropdown"
+                <button @click="toggleOpenDropdown" @focusout="() => dropdownOpen = false"
                     class="flex items-center justify-between px-4 py-2 text-sm font-medium text-black rounded-md focus:outline-none">
                     Category
                     <span
@@ -51,5 +51,5 @@ const toggleOpenDropdown = () => {
         </div>
 
     </div>
-<RouterView />
+    <RouterView />
 </template>

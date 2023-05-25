@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import TabBarView from '../components/TabBarView.vue';
 
 
 const isShowNav = ref(true);
@@ -59,7 +60,7 @@ const toggleShowNav = () => {
             </router-link>
           </div>
         </div>
-        <!-- Hamburger Butten when hidden -->
+        <!-- Hamburger Button when hidden -->
       </div>
 
       <transition enter-active-class="duration-500" leave-active-class="duration-500"
@@ -151,8 +152,7 @@ const toggleShowNav = () => {
       </transition>
 
 
-    </div>
-
   </div>
-  <RouterView />
-</template>
+
+</div>
+<RouterView /></template>

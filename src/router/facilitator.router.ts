@@ -39,27 +39,27 @@ export const facilitatorRouter = [
     },
     {
         path: '/desc',
-        component: () => import('../pages/facilitator/desc.vue'),
+        component: () => import('../pages/facilitator/CourseMaterialDetail.vue'),
     },
     {
         path: '/annoucement',
-        component: () => import('../pages/facilitator/annoucement.vue'),
+        component: () => import('../components/course/TheAnnouncement.vue'),
     },
     {
         path: '/assignment',
-        component: () => import('../pages/facilitator/assignment.vue'),
+        component: () => import('../components/assignment/AssignmentItem.vue'),
     },
     {
         path: '/assigninstruction',
-        component: () => import('../pages/facilitator/assigninstruction.vue'),
+        component: () => import('../pages/facilitator/AssignmentDetail.vue'),
     },
     {
         path: '/assignparticipant',
-        component: () => import('../pages/facilitator/assignparticipant.vue'),
+        component: () => import('../components/assignment/AssignmentParticipantList.vue'),
     },
     {
         path: '/assignreport',
-        component: () => import('../pages/facilitator/assignreport.vue'),
+        component: () => import('../components/assignment/AssignmentReportList.vue'),
     },
     {
         path: '/addassignment',

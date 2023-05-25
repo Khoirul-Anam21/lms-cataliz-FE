@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="mt-20 sm:ml-64 mb-20">
+  <div class="mt-20 md:mt-28 md:ml-64 mb-20">
 
     <div class="mt-10 ml-5 font-medium border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-5/12">
         <h1 class="space-x-1 text-3xl font-bold mb-3">Edit My Account</h1>

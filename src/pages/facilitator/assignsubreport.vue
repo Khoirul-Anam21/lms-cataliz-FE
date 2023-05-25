@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="mt-20 sm:ml-64 mb-20">
+    <div class="mt-20 md:mt-28 md:ml-64 mb-20">
         <nav class="inline-flex ml-5" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center">

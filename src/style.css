@@ -4,10 +4,23 @@
 
 
 @layer components {
+  .tab-btn {
+    @apply inline-block p-4 border-b-2
+  }
+}
+
+@layer components {
+  .tab-btn-focus {
+    @apply inline-block p-4 border-b-2 text-blue-600 border-blue-600
+  }
+}
+
+@layer components {
   .auth-input {
     @apply p-4 border border-t-0 border-l-0 border-r-0
   }
 }
+
 
 @layer components {
   .auth-input-sm {

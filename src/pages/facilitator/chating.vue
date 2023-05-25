@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="mt-20 sm:ml-64 mb-20 w-9/12">
+  <div class="mt-20 md:mt-28 md:ml-64 mb-20 w-9/12">
     
     <form>
         <label for="chat" class="fixed sr-only">Your message</label>

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="mt-20 sm:ml-64 mb-20">
+  <div class="mt-20 md:mt-28 md:ml-64 mb-20">
     <div class="mt-20">
         <div class="inline-flex rounded-md shadow-sm" role="group">
             <router-link to="/mycourse">
