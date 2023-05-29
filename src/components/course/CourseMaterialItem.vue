@@ -10,7 +10,7 @@
         </span>
 
         <div class="flex justify-between w-11/12">
-            <router-link to="/desc">
+            <router-link :to="{name: 'material-detail', params: {id: 'sembarangsek'}}">
                 <span>
                     <p class="text-xl">What is interaction design</p>
                     <p class="text-[lg] space-x-3">
@@ -20,7 +20,7 @@
                 </span>
             </router-link>
 
-            <router-link to="/desc">
+            <router-link :to="{name: 'material-detail', params: {id: 'sembarangsek'}}">
                 <div class="mt-3">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6   h-6">

@@ -125,7 +125,7 @@
             <div class="grid  px-4 py-5 text-sm text-gray-700 border-b  gap-x-16 ">
                 <div class="text-gray-500 dark:text-gray-400"></div>
                     <div>
-                        <router-link to="/addcoursematerial">
+                        <router-link :to="{ name: 'material-add' }">
                             <a href="#" class="text-white block w-full bg-gray-600 hover:bg-white-700 focus:ring-4 focus:ring-white-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-white-900 ">Add New Material</a>
                         </router-link>
                     </div>

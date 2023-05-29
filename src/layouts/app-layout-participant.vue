@@ -84,7 +84,7 @@ const toggleShowNav = () => {
               </div>
               <div class="">
                 <span>John Doe</span>
-                <p class="text-xs text-slate-500">Instructor</p>
+                <p class="text-xs text-slate-500">Student</p>
               </div>
             </a>
 
@@ -98,8 +98,8 @@ const toggleShowNav = () => {
                 <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
                 </span>
                 <span class="focused-btn">
-                  <router-link to="/mycourse">
-                    My Course
+                  <router-link :to="'/none'">
+                    Dashboard
                   </router-link>
                 </span>
               </a>
@@ -110,8 +110,8 @@ const toggleShowNav = () => {
                 <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300">
                 </span>
                 <span class="focused-btn">
-                  <router-link to="/chating">
-                    Chating
+                  <router-link :to="{ name: 'std-course'}">
+                    My Course
                   </router-link>
                 </span>
               </a>
@@ -155,4 +155,5 @@ const toggleShowNav = () => {
   </div>
 
 </div>
-<RouterView /></template>
+<RouterView />
+</template>

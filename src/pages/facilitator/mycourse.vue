@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CourseItem from '../../components/course/CourseItem.vue';
+import CourseItem from '../../components/course/CourseFacilItem.vue';
 
 const mockArr: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const dropdownOpen = ref(false)
@@ -34,7 +34,7 @@ const toggleOpenDropdown = () => {
 
 
             <div class="flex-row justify-between">
-                <router-link to="/addcoursedesc">
+                <router-link :to="{ name: 'course-add'}">
                     <a href="#"
                         class="static inline-block text-sm px-4 py-2 leading-none rounded responsive-text text-black border-white hover:border-transparent hover:text-natural-900 bg-white mt-4 lg:mt-0">+
                         Add New Course</a>
