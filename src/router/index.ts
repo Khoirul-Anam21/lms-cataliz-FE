@@ -10,13 +10,13 @@ const routes = [
     children: [
       {
         path: 'courses',
-        name: 'std-courses',
-        component: ()=> import("../pages/Courses.vue")
+        name: 'courses',
+        component: ()=> import("../pages/common/Courses.vue")
       },
       {
         path: 'courses/:title',
-        name: 'std-course-detail',
-        component: ()=> import("../pages/CourseDetail.vue")
+        name: 'course-detail',
+        component: ()=> import("../pages/common/CourseDetail.vue")
       }
     ]
   },
@@ -37,12 +37,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../pages/Login.vue'),
+    component: () => import('../pages/auth/Login.vue'),
   },
   {
     path: '/signup',
     name: 'signup',
-    component: () => import('../pages/Signup.vue'),
+    component: () => import('../pages/auth/Signup.vue'),
   },
   {
     path: '/logout',

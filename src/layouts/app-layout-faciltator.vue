@@ -98,7 +98,7 @@ const toggleShowNav = () => {
                 <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
                 </span>
                 <span class="focused-btn">
-                  <router-link :to="{ name: 'courses' }">
+                  <router-link :to="{ name: 'facil-courses' }">
                     My Course
                   </router-link>
                 </span>

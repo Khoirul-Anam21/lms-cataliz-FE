@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 
 const tesParam = ref('tetes')
-
+const route = useRoute();
+const courseDetail = ref('');
 interface CourseDisplayFacil {
     thumbnail: string;
     title: string;
@@ -11,11 +13,15 @@ interface CourseDisplayFacil {
     studentCount: number
 }
 
+onMounted(() => {
+    route.path.includes('participant') ? courseDetail.value = 'std-course-detail' : courseDetail.value = 'course-detail';
+})
+
 </script>
 
 <template>
     <div class="">
-        <router-link :to="{ name: 'std-course-detail', params: { title: tesParam } }">
+        <router-link :to="{ name: courseDetail, params: { title: tesParam } }">
             <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
         </router-link>
         <div class="p-5">

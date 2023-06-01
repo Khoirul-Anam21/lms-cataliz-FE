@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TabBarView from '../../components/TabBarView.vue';
 import AssignmentInstruction from '../../components/assignment/AssignmentInstruction.vue';
-import AssignmentParticipantList from '../../components/assignment/AssignmentParticipantList.vue';
+import AssignmentParticipantList from '../../components/assignment/AssignmentFacilList.vue';
 import AssignmentReportList from '../../components/assignment/AssignmentReportList.vue';
 
 </script>

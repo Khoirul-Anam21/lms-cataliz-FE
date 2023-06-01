@@ -50,7 +50,7 @@
     </div>
 
       <div class="mt-10 ml-5">
-        <label for="countries_disabled" class="block mb-2 font-medium text-gray-900 dark:text-black text-2xl">Category:</label>
+        <label for="countries_disabled" class="block mb-2 font-medium text-gray-900 dark:text-black text-2xl">Course title:</label>
         <h1 class="text-4xl">Fundamental of Web Design</h1>
       </div>
 

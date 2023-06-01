@@ -15,7 +15,7 @@ interface CourseDisplayFacil {
 
 <template>
     <div>
-        <router-link :to="{ name: 'course-detail', params: { title: tesParam } }">
+        <router-link :to="{ name: 'facil-course-detail', params: { title: tesParam } }">
             <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
         </router-link>
         <div class="p-5">

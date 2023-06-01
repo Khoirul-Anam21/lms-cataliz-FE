@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CourseItem from '../components/course/CourseItem.vue';
+import CourseItem from '../../components/course/CourseItem.vue';
 
 const indexer = ref("abcdefghijklmnopqrstuvxyz")
 </script>

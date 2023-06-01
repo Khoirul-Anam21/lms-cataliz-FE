@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import CourseMaterialItem from '../../components/course/CourseMaterialItem.vue';
+import { useRoute } from 'vue-router';
+import CourseMaterialItem from '../../components/course/CourseContentItem.vue';
 import TheLearningPurposes from '../../components/course/TheLearningPurposes.vue';
+import { computed } from 'vue';
+
+const route = useRoute();
+
+const isFacil = computed(() => route.path.includes('facil'));
 
 </script>
 
 <template>
-  <div class="pl-4 sm:ml-64 ">
+  <div class="pl-4 md:ml-64 ">
     <nav class="mt-20 md:mt-28 inline-flex" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
@@ -43,36 +49,27 @@ import TheLearningPurposes from '../../components/course/TheLearningPurposes.vue
         class="space-x-1 text-3xl font-bold border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 pb-6 space-x-reverse">
         Fundamental of Web Design</h1>
 
-      <TheLearningPurposes/>
+      <div
+        class="inline-flex space-x-10 w-11/12 items-start justify-between dark:text-natural-900 dark:border-gray-700 space-x-reverse">
+        <TheLearningPurposes />
+        <router-link :to="{ name: 'course-edit' }"><i v-if="isFacil"
+            class="fa-solid fa-pen fa-lg mt-10 text-slate-700"></i></router-link>
+      </div>
 
       <div
-        class="inline-flex space-x-10 w-11/12 flex items-center justify-between border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 space-x-7 space-x-reverse">
+        class="inline-flex space-x-10 w-11/12 items-center justify-between border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 space-x-reverse">
         <h2 class="text-xl mt-5 mb-5 font-bold ">Material Courses</h2>
-
-        <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
-          class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 focus:outline-none dark:text-black focus:ring-natural-900 "
-          type="button">
-          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
-          </svg>
-        </button>
-
-      <!-- Dropdown menu -->
-      <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:divide-gray-600">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
-          <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-          </li>
-        </ul>
+        <router-link :to="{ name: 'material-edit' }">
+          <i v-if="isFacil" class="fa-solid fa-pen fa-lg text-slate-700 hover:shadow-md"></i>
+        </router-link>
       </div>
-    </div>
 
-    <CourseMaterialItem />
-    <CourseMaterialItem />
-    <CourseMaterialItem />
-    <CourseMaterialItem />
-    <CourseMaterialItem />
+      <CourseMaterialItem />
+      <CourseMaterialItem />
+      <CourseMaterialItem />
+      <CourseMaterialItem />
+      <CourseMaterialItem />
+    </div>
   </div>
-</div>
-<RouterView /></template>
+  <RouterView />
+</template>

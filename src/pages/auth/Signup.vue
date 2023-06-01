@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheSignupInput from '../components/TheSignupInput.vue';
+import TheSignupInput from '../../components/TheSignupInput.vue';
 
 </script>
 

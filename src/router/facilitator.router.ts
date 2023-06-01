@@ -1,5 +1,3 @@
-
-
 export const facilitatorRouter = [
 
     {
@@ -13,37 +11,63 @@ export const facilitatorRouter = [
     {
         path: 'mycourse',
         component: () => import('../pages/facilitator/mycourse.vue'),
-        name: 'courses',
+        name: 'facil-courses',
         meta: { title: 'My Course' }
     },
     {
         path: 'mycourse/:title',
-        component: () => import("../pages/facilitator/BaseRouterView.vue"),
+        component: () => import("../pages/common/BaseRouterView.vue"),
         children: [
             {
                 path: "",
-                component: () => import("../pages/facilitator/course.vue"),
-                name: 'course-detail',
+                component: () => import("../pages/facilitator/Course.vue"),
+                name: 'facil-course-detail',
                 meta: { title: 'Course Detail' }
 
             },
             {
+                path: "edit",
+                component: () => import("../pages/facilitator/EditCourse.vue"),
+                name: 'course-edit',
+                meta: { title: 'Edit Course' }
+
+            },
+            {
                 path: "materials",
-                component: () => import("../pages/facilitator/materialcourse.vue"),
-                name: 'materials',
+                component: () => import("../pages/common/CourseContents.vue"),
+                name: 'facil-materials',
                 meta: { title: 'Course Contents' }
             },
             {
+                path: "materials/edit",
+                component: () => import("../pages/common/BaseRouterView.vue"),
+                children: [
+                    {
+                        path: "",
+                        name: 'material-edit',
+                        component: () => import("../pages/facilitator/EditCourseContentList.vue"),
+                        meta: { title: 'Edit Course Content' }
+
+                    },
+                    {
+                        path: ":id",
+                        name: 'material-edit-detail',
+                        component: () => import("../pages/facilitator/EditCourseContentDetail.vue"),
+                        meta: { title: 'Edit Course Content' }
+                    }
+                ]
+            },
+            {
                 path: "materials/:id",
-                component: () => import("../pages/facilitator/CourseMaterialDetail.vue"),
-                name: 'material-detail',
+                component: () => import("../pages/common/CourseContentDetail.vue"),
+                name: 'facil-material-detail',
                 meta: { title: 'Content Details' }
-            }
+            },
         ]
     },
     {
         path: "course-add",
-        component: () => import("../pages/facilitator/BaseRouterView.vue"),
+        component: () => import("../pages/common/BaseRouterView.vue"),
         children: [
             {
                 path: '',
@@ -67,7 +91,7 @@ export const facilitatorRouter = [
     },
     {
         path: 'assignments/:id',
-        component: () => import('../pages/facilitator/BaseRouterView.vue'),
+        component: () => import('../pages/common/BaseRouterView.vue'),
         children: [
             {
                 path: '',

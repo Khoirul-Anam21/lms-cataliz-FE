@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CourseItem from '../../components/course/CourseFacilItem.vue';
+import CourseFacilItem from '../../components/course/CourseFacilItem.vue';
 
 const mockArr: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const dropdownOpen = ref(false)
@@ -46,7 +46,7 @@ const toggleOpenDropdown = () => {
         <!-- Card -->
         <div class="p-4 md:p-2 grid gap-5 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div v-for="(item, index) in mockArr" :key="item">
-                <CourseItem />
+                <CourseFacilItem />
             </div>
         </div>
 
