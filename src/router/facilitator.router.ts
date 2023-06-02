@@ -5,8 +5,14 @@ export const facilitatorRouter = [
         component: () => import('../pages/facilitator/account.vue'),
     },
     {
-        path: 'chating',
-        component: () => import('../pages/facilitator/chating.vue'),
+        path: 'chats',
+        component: () => import('../pages/facilitator/Chats.vue'),
+        name: 'chats'
+    },
+    {
+        path: 'chats/:id',
+        component: () => import('../pages/facilitator/ChatingDetail.vue'),
+        name: 'chat-detail'
     },
     {
         path: 'mycourse',
@@ -88,6 +94,11 @@ export const facilitatorRouter = [
                 meta: { title: 'Publish course' }
             },
         ]
+    },
+    {
+        path: 'assignments/new',
+        component: () => import('../pages/facilitator/addassignment.vue'),
+        name: 'assignment-add'
     },
     {
         path: 'assignments/:id',

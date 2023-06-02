@@ -110,7 +110,7 @@ const toggleShowNav = () => {
                 <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300">
                 </span>
                 <span class="focused-btn">
-                  <router-link to="/chating">
+                  <router-link :to="{ name: 'chats' }">
                     Chating
                   </router-link>
                 </span>
@@ -152,8 +152,8 @@ const toggleShowNav = () => {
       </transition>
 
 
-  </div>
+    </div>
 
-</div>
-<RouterView />
+  </div>
+  <RouterView />
 </template>

@@ -10,7 +10,7 @@ import AssignmentParticipantDetail from '../../components/assignment/AssignmentP
 
 const route = useRoute();
 
-const isFacil = computed(()=> route.path.includes('facil'));
+const isFacil = computed(() => route.path.includes('facil'));
 
 </script>
 
@@ -69,15 +69,17 @@ const isFacil = computed(()=> route.path.includes('facil'));
         </div>
 
 
-        <div
-            class="ml-5 mt-10 text-sm font-medium text-gray-500 dark:text-gray-400 dark:border-gray-700 w-11/12">
+        <div class="ml-5 mt-10 text-sm font-medium text-gray-500 dark:text-gray-400 dark:border-gray-700 w-11/12">
             <TabBarView>
                 <template v-slot:Description>
                     <TheMaterialDescription />
                 </template>
                 <template v-slot:Assignment>
-                    <AssignmentItem v-if="isFacil" />
-                    <AssignmentParticipantDetail v-else/>
+                    <div v-if="isFacil" class="px-6">
+                        <AssignmentItem v-if="isFacil" />
+                        <router-link :to="{ name: 'assignment-add' }" class="primary-btn">New</router-link>
+                    </div>
+                    <AssignmentParticipantDetail v-else />
                 </template>
                 <template v-slot:Announcement>
                     <TheAnnouncement />
