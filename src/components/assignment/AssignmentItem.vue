@@ -11,7 +11,7 @@
         <router-link :to="{name: 'assignment-detail', params: { id: 'tugas-bg' }}">
         <span>
           <p class="text-xl font-bold">Assignment 1 : Create simple Website</p>
-          <p class="text-[lg] space-x-3">
+          <p class="text-lg space-x-3">
             <span>Posted: 15/3/2023</span>
           </p>
         </span>

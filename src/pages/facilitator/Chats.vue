@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import ChatItem from '../../components/chat/ChatItem.vue';
+import ChatItem from '../../components/chat/ChatListItem.vue';
 
 </script>
 
