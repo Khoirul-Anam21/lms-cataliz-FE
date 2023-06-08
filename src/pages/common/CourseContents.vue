@@ -49,20 +49,20 @@ const isFacil = computed(() => route.path.includes('facil'));
         class="space-x-1 text-3xl font-bold border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 pb-6 space-x-reverse">
         Fundamental of Web Design</h1>
 
-      <div
+      <section
         class="inline-flex space-x-10 w-11/12 items-start justify-between dark:text-natural-900 dark:border-gray-700 space-x-reverse">
         <TheLearningPurposes />
         <router-link :to="{ name: 'course-edit' }"><i v-if="isFacil"
             class="fa-solid fa-pen fa-lg mt-10 text-slate-700"></i></router-link>
-      </div>
+      </section>
 
-      <div
+      <section
         class="inline-flex space-x-10 w-11/12 items-center justify-between border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 space-x-reverse">
         <h2 class="text-xl mt-5 mb-5 font-bold ">Material Courses</h2>
         <router-link :to="{ name: 'material-edit' }">
           <i v-if="isFacil" class="fa-solid fa-pen fa-lg text-slate-700 hover:shadow-md"></i>
         </router-link>
-      </div>
+      </section>
 
       <CourseMaterialItem />
       <CourseMaterialItem />

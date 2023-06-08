@@ -1,5 +1,9 @@
 export const facilitatorRouter = [
-
+    {
+        path: 'dashboard',
+        component: ()=> import('../pages/facilitator/DashboardFacil.vue'),
+        name: 'facil-dashboard'
+    },
     {
         path: 'account',
         component: () => import('../pages/facilitator/account.vue'),

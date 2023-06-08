@@ -1,5 +1,10 @@
 export const participantRouter = [
     {
+        path: 'dashboard',
+        component: ()=> import('../pages/participant/DashboardParticipant.vue'),
+        name: 'participant-dashboard',
+    },
+    {
         path: 'mycourse',
         name: 'std-course',
         component: () => import('../pages/participant/MyCourse.vue'),
