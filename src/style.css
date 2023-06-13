@@ -31,6 +31,7 @@
   .auth-input {
     @apply p-4 border border-t-0 border-l-0 border-r-0
   }
+  
 }
 
 
@@ -62,4 +63,10 @@
     .responsive-text {
       @apply text-sm md:text-lg lg:text-lg
     }
+}
+
+@layer components {
+  .markdown-text h1{
+    @apply text-2xl font-bold
+  }
 }
