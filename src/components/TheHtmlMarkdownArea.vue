@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import Prism from 'prismjs';
 
 const props = defineProps({
@@ -18,7 +18,7 @@ watch(htmlContent, (newV: string) => console.log(newV));
 </script>
 
 <template>
-  <div v-html="props.content"></div>
+  <div v-html="htmlContent"></div>
 </template>
 
 <style scoped>
