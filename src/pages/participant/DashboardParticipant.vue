@@ -1,5 +1,42 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import DashboardListItem from "../../components/dashboard/DashboardListItem.vue"
+
+const currentDetail = ref('');
+const getDetail = (detail: string) => {
+    console.log("clicked");
+    currentDetail.value = detail
+}
+
+
+
+const data = [
+    {
+        id: "a",
+        title: "Tes title",
+        detail: "ini detail satu yang harus ditunjukkan"
+    },
+    {
+        id: "b",
+        title: "Tes title",
+        detail: "ini detail dua yang harus ditunjukkan"
+    },
+    {
+        id: "c",
+        title: "Tes title",
+        detail: "ini detail tiga yang harus ditunjukkan"
+    },
+    {
+        id: "d",
+        title: "Tes title",
+        detail: "ini detail empat yang harus ditunjukkan"
+    },
+    {
+        id: "e",
+        title: "Tes title",
+        detail: "ini detail limayang harus ditunjukkan"
+    }
+];
 
 </script>
 <template>
@@ -25,15 +62,7 @@ import DashboardListItem from "../../components/dashboard/DashboardListItem.vue"
                 <section class="p-4 w-full h-[400px] bg-slate-400">
                     <h5 class="">this is a list of course</h5>
                     <div class="h-full overflow-scroll max-h-full">
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
-                        <DashboardListItem />
+                        <DashboardListItem v-for="(item, index) in data" :key="data[index].id" v-on:get-detail="getDetail" :info="item" />
                     </div>
                 </section>
             </div>
@@ -42,7 +71,12 @@ import DashboardListItem from "../../components/dashboard/DashboardListItem.vue"
                     <h5 class="text-3xl md:text-4xl font-bold">90</h5>
                     <p class="text-xs md:text-sm">Total Assignments</p>
                 </section>
-                <section class="p-4 md:w-[400px] h-[400px] bg-slate-400">part. detail</section>
+                <section class="p-4 md:w-[400px] h-[400px] bg-slate-400">
+                    <h5 class="">this is a list of course</h5>
+                    <div class="h-full overflow-scroll max-h-full">
+                        <p>{{ currentDetail }}</p>
+                    </div>
+                </section>
             </div>
         </div>
 

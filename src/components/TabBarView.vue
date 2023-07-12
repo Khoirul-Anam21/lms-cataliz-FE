@@ -23,7 +23,6 @@ watchEffect(() => {
                 {{ tab }}
             </button>
         </div>
-
         <!-- Tab Content -->
         <div>
             <slot :name="tabs[activeTab]"></slot>

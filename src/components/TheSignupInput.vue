@@ -1,11 +1,19 @@
 <script setup lang="ts">
 
+import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const name = ref("");
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
+const authStore = useAuthStore();
+const userStore = useUserStore();
+const router = useRouter();
+
+const formData = ref({
+    name: '',
+    email: '',
+    password: '',
+})
 
 const placeholderMap = {
     0: 'Name',
@@ -20,31 +28,53 @@ const changeFocus = (field: string) => {
     currentFocus.value = field;
 }
 
+const onSubmit = async () => {
+    authStore.$state.isLoading = true;
+    try {
+        const response = await authStore.signup(formData.value.name, formData.value.email, formData.value.password);
+        console.log(response.data);
+        const userResponse = await userStore.getUser(response.data.id);
+        if (response && userResponse) authStore.$state.isLoading = false;
+
+        if (userResponse.data.role === 'facilitator') {
+            router.push({ name: 'facil-dashboard' })
+        } else {
+            router.push({ name: 'participant-dashboard' })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const handleReset = () => {
+    formData.value = {
+        name: '',
+        email: '',
+        password: '',
+    };
+};
+
+
 </script>
 
 <template>
-    <form class="flex flex-col px-8 py-8 bg-white items-center space-y-8">
+    <form class="flex flex-col px-8 py-8 bg-white items-center space-y-8" @submit.prevent="onSubmit()">
         <h2 class="text-2xl font-bold">Sign Up</h2>
         <div class="flex flex-col space-y-4">
             <div class="flex flex-col">
                 <span v-show="currentFocus === placeholderMap[0]" class="text-slate-400 text-sm">Name</span>
-                <input v-model="name" @focus="changeFocus(placeholderMap[0])" type="text" :placeholder="placeholderMap[0]"
-                    class="auth-input-sm" @focusout="() => currentFocus = ''">
+                <input v-model="formData.name" @focus="changeFocus(placeholderMap[0])" type="text"
+                    :placeholder="placeholderMap[0]" class="auth-input-sm" @focusout="() => currentFocus = ''">
             </div>
             <div class="flex flex-col">
                 <span v-show="currentFocus === placeholderMap[1]" class="text-slate-400 text-sm">Email</span>
-                <input v-model="email" @focus="changeFocus(placeholderMap[1])" type="email" :placeholder="placeholderMap[1]"
-                    class="auth-input-sm" @focusout="() => currentFocus = ''">
+                <input v-model="formData.email" @focus="changeFocus(placeholderMap[1])" type="email"
+                    :placeholder="placeholderMap[1]" class="auth-input-sm" @focusout="() => currentFocus = ''">
             </div>
             <div class="flex flex-col">
                 <span v-show="currentFocus === placeholderMap[2]" class="text-slate-400 text-sm">Password</span>
-                <input v-model="password" @focus="changeFocus(placeholderMap[2])" type="password"
+                <input v-model="formData.password" @focus="changeFocus(placeholderMap[2])" type="password"
                     :placeholder="placeholderMap[2]" class="auth-input-sm" @focusout="() => currentFocus = ''">
-            </div>
-            <div class="flex flex-col">
-                <span v-show="currentFocus === placeholderMap[3]" class="text-slate-400 text-sm">Confirm Password</span>
-                <input v-model="confirmPassword" @focus="changeFocus(placeholderMap[3])" type="password"
-                    :placeholder="placeholderMap[3]" class="auth-input-sm" @focusout="() => currentFocus = ''">
             </div>
         </div>
         <div class="w-full flex flex-col space-y-4 px-8">

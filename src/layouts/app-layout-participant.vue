@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import TabBarView from '../components/TabBarView.vue';
+import { useUserStore } from '../stores/user';
 
 
+const userStore = useUserStore();
 const isShowNav = ref(true);
 
 onMounted(() => {
@@ -63,8 +65,7 @@ const toggleShowNav = () => {
         <!-- Hamburger Button when hidden -->
       </div>
 
-      <transition enter-active-class="duration-500" leave-active-class="duration-500"
-        enter-class="transform translate-x-full" leave-class="transform translate-x-full">
+      <transition>
         <!-- Sidenav -->
         <nav v-show="isShowNav" id="sidenav-8"
           class="transition-transform fixed top-0 left-0 z-[1035] h-full w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-slate-200"
@@ -75,24 +76,29 @@ const toggleShowNav = () => {
           <div class="flex justify-between ml-7 border-b-2 border-solid border-gray-100">
             <!--Profile identity-->
             <a class="mb-3 flex space-x-3 py-6 outline-none" href="#!">
-              <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
-                  </path>
-                </svg>
-              </div>
+              <img :src="userStore.$state.user.photo" alt="" class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
               <div class="">
-                <span>John Doe</span>
-                <p class="text-xs text-slate-500">Student</p>
+                <span>{{ userStore.$state.user.username }}</span>
+                <p class="text-xs text-slate-500">{{ userStore.$state.user.role }}</p>
               </div>
             </a>
 
             <button class="p-2 text-red-500 md:hidden" @click="toggleShowNav"><i class="material-icons">close</i></button>
           </div>
           <ul class="relative m-0 list-none px-[0.2rem] pb-12" data-te-sidenav-menu-ref>
-
             <li class="relative pt-4">
+              <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref>
+                <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                </span>
+                <span class="focused-btn">
+                  <router-link :to="{ name: 'participant-all-courses'}">
+                    All courses
+                  </router-link>
+                </span>
+              </a>
+            </li>
+            <li class="relative">
               <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
                 data-te-sidenav-link-ref>
                 <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
@@ -125,7 +131,7 @@ const toggleShowNav = () => {
 
                 </span>
                 <span class="focused-btn">
-                  <router-link to="/account">
+                  <router-link :to="{ name: 'participant-account' }">
                     Account
                   </router-link>
                 </span>

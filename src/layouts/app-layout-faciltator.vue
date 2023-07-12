@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import TabBarView from '../components/TabBarView.vue';
+import { useUserStore } from '../stores/user';
 
 
 const isShowNav = ref(true);
+const userStore = useUserStore();
+
 
 onMounted(() => {
   window.addEventListener('resize', handleResizeWindow);
@@ -63,8 +66,7 @@ const toggleShowNav = () => {
         <!-- Hamburger Button when hidden -->
       </div>
 
-      <transition enter-active-class="duration-500" leave-active-class="duration-500"
-        enter-class="transform translate-x-full" leave-class="transform translate-x-full">
+      <transition>
         <!-- Sidenav -->
         <nav v-show="isShowNav" id="sidenav-8"
           class="transition-transform fixed top-0 left-0 z-[1035] h-full w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-slate-200"
@@ -75,16 +77,10 @@ const toggleShowNav = () => {
           <div class="flex justify-between ml-7 border-b-2 border-solid border-gray-100">
             <!--Profile identity-->
             <a class="mb-3 flex space-x-3 py-6 outline-none" href="#!">
-              <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
-                  </path>
-                </svg>
-              </div>
+              <img :src="userStore.$state.user.photo" alt="" class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
               <div class="">
-                <span>John Doe</span>
-                <p class="text-xs text-slate-500">Instructor</p>
+                <span>{{ userStore.$state.user.username  }}</span>
+                <p class="text-xs text-slate-500">{{ userStore.$state.user.role }}</p>
               </div>
             </a>
 
@@ -137,7 +133,7 @@ const toggleShowNav = () => {
 
                 </span>
                 <span class="focused-btn">
-                  <router-link to="/account">
+                  <router-link :to="{ name: 'facil-account' }">
                     Account
                   </router-link>
                 </span>

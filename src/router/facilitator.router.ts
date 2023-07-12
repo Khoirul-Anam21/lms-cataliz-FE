@@ -1,12 +1,29 @@
 export const facilitatorRouter = [
     {
+        path: "courses",
+        component: () => import("../pages/common/BaseRouterView.vue"),
+        children: [
+            {
+                path: '',
+                name: 'facil-all-courses',
+                component: () => import("../pages/common/Courses.vue")
+            },
+            {
+                path: 'courses/:title',
+                name: 'facil-all-course-detail',
+                component: () => import("../pages/common/CourseDetail.vue")
+            }
+        ]
+    },
+    {
         path: 'dashboard',
-        component: ()=> import('../pages/facilitator/DashboardFacil.vue'),
+        component: () => import('../pages/facilitator/DashboardFacil.vue'),
         name: 'facil-dashboard'
     },
     {
         path: 'account',
-        component: () => import('../pages/facilitator/account.vue'),
+        name: 'facil-account',
+        component: () => import('../pages/common/account.vue'),
     },
     {
         path: 'chats',

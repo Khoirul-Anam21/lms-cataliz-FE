@@ -9,7 +9,7 @@ const routes = [
     component: () => import("../layouts/app-layout-common.vue"),
     children: [
       {
-        path: 'courses',
+        path: '',
         name: 'courses',
         component: ()=> import("../pages/common/Courses.vue")
       },

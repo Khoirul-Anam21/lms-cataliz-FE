@@ -14,13 +14,13 @@ interface CourseDisplayFacil {
 </script>
 
 <template>
-    <div>
+    <div class="rounded-xl border overflow-auto shadow-md">
         <router-link :to="{ name: 'facil-course-detail', params: { title: tesParam } }">
-            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
+            <img src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
+            <section class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">tes</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
+            </section>
         </router-link>
-        <div class="p-5">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">tes</h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-        </div>
     </div>
 </template>

@@ -13,7 +13,12 @@
     "skipLibCheck": true,
     "noEmit": true,
     "noImplicitAny": false,
-    "allowJs": true 
+    "allowJs": true,
+    "paths": {
+      "@/*": [
+        "./src/*" // set path `@/*` as alias of `src/*`
+      ]
+    },
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

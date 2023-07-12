@@ -20,14 +20,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="">
+    <div class="rounded-xl border overflow-auto shadow-md">
         <router-link :to="{ name: courseDetail, params: { title: tesParam } }">
             <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
+            <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">tes</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">John Doe</p>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Category: Technology</p>
+            </div>
         </router-link>
-        <div class="p-5">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">tes</h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">John Doe</p>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Category: Technology</p>
-        </div>
     </div>
 </template>
