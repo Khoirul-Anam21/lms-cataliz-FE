@@ -9,8 +9,9 @@ export const participantRouter = [
                 component: () => import("../pages/common/Courses.vue")
             },
             {
-                path: 'courses/:title',
+                path: ':title',
                 name: 'participant-all-course-detail',
+                props: true,
                 component: () => import("../pages/common/CourseDetail.vue")
             }
         ]
@@ -42,12 +43,13 @@ export const participantRouter = [
             {
                 path: 'materials',
                 name: 'std-materials',
-                component: () => import("../pages/common/CourseContents.vue")
+                component: () => import("../pages/common/CourseContents.vue"),
             },
             {
                 path: 'materials/:id',
                 name: 'std-material-detail',
-                component: () => import("../pages/common/CourseContentDetail.vue")
+                component: () => import("../pages/common/CourseContentDetail.vue"),
+                props: true
             }
         ]
     },

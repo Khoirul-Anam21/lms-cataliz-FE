@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import TabBarView from '../components/TabBarView.vue';
 import { useUserStore } from '../stores/user';
+import cookie from '@point-hub/vue-cookie'
 
 
 const userStore = useUserStore();
 const isShowNav = ref(true);
 
-onMounted(() => {
+
+onMounted(async () => {
   window.addEventListener('resize', handleResizeWindow);
   handleResizeWindow();
+  await userStore.getUser(cookie.get('id'));
 });
 
 onBeforeUnmount(() => {

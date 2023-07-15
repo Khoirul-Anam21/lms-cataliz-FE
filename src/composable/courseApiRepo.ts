@@ -1,29 +1,30 @@
-import axiosInstance from "@/axios";
+import axiosInstance from "../axios";
 
 
 class CourseApiRepository {
+    private  baseRoute = '/courses';
     async fetchAllCourses(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+        const response = await axiosInstance.get( this.baseRoute + '')
         return response;
     }
 
-    async fetchParticipantCourses(userId: string) {
-        const response = await axiosInstance.get('/users/' + userId)
+    async fetchParticipantCourses() {
+        const response = await axiosInstance.get(this.baseRoute + '/student/learnings')
         return response;
     }
 
-    async fetchFacilitatorCourses(userId: string) {
-        const response = await axiosInstance.get('/users/' + userId)
+    async fetchFacilitatorCourses() {
+        const response = await axiosInstance.get(this.baseRoute + '/facil/learnings')
         return response;
     }
 
-    async fetchCourseParticipant(userId: string) {
-        const response = await axiosInstance.get('/users/' + userId)
+    async fetchCourseParticipant(courseId: string) {
+        const response = await axiosInstance.get(this.baseRoute + '/course-participant/' + courseId)
         return response;
     }
 
-    async createCourse(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async createCourse(body: any) {
+        const response = await axiosInstance.post(this.baseRoute, body);
         return response;
     }
 
@@ -37,8 +38,8 @@ class CourseApiRepository {
         return response;
     }
 
-    async fetchCourse(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async fetchCourse(courseId: string) {
+        const response = await axiosInstance.get(this.baseRoute + "/" + courseId);
         return response;
     }
 

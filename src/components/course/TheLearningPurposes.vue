@@ -1,11 +1,18 @@
+<script setup lang="ts">
+const props = defineProps({
+    purposes: {
+        type: Array<String>,
+    }
+})
+
+
+</script>
+
 <template>
 <div>
     <h2 class="text-xl mt-5 font-bold">Learning Purposes</h2>
     <div class="text-xl mt-5 mb-5">
-        <li>Create visually appealing website</li>
-        <li>Improve user experience</li>
-        <li>Increase brand awareness</li>
-        <li>Stay up-to-date with industry trends</li>
+        <li v-for="(item, index) in props.purposes" :key="index">{{ item }}</li>
     </div>
 </div>
 </template>

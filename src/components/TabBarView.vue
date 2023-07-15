@@ -15,7 +15,7 @@ watchEffect(() => {
 <template>
     <div class="flex flex-col">
         <!-- Tab Buttons -->
-        <div class="flex space-x-2 flex-wrap border-b">
+        <div class="sticky top-[70px] md:top-24 lg:top-[85px] flex space-x-2 flex-wrap border-b bg-white">
             <button v-for="(tab, index) in tabs" :key="index" @click="activeTab = index" :class="{
                 'tab-btn-focus': activeTab === index,
                 'tab-btn': activeTab !== index

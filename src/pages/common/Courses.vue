@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ComputedRef, computed, onMounted, ref } from 'vue';
 import CourseItem from '../../components/course/CourseItem.vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '../../stores/user';
+import { useCourseStore } from '../../stores/courses';
+import { CourseDisplayProps } from '../../stores/courses'
 
-const indexer = ref("abcdefghijklmnopqrstuvxyz");
 const route = useRoute();
 const userStore = useUserStore();
+const courseStore = useCourseStore();
 
 const isFacilOrParticipant = computed(() => route.path.includes('facil') || route.path.includes('participant'));
 const userNameIfExist = computed(() => isFacilOrParticipant ? ", " + userStore.$state.user.username : null);
+
+onMounted(async () => {
+    try {
+        await courseStore.getAllCourse();
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+const courses = computed(() => courseStore.$state.courses);
+
+
 </script>
 
 <template>
@@ -26,9 +40,8 @@ const userNameIfExist = computed(() => isFacilOrParticipant ? ", " + userStore.$
         <div>
             <h2 class="text-2xl pb-1 border-b-2">Courses</h2>
             <div class="p-4 md:p-2 grid gap-5 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <div v-for="(item, index) in indexer" :key="index">
-                    <CourseItem />
-                </div>
+                <CourseItem v-for="(item, index) in courses" :key="item._id" :course="item" />
             </div>
+        </div>
     </div>
-</div></template>
+</template>

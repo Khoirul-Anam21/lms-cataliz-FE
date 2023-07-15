@@ -2,11 +2,31 @@
 import { useRoute } from 'vue-router';
 import CourseMaterialItem from '../../components/course/CourseContentItem.vue';
 import TheLearningPurposes from '../../components/course/TheLearningPurposes.vue';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useCourseStore } from '../../stores/courses';
 
 const route = useRoute();
+const courseStore = useCourseStore();
 
 const isFacil = computed(() => route.path.includes('facil'));
+
+const parsedIdFromRoute = computed(() => {
+    const separatorIndex = route.path.indexOf('-');
+    console.log(separatorIndex);
+    const result = route.path.slice(separatorIndex + 1, separatorIndex + 25);
+    return result;
+});
+
+onMounted(async () => {
+  try {
+    if (!courseStore.$state.currentCourse) {
+      await courseStore.getCourseById(parsedIdFromRoute.value);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})
+
 
 </script>
 
@@ -47,11 +67,11 @@ const isFacil = computed(() => route.path.includes('facil'));
     <div class="mt-10">
       <h1
         class="space-x-1 text-3xl font-bold border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 pb-6 space-x-reverse">
-        Fundamental of Web Design</h1>
+        {{ courseStore.$state.currentCourse?.title }}</h1>
 
       <section
         class="inline-flex space-x-10 w-11/12 items-start justify-between dark:text-natural-900 dark:border-gray-700 space-x-reverse">
-        <TheLearningPurposes />
+        <TheLearningPurposes :purposes="courseStore.$state.currentCourse?.purpose" />
         <router-link :to="{ name: 'course-edit' }"><i v-if="isFacil"
             class="fa-solid fa-pen fa-lg mt-10 text-slate-700"></i></router-link>
       </section>
@@ -64,11 +84,8 @@ const isFacil = computed(() => route.path.includes('facil'));
         </router-link>
       </section>
 
-      <CourseMaterialItem />
-      <CourseMaterialItem />
-      <CourseMaterialItem />
-      <CourseMaterialItem />
-      <CourseMaterialItem />
+      <CourseMaterialItem v-for="(item, index) in courseStore.$state.currentCourse?.contents" :key="index"
+        :content="item" />
     </div>
   </div>
   <RouterView />

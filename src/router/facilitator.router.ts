@@ -88,7 +88,8 @@ export const facilitatorRouter = [
                 path: "materials/:id",
                 component: () => import("../pages/common/CourseContentDetail.vue"),
                 name: 'facil-material-detail',
-                meta: { title: 'Content Details' }
+                meta: { title: 'Content Details' },
+                props: true
             },
         ]
     },

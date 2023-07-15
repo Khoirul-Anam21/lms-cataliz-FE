@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import LoadingIndicator from '../../components/additional/LoadingIndicator.vue';
 import { useUserStore } from '../../stores/user';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import cookie from '@point-hub/vue-cookie'
 import getFileNameFromUrl from '../../composable/getFileName'
 
@@ -28,7 +28,14 @@ onMounted(async () => {
   }
 });
 
-const photoExist = computed(() => userStore.$state.user.photo);
+const photo = computed({
+  get(){
+    return userStore.$state.user.photo;
+  },
+  set(newVal){
+    userStore.$state.user.photo = newVal;
+  }
+});
 // const photo = userStore.$state.photoStorage;
 
 const handlePhotoChange = (event: Event) => {
@@ -53,6 +60,11 @@ const onSubmit = async () => {
   }
 }
 
+watch(userStore.$state.user, (newVal, oldVal)=> {
+  console.log(oldVal);
+  console.log(newVal);
+  photo.value = newVal.photo;
+});
 </script>
 
 <template>
@@ -66,7 +78,7 @@ const onSubmit = async () => {
       <div class="mb-6">
         <label for="photo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Profile</label>
         <div class="flex flex-row items-end">
-          <img v-if="photoExist" :src="userStore.$state.user.photo" class="w-[200px] h-[200px]" alt="no pict">
+          <img v-if="photo" :src="photo" class="w-[200px] h-[200px]" alt="no pict">
           <div v-else class="w-[200px] h-[200px] bg-slate-200 flex items-center justify-center">
             <p class="text-slate-600">No photo yet</p>
           </div>

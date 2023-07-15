@@ -7,47 +7,90 @@ import TabBarView from '../../components/TabBarView.vue';
 import { useRoute } from 'vue-router';
 import AssignmentParticipantDetail from '../../components/assignment/AssignmentParticipantDetail.vue';
 import ChatArea from '../../components/chat/ChatArea.vue';
+import { useCourseStore } from '../../stores/courses';
 
+
+const props = defineProps({
+    id: {
+        type: String,
+        required: true
+    }
+})
 
 const route = useRoute();
+const courseStore = useCourseStore();
+const videoPlayer = ref(null);
 
 const isFacil = computed(() => route.path.includes('facil'));
 
 const isChatShow: Ref<boolean> = ref(false);
+const loading = ref(true);
 
 const toggleShowChat = () => isChatShow.value = !isChatShow.value;
 
 const comments = [{
-  text: 'tess',
-  replies: [
-    {
-      id: 4,
-      text: 'reply',
-      openInput: false
-    },
-    {
-      id: 5,
-      text: 'reply dua',
-      openInput: false
+    text: 'tess',
+    replies: [
+        {
+            id: 4,
+            text: 'reply',
+            openInput: false
+        },
+        {
+            id: 5,
+            text: 'reply dua',
+            openInput: false
 
-    }
-  ]
+        }
+    ]
 }, {
-  text: 'tess',
-  replies: [
-    {
-      id: 4,
-      text: 'reply',
-      openInput: false
-    },
-    {
-      id: 5,
-      text: 'reply dua',
-      openInput: false
+    text: 'tess',
+    replies: [
+        {
+            id: 4,
+            text: 'reply',
+            openInput: false
+        },
+        {
+            id: 5,
+            text: 'reply dua',
+            openInput: false
 
+        }
+    ]
+}];
+
+const parsedIdFromRoute = computed(() => {
+    const separatorIndex = route.path.indexOf('-');
+    console.log(separatorIndex);
+    const result = route.path.slice(separatorIndex + 1, separatorIndex + 25);
+    return result;
+});
+
+const isReadingMaterial = computed(() => {
+    if (!loading.value) {
+        return courseStore.$state.currentCourseContent?.type === 'reading';
     }
-  ]
-}]
+    return false
+});
+
+onMounted(async () => {
+    try {
+        loading.value = true
+        if (courseStore.$state.currentCourseContent === null) {
+            const courseId = parsedIdFromRoute.value;
+            await courseStore.getCourseContentById(courseId, props.id);
+        }
+        loading.value = false;
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+const playVideo = () => {
+    const player: any = videoPlayer.value;
+    player.play();
+}
 
 </script>
 
@@ -100,9 +143,19 @@ const comments = [{
         </nav>
 
         <section class="mt-10 ml-5 font-medium dark:text-natural-900 dark:border-gray-700 w-full">
-            <h1 class="space-x-1 text-3xl font-bold">What is Interaction Design</h1>
-            <p class="mt-3 text-xl mb-5">Course: Fundamental of Web Design</p>
-            <div class="w-full md:w-5/12 h-80 bg-slate-500"></div>
+            <h1 class="space-x-1 text-3xl font-bold">{{ courseStore.$state.currentCourseContent?.title }}</h1>
+            <p class="mt-3 text-xl mb-5">Course: {{ courseStore.$state.currentCourse?.title }}</p>
+            <img v-if="isReadingMaterial" :src="courseStore.$state.currentCourseContent?.thumbnail" alt=""
+                class="w-full md:w-5/12 h-80">
+            <!-- <video-player :src="courseStore.$state.currentCourseContent?.material" /> -->
+            <!-- <video-player 
+            src="http://techslides.com/demos/sample-videos/small.mp4" 
+            @play="(event) => event.play()"
+            /> -->
+            <video ref="videoPlayer" controls>
+                <source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4">
+            </video>
+            <!-- <div class="w-full md:w-5/12 h-80 bg-slate-500"></div> -->
         </section>
 
 
@@ -130,9 +183,10 @@ const comments = [{
                 <div class="w-[360px] fixed flex flex-col items-end pr-4">
                     <i @click="toggleShowChat" class="fa-solid fa-xmark p-4 cursor-pointer text-red-500"></i>
                 </div>
-                <ChatArea :comments="comments"/>
+                <ChatArea :comments="comments" />
             </div>
-            <i @click="toggleShowChat" class="fa-solid fa-comment-dots fa-xl bg-slate-700 text-slate-200 p-6 rounded-full shadow-xl cursor-pointer"></i>
+            <i @click="toggleShowChat"
+                class="fa-solid fa-comment-dots fa-xl bg-slate-700 text-slate-200 p-6 rounded-full shadow-xl cursor-pointer"></i>
         </article>
 
     </div>

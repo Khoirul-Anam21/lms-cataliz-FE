@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import cookie from '@point-hub/vue-cookie'
 import axiosInstance from '../axios.js';
 import { ref } from 'vue';
+import { useUserStore } from './user.js';
+
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -43,24 +45,37 @@ export const useAuthStore = defineStore('auth', {
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${cookie.get('accessToken')}`
       }
       return response
-    }
-  //   logout() {
-  //     this.$state.user.name = ''
-  //     this.$state.user.email = ''
-  //     this.$state.user.role = ''
-  //     this.$state.user.googleScopes = ''
-  //     cookie.remove('accessToken')
-  //   },
-  //   async isAuthenticated() {
-  //     const accessToken = cookie.get('accessToken')
-  //     if (this.$state.user.name === '' && !accessToken) {
-  //       return false
-  //     }
+    },
+    // logout() {
+    //   this.$state.user.name = ''
+    //   this.$state.user.email = ''
+    //   this.$state.user.role = ''
+    //   this.$state.user.googleScopes = ''
+    //   cookie.remove('accessToken')
+    // },
+    async isAuthenticatedAsParticipant() {
+      const userStore = useUserStore();
+      const id = cookie.get('id');
+      const accessToken = cookie.get('accessToken');
 
-  //     if (this.$state.user.name === '' && accessToken) {
-  //       await this.verifyToken()
-  //     }
-  //     return true
-  //   },
-  // },
-}})
+      await userStore.getUser(id);
+
+      if (!accessToken || userStore.$state.user.role !== 'student') {
+        return false;
+      }
+      return true
+    },
+    async isAuthenticatedAsFacil() {
+      const userStore = useUserStore();
+      const id = cookie.get('id');
+      const accessToken = cookie.get('accessToken');
+
+      await userStore.getUser(id);
+
+      if (!accessToken || userStore.$state.user.role !== 'facilitator') {
+        return false;
+      }
+      return true
+    },
+  },
+})

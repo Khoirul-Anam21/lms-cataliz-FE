@@ -3,7 +3,9 @@ import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user';
+import { TypesEnum, useBaseNotification } from '../composable/notification';
 
+const { notification } = useBaseNotification();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const router = useRouter();
@@ -28,7 +30,8 @@ const onSubmit = async () => {
             router.push({ name: 'participant-dashboard' })
         }
     } catch (error) {
-        console.log(error);
+        authStore.$state.isLoading = false;
+        notification('Failed to login', 'Invalid email and/or password', { type: TypesEnum.Danger });
     }
 };
 

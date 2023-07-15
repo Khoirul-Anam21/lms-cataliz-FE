@@ -1,6 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized, createRouter, createWebHistory } from "vue-router"
 import { facilitatorRouter } from "./facilitator.router"
 import { participantRouter } from "./participant.router";
+import { useAuthStore } from "../stores/auth";
 
 
 const routes = [
@@ -11,12 +12,12 @@ const routes = [
       {
         path: '',
         name: 'courses',
-        component: ()=> import("../pages/common/Courses.vue")
+        component: () => import("../pages/common/Courses.vue")
       },
       {
         path: 'courses/:title',
         name: 'course-detail',
-        component: ()=> import("../pages/common/CourseDetail.vue")
+        component: () => import("../pages/common/CourseDetail.vue")
       }
     ]
   },
@@ -25,14 +26,30 @@ const routes = [
     component: () => import('../layouts/app-layout-faciltator.vue'),
     children: [
       ...facilitatorRouter,
-    ]
+    ],
+    beforeEnter: async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      const authStore = useAuthStore()
+      if (!(await authStore.isAuthenticatedAsFacil())) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/participant',
     component: () => import('../layouts/app-layout-participant.vue'),
     children: [
       ...participantRouter,
-    ]
+    ],
+    beforeEnter: async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      const authStore = useAuthStore()
+      if (!(await authStore.isAuthenticatedAsParticipant())) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/login',
