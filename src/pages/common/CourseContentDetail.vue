@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Ref, computed, nextTick, onMounted, ref } from 'vue';
+import { Ref, computed, nextTick, onMounted, ref, watch } from 'vue';
 import TheMaterialDescription from '../../components/course/TheContentDescription.vue';
+import TheContentReading from '../../components/course/TheContentReading.vue';
 import TheAnnouncement from '../../components/course/TheAnnouncement.vue';
 import AssignmentItem from '../../components/assignment/AssignmentItem.vue';
 import TabBarView from '../../components/TabBarView.vue';
@@ -9,6 +10,10 @@ import AssignmentParticipantDetail from '../../components/assignment/AssignmentP
 import ChatArea from '../../components/chat/ChatArea.vue';
 import { useCourseStore } from '../../stores/courses';
 
+// for disabling attributes inherited
+defineOptions({
+  inheritAttrs: false
+})
 
 const props = defineProps({
     id: {
@@ -71,9 +76,8 @@ const isReadingMaterial = computed(() => {
     if (!loading.value) {
         return courseStore.$state.currentCourseContent?.type === 'reading';
     }
-    return false
 });
-
+    
 onMounted(async () => {
     try {
         loading.value = true
@@ -147,23 +151,45 @@ const playVideo = () => {
             <p class="mt-3 text-xl mb-5">Course: {{ courseStore.$state.currentCourse?.title }}</p>
             <img v-if="isReadingMaterial" :src="courseStore.$state.currentCourseContent?.thumbnail" alt=""
                 class="w-full md:w-5/12 h-80">
-            <!-- <video-player :src="courseStore.$state.currentCourseContent?.material" /> -->
-            <!-- <video-player 
-            src="http://techslides.com/demos/sample-videos/small.mp4" 
-            @play="(event) => event.play()"
-            /> -->
-            <video ref="videoPlayer" controls>
-                <source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4">
+            <video v-else ref="videoPlayer" controls class="w-full md:w-5/12 h-80">
+                <source :src="courseStore.$state.currentCourseContent?.material" type="video/mp4">
+                <source :src="courseStore.$state.currentCourseContent?.material" type="video/webm">
+                <source :src="courseStore.$state.currentCourseContent?.material" type="video/ogg">
+                <source :src="courseStore.$state.currentCourseContent?.material" type="video/avi">
+                <source :src="courseStore.$state.currentCourseContent?.material" type="video/mkv">
             </video>
-            <!-- <div class="w-full md:w-5/12 h-80 bg-slate-500"></div> -->
+
         </section>
 
 
         <section class="ml-5 mt-10 text-sm font-medium text-gray-500 dark:text-gray-400 dark:border-gray-700 w-11/12">
-            <TabBarView>
+            <!-- for reading material -->
+            <TabBarView v-if="isReadingMaterial">
+                <template v-slot:Material>
+                    <TheContentReading />
+                </template>
                 <template v-slot:Description>
                     <TheMaterialDescription />
                 </template>
+                
+                <template v-slot:Assignment>
+                    <div v-if="isFacil" class="px-6">
+                        <AssignmentItem v-if="isFacil" />
+                        <router-link :to="{ name: 'assignment-add' }" class="primary-btn">New</router-link>
+                    </div>
+                    <AssignmentParticipantDetail v-else />
+                </template>
+                <template v-slot:Announcement>
+                    <TheAnnouncement />
+                </template>
+            </TabBarView>
+
+            <!-- for video material --> 
+            <TabBarView v-else>
+                <template v-slot:Description>
+                    <TheMaterialDescription />
+                </template>
+                
                 <template v-slot:Assignment>
                     <div v-if="isFacil" class="px-6">
                         <AssignmentItem v-if="isFacil" />

@@ -84,8 +84,11 @@ onMounted(async () => {
         </router-link>
       </section>
 
-      <CourseMaterialItem v-for="(item, index) in courseStore.$state.currentCourse?.contents" :key="index"
+      <div>
+        <CourseMaterialItem v-for="(item, index) in courseStore.$state.currentCourse?.contents" :key="index"
         :content="item" />
+      </div>
+
     </div>
   </div>
   <RouterView />
