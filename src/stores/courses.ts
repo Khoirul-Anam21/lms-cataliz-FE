@@ -1,0 +1,91 @@
+import { defineStore } from 'pinia'
+import { useCourseApiRepo } from '../composable/courseApiRepo.js';
+
+const courseApiRepo = useCourseApiRepo();
+
+export interface CourseContentDisplayProps {
+    _id: string;
+    course: any;
+    thumbnail: string;
+    title: string;
+    reading: string;
+    material: string;
+    type: string;
+    duration: number;
+    description: string;
+    isComplete: boolean; 
+}
+
+export interface CourseDisplayProps {
+    _id: string;
+    thumbnail: string;
+    title: string;
+    category: string;
+    category_id: string;
+    facilitator: any;
+    purpose: string[];
+    published: boolean;
+    description: string;
+    totalDuration: number;
+    content: number;
+    contents: CourseContentDisplayProps[]
+}
+
+
+export interface ParticipantCourseDisplayProps extends CourseDisplayProps {
+    _id: string;
+    facilitator: any;
+    thumbnail: string;
+    title: string;
+    category_id: string;
+    participation_id: string;
+}
+
+export interface FacilitatorCourseDisplayProps {
+    _id: string;
+    facilitator: any;
+    thumbnail: string;
+    title: string;
+    category_id: string;
+    studentCount: number;
+}
+
+
+export const useCourseStore = defineStore('course', {
+    state: () => ({
+        courses: null as CourseDisplayProps[] | null,
+        participantCourses: null as ParticipantCourseDisplayProps[] | null,
+        facilitatorCourses: null as FacilitatorCourseDisplayProps[] | null,
+        currentCourse: null as CourseDisplayProps | null,
+        currentCourseContent: null as CourseContentDisplayProps | null,
+        currentCourseId: ''
+    }),
+    actions: {
+        async getAllCourse() {
+            const response = await courseApiRepo.fetchAllCourses();
+            this.$state.courses = response.data.courses;
+            console.log(this.$state.courses);
+            return response;
+        },
+        async getCourseById(courseId: string) {
+            const response = await courseApiRepo.fetchCourse(courseId);
+            this.$state.currentCourse = response.data;
+            // console.log(response.data);
+            return response;
+        },
+        async getCourseContentById(courseId: string, contentId: string) {
+            const response = await courseApiRepo.fetchCourse(courseId);
+            this.$state.currentCourse = response.data;
+            const contents = this.$state.currentCourse?.contents ?? [];
+            const contentIndex = contents?.findIndex((content) => content._id === contentId) ?? -4;
+            this.$state.currentCourseContent = contents[contentIndex];
+            // console.log(response.data);
+            // return response;
+        },
+        async getParticipantCourses(){
+            const response = await courseApiRepo.fetchParticipantCourses();
+            this.$state.participantCourses = response.data.data;
+            return response;
+        }
+    }
+})

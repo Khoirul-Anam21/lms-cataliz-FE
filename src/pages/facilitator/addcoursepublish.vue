@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import ContentModifyList from '../../components/course/ContentModifyList.vue';
+
 </script>
 
 <template>
-  <div class="mt-20 sm:ml-64 mb-20">
+  <div class="mt-20 md:mt-28 md:ml-64 mb-20">
     <div class="mt-20">
         <div class="inline-flex rounded-md shadow-sm" role="group">
             <router-link to="/mycourse">
@@ -50,88 +52,14 @@
     </div>
 
       <div class="mt-10 ml-5">
-        <label for="countries_disabled" class="block mb-2 font-medium text-gray-900 dark:text-black text-2xl">Category:</label>
+        <label for="countries_disabled" class="block mb-2 font-medium text-gray-900 dark:text-black text-2xl">Course title:</label>
         <h1 class="text-4xl">Fundamental of Web Design</h1>
       </div>
 
       
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-10 ml-5 w-11/12 ">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Material
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Duration
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Type
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        What is interaction design
-                    </th>
-                    <td class="px-6 py-4">
-                        20h 10m
-                    </td>
-                    <td class="px-6 py-4">
-                        Video
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Steps to make responsive web
-                    </th>
-                    <td class="px-6 py-4">
-                        20h 10m
-                    </td>
-                    <td class="px-6 py-4">
-                        Video
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Design tools
-                    </th>
-                    <td class="px-6 py-4">
-                        20h 10m
-                    </td>
-                    <td class="px-6 py-4">
-                        Reading
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                
-                
-            </tbody>
-
-        </table>
-        <span class="w-11/12 item-center">
-            <div class="grid  px-4 py-5 text-sm text-gray-700 border-b  gap-x-16 ">
-                <div class="text-gray-500 dark:text-gray-400"></div>
-                    <div>
-                        <router-link to="/addcoursematerial">
-                            <a href="#" class="text-white block w-full bg-gray-600 hover:bg-white-700 focus:ring-4 focus:ring-white-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-white-900 ">Add New Material</a>
-                        </router-link>
-                    </div>
-             </div>
-        </span>
-
+        
+    <ContentModifyList/>
     </div>
     <router-link to="/">
         <button type="button" class="ml-5 text-white mt-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ml-50 ">Publish Course</button>
