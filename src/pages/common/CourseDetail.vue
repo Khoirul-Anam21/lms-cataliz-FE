@@ -18,7 +18,7 @@ const courseStore = useCourseStore();
 const userStore = useUserStore();
 
 
-const isLoading = ref(true);
+const isLoading = ref(false);
 const courseTitleSplit = computed(() => props.title?.split('-') as string[])
 
 onMounted(async () => {
@@ -27,7 +27,6 @@ onMounted(async () => {
     await userStore.getUser(cookie.get('id'));
     console.log(props.title);
     await courseStore.getCourseById(courseTitleSplit.value[1]);
-    // await courseStore.getParticipantCourses();
     isLoading.value = false;
   } catch (error) {
     console.log(error);
