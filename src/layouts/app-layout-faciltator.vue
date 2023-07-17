@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import TabBarView from '../components/TabBarView.vue';
 import { useUserStore } from '../stores/user';
 import BaseLogo from '../components/additional/BaseLogo.vue';
+import { useNavPaneStore } from '../stores/layoutState';
 
 
 const isShowNav = ref(true);
 const userStore = useUserStore();
+const navPaneStore = useNavPaneStore();
+
 
 
 onMounted(() => {
@@ -28,6 +31,9 @@ const handleResizeWindow = () => {
 const toggleShowNav = () => {
   isShowNav.value = !isShowNav.value
 }
+
+const getNavState = computed(() => navPaneStore.$state.currentState);
+
 </script>
 
 <template>
@@ -43,7 +49,7 @@ const toggleShowNav = () => {
           </div>
           <div class="pl-4">
             <router-link :to="{ name: 'facil-dashboard' }">
-              <BaseLogo class="h-11 w-11"/>
+              <BaseLogo class="h-11 w-11" />
             </router-link>
           </div>
           <div class="">
@@ -52,10 +58,6 @@ const toggleShowNav = () => {
         </div>
 
         <div class="hidden py-2 md:flex space-x-3">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8">
-            <path
-              d="M21.721 12.752a9.711 9.711 0 00-.945-5.003 12.754 12.754 0 01-4.339 2.708 18.991 18.991 0 01-.214 4.772 17.165 17.165 0 005.498-2.477zM14.634 15.55a17.324 17.324 0 00.332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 00.332 4.647 17.385 17.385 0 005.268 0zM9.772 17.119a18.963 18.963 0 004.456 0A17.182 17.182 0 0112 21.724a17.18 17.18 0 01-2.228-4.605zM7.777 15.23a18.87 18.87 0 01-.214-4.774 12.753 12.753 0 01-4.34-2.708 9.711 9.711 0 00-.944 5.004 17.165 17.165 0 005.498 2.477zM21.356 14.752a9.765 9.765 0 01-7.478 6.817 18.64 18.64 0 001.988-4.718 18.627 18.627 0 005.49-2.098zM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 001.988 4.718 9.765 9.765 0 01-7.478-6.816zM13.878 2.43a9.755 9.755 0 016.116 3.986 11.267 11.267 0 01-3.746 2.504 18.63 18.63 0 00-2.37-6.49zM12 2.276a17.152 17.152 0 012.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0112 2.276zM10.122 2.43a18.629 18.629 0 00-2.37 6.49 11.266 11.266 0 01-3.746-2.504 9.754 9.754 0 016.116-3.985z" />
-          </svg>
 
           <div class="flex-row">
             <router-link to="/login">
@@ -78,9 +80,10 @@ const toggleShowNav = () => {
           <div class="flex justify-between ml-7 border-b-2 border-solid border-gray-100">
             <!--Profile identity-->
             <a class="mb-3 flex space-x-3 py-6 outline-none" href="#!">
-              <img :src="userStore.$state.user.photo" alt="" class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <img :src="userStore.$state.user.photo" alt=""
+                class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
               <div class="">
-                <span>{{ userStore.$state.user.username  }}</span>
+                <span>{{ userStore.$state.user.username }}</span>
                 <p class="text-xs text-slate-500">{{ userStore.$state.user.role }}</p>
               </div>
             </a>
@@ -89,70 +92,75 @@ const toggleShowNav = () => {
           </div>
           <ul class="relative m-0 list-none px-[0.2rem] pb-12" data-te-sidenav-menu-ref>
             <li class="relative pt-4">
-              <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                data-te-sidenav-link-ref>
-                <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
-                </span>
-                <span class="focused-btn">
-                  <router-link :to="{ name: 'facil-dashboard' }">
+              <router-link :to="{ name: 'facil-dashboard' }">
+                <a @click="navPaneStore.setState('dashboard')" :class="{ 'selectedNav': getNavState === 'dashboard' }"
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
+                  data-te-sidenav-link-ref>
+                  <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                  </span>
+                  <span class="focused-btn">
                     Dashboard
-                  </router-link>
-                </span>
-              </a>
+                  </span>
+                </a>
+              </router-link>
             </li>
 
             <li class="relative">
-              <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                data-te-sidenav-link-ref>
-                <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
-                </span>
-                <span class="focused-btn">
-                  <router-link :to="{ name: 'facil-courses' }">
+              <router-link :to="{ name: 'facil-courses' }">
+                <a @click="navPaneStore.setState('courses')" :class="{ 'selectedNav': getNavState === 'courses' }"
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
+                  data-te-sidenav-link-ref>
+                  <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                  </span>
+                  <span class="focused-btn">
                     My Course
-                  </router-link>
-                </span>
-              </a>
+                  </span>
+                </a>
+              </router-link>
             </li>
             <li class="relative">
-              <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                data-te-sidenav-link-ref>
-                <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300">
-                </span>
-                <span class="focused-btn">
-                  <router-link :to="{ name: 'chats' }">
+              <router-link :to="{ name: 'chats' }">
+                <a @click="navPaneStore.setState('chat')" :class="{ 'selectedNav': getNavState === 'chat' }"
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
+                  data-te-sidenav-link-ref>
+                  <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300">
+                  </span>
+                  <span class="focused-btn">
                     Chating
-                  </router-link>
-                </span>
-              </a>
+                  </span>
+                </a>
+              </router-link>
             </li>
 
 
             <li class="relative">
-              <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                data-te-sidenav-link-ref>
-                <span class="mr-4 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:fill-gray-400 dark:[&>svg]:fill-gray-300">
+              <router-link :to="{ name: 'facil-account' }">
+                <a @click="navPaneStore.setState('account')" :class="{ 'selectedNav': getNavState === 'account' }"
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
+                  data-te-sidenav-link-ref>
+                  <span class="mr-4 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:fill-gray-400 dark:[&>svg]:fill-gray-300">
 
-                </span>
-                <span class="focused-btn">
-                  <router-link :to="{ name: 'facil-account' }">
+                  </span>
+                  <span class="focused-btn">
                     Account
-                  </router-link>
-                </span>
-              </a>
+                  </span>
+                </a>
+              </router-link>
             </li>
 
             <li class="relative md:hidden">
-              <a class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                data-te-sidenav-link-ref>
-                <span class="mr-4 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:fill-gray-400 dark:[&>svg]:fill-gray-300">
+              <router-link to="/login">
+                <a @click="navPaneStore.setState('login')" :class="{ 'selectedNav': getNavState === 'login' }"
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
+                  data-te-sidenav-link-ref>
+                  <span class="mr-4 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:fill-gray-400 dark:[&>svg]:fill-gray-300">
 
-                </span>
-                <span class="text-red-500">
-                  <router-link to="/login">
+                  </span>
+                  <span class="text-red-500">
                     Logout
-                  </router-link>
-                </span>
-              </a>
+                  </span>
+                </a>
+              </router-link>
             </li>
           </ul>
         </nav>
@@ -163,6 +171,5 @@ const toggleShowNav = () => {
 
     </div>
 
-  </div>
-  <RouterView />
-</template>
+</div>
+<RouterView /></template>

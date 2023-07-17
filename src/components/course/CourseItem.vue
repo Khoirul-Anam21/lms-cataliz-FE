@@ -26,7 +26,7 @@ const goCourseDetail = () => {
 </script>
 
 <template>
-    <div class="rounded-xl border overflow-auto shadow-md">
+    <div class="rounded-xl border overflow-auto shadow-md h-fit">
         <section @click="goCourseDetail" class="cursor-pointer flex flex-col">
             <img class="rounded-t-lg h-1/2 w-full" :src="propsCourse.course.thumbnail" alt="" />
             <div class="p-5 pt-2">

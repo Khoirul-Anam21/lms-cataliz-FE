@@ -13,13 +13,13 @@ const authStore = useAuthStore();
 
 
 <template>
-    <div
-        class="flex items-center justify-center w-full h-screen bg-slate-400 md:bg-slate-400 md:justify-center">
-        <LoadingIndicator v-show="authStore.isLoading"/>
+    <LoadingIndicator v-show="authStore.$state.isLoading" />
+    <div class="flex items-center justify-center w-full h-screen bg-slate-400 md:bg-slate-400 md:justify-center">
         <div class="flex flex-col md:flex-row space-y-8 md:space-y-0 justify-center items-center md:bg-slate-600">
-            <LogoDisplay class="md:w-[400px]"/>
+            <LogoDisplay class="md:w-[400px]" />
             <!-- Login Card -->
             <TheLoginInput />
         </div>
     </div>
-    <RouterView /></template>
+    <RouterView />
+</template>

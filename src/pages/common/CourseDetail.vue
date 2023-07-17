@@ -93,12 +93,12 @@ const goEditCourse = () => {
 </script>
 
 <template>
-  <div class="mt-20 md:mt-28 md:mx-14 md:ml-60 mb-20">
+  <div class="mt-24 md:mt-28 md:mx-14 md:ml-60 mb-20">
     <LoadingIndicator v-show="isLoading" />
-    <div class="flex">
-      <img :src="courseStore.$state.currentCourse?.thumbnail" alt="" class="w-36 h-52rounded sm:w-96 ml-5">
+    <div class="flex flex-col md:flex-row">
+      <img :src="courseStore.$state.currentCourse?.thumbnail" alt="" class="max-w-full h-auto rounded md:w-96 ml-5">
       <div class="ml-5 space-y-1">
-        <h1 class="space-x-1 text-3xl font-bold pb-2 space-x-7 space-x-reverse">{{ courseStore.$state.currentCourse?.title }}</h1>
+        <h1 class="space-x-1 text-3xl font-bold py-2 space-x-7 space-x-reverse">{{ courseStore.$state.currentCourse?.title }}</h1>
         <div class="flex">
           <ul class="text-lg">Category: <span>{{ courseStore.$state.currentCourse?.category }}</span></ul>
         </div>

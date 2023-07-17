@@ -9,10 +9,10 @@ import BaseLogo from '../components/additional/BaseLogo.vue';
     <div class="flex flex-col">
       <!-- Header -->
       <div class="fixed top-0 z-50 w-full flex items-center justify-between bg-slate-200 p-5 ">
-        <div class="flex space-x-5">
+        <div class="flex space-x-5 items-center">
           <div class="pl-4">
             <router-link to="/">
-              <BaseLogo class="h-11 w-11"/>
+              <BaseLogo class="h-11 w-11 block"/>
             </router-link>
           </div>
           <div class="">
@@ -41,3 +41,7 @@ import BaseLogo from '../components/additional/BaseLogo.vue';
 </div>
 <RouterView />
 </template>
+
+<style scoped>
+
+</style>
