@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useUserStore } from '../stores/user';
 import cookie from '@point-hub/vue-cookie'
+import BaseLogo from '../components/additional/BaseLogo.vue';
 
 
 const userStore = useUserStore();
@@ -35,15 +36,17 @@ const toggleShowNav = () => {
     <div class="flex flex-col">
       <!-- Header -->
       <div class="fixed top-0 z-50 w-full md:pl-60 flex items-center justify-between bg-slate-200 p-5 ">
-        <div class="flex space-x-5">
+        <div class="flex space-x-5 items-center">
           <div class="flex md:hidden">
             <button id="hamburger" class="pr-1" @click="toggleShowNav">
               <i class="material-icons">menu</i>
             </button>
           </div>
-          <div class="pl-4">
-            <router-link to="/">
-              Logo
+          <div class="pl-2">
+            <router-link :to="{ name: 'participant-dashboard' }">
+               <div>
+                <BaseLogo class="h-11 w-11"/>
+               </div>
             </router-link>
           </div>
           <div class="">

@@ -4,6 +4,8 @@ import ChatArea from '../../components/chat/ChatArea.vue';
 import { useCourseStore } from '../../stores/courses';
 import LoadingIndicator from '../../components/additional/LoadingIndicator.vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../../stores/user';
+import cookie from '@point-hub/vue-cookie'
 
 const props = defineProps({
   title: {
@@ -12,22 +14,27 @@ const props = defineProps({
 })
 
 const router = useRouter();
-
 const courseStore = useCourseStore();
+const userStore = useUserStore();
+
+
 const isLoading = ref(true);
 const courseTitleSplit = computed(() => props.title?.split('-') as string[])
 
 onMounted(async () => {
   isLoading.value = true;
   try {
+    await userStore.getUser(cookie.get('id'));
+    console.log(props.title);
     await courseStore.getCourseById(courseTitleSplit.value[1]);
-    await courseStore.getParticipantCourses();
+    // await courseStore.getParticipantCourses();
     isLoading.value = false;
   } catch (error) {
     console.log(error);
   }
 });
 
+const isFacil = computed(() => userStore.$state.user.role === 'facilitator');
 
 const courseBeingLearned = computed(() => {
   if (isLoading.value) return false;
@@ -75,6 +82,15 @@ const comments = [{
 const goMaterials = () => {
   router.push({ name: 'std-materials' });
 }
+
+const goFacilMaterials = () => {
+  router.push({ name: 'facil-materials' });
+}
+
+const goEditCourse = () => {
+  router.push({ name: 'course-edit' })
+}
+
 </script>
 
 <template>
@@ -83,21 +99,30 @@ const goMaterials = () => {
     <div class="flex">
       <img :src="courseStore.$state.currentCourse?.thumbnail" alt="" class="w-36 h-52rounded sm:w-96 ml-5">
       <div class="ml-5 space-y-1">
-        <h1 class="space-x-1 text-3xl font-bold pb-2 space-x-7 space-x-reverse">{{ courseTitleSplit[0]
-        }}</h1>
+        <h1 class="space-x-1 text-3xl font-bold pb-2 space-x-7 space-x-reverse">{{ courseStore.$state.currentCourse?.title }}</h1>
         <div class="flex">
-          <ul class="text-lg">Category: <span class="text-red-600">*sek ngebug bang</span></ul>
+          <ul class="text-lg">Category: <span>{{ courseStore.$state.currentCourse?.category }}</span></ul>
         </div>
 
         <ul class="text-lg">{{ courseStore.$state.currentCourse?.content }} materi pelajaran</ul>
         <ul class="text-lg">{{ courseStore.$state.currentCourse?.totalDuration }} jam belajar</ul>
 
 
-        <button v-if="courseBeingLearned" type="button" @click="goMaterials"
-          class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Continue Learning</button>
-        <button v-else type="button" @click="goMaterials"
-          class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Learn
-          now</button>
+        <div v-if="isFacil">
+          <button type="button" @click="goFacilMaterials" class="primary-btn mr-2">View
+            Material</button>
+          <button type="button" @click="goEditCourse"
+            class="mt-5 text-slate-800 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit
+            Course</button>
+        </div>
+        <div v-else>
+          <button v-if="courseBeingLearned" type="button" @click="goMaterials"
+            class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Continue
+            Learning</button>
+          <button v-else type="button" @click="goMaterials"
+            class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Learn
+            now</button>
+        </div>
 
 
       </div>

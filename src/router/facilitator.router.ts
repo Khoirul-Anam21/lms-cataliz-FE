@@ -47,9 +47,10 @@ export const facilitatorRouter = [
         children: [
             {
                 path: "",
-                component: () => import("../pages/facilitator/Course.vue"),
+                component: () => import("../pages/common/CourseDetail.vue"),
                 name: 'facil-course-detail',
-                meta: { title: 'Course Detail' }
+                meta: { title: 'Course Detail' },
+                props: true
 
             },
             {

@@ -61,8 +61,6 @@ const onSubmit = async () => {
 }
 
 watch(userStore.$state.user, (newVal, oldVal)=> {
-  console.log(oldVal);
-  console.log(newVal);
   photo.value = newVal.photo;
 });
 </script>

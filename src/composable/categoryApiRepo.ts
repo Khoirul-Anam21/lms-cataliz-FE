@@ -1,14 +1,15 @@
-import axiosInstance from "@/axios";
+import axiosInstance from "../axios";
 
 
 class CategoryApiRepository {
-    async fetchAllCategories(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    private baseUrl = '/categories'
+    async fetchAllCategories() {
+        const response = await axiosInstance.get(this.baseUrl + '/')
         return response;
     }
 
-    async createCategory(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async createCategory(name: string) {
+        const response = await axiosInstance.post(this.baseUrl + '/', { name });
         return response;
     }
 }

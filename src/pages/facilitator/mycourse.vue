@@ -1,14 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import CourseFacilItem from '../../components/course/CourseFacilItem.vue';
+import { useCourseStore } from '../../stores/courses';
 
 const mockArr: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
-const dropdownOpen = ref(false)
+const dropdownOpen = ref(false);
+const courseStore = useCourseStore();
+const loading = ref(true);
 
 const toggleOpenDropdown = () => {
     dropdownOpen.value = !dropdownOpen.value
 }
 
+onMounted(async () => {
+    try {
+        loading.value = true;
+        const response = await courseStore.getFacilCourses();
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 </script>
 
@@ -34,7 +45,7 @@ const toggleOpenDropdown = () => {
 
 
             <div class="flex-row justify-between">
-                <router-link :to="{ name: 'course-add'}">
+                <router-link :to="{ name: 'course-add' }">
                     <a href="#"
                         class="static inline-block text-sm px-4 py-2 leading-none rounded responsive-text text-black border-white hover:border-transparent hover:text-natural-900 bg-white mt-4 lg:mt-0">+
                         Add New Course</a>
@@ -45,8 +56,8 @@ const toggleOpenDropdown = () => {
 
         <!-- Card -->
         <div class="p-4 md:p-2 grid gap-5 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div v-for="(item, index) in mockArr" :key="item">
-                <CourseFacilItem />
+            <div v-for="(item, index) in courseStore.$state.facilitatorCourses" :key="item._id">
+                <CourseFacilItem :course="item"/>
             </div>
         </div>
 

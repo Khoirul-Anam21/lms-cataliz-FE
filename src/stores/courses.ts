@@ -44,8 +44,9 @@ export interface ParticipantCourseDisplayProps extends CourseDisplayProps {
 export interface FacilitatorCourseDisplayProps {
     _id: string;
     facilitator: any;
-    thumbnail: string;
+    thumbnailPath: string;
     title: string;
+    published: boolean;
     category_id: string;
     studentCount: number;
 }
@@ -85,6 +86,11 @@ export const useCourseStore = defineStore('course', {
         async getParticipantCourses(){
             const response = await courseApiRepo.fetchParticipantCourses();
             this.$state.participantCourses = response.data.data;
+            return response;
+        },
+        async getFacilCourses() {
+            const response = await courseApiRepo.fetchFacilitatorCourses();
+            this.$state.facilitatorCourses = response.data.courses;
             return response;
         }
     }

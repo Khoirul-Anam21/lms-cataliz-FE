@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import TabBarView from '../components/TabBarView.vue';
 import { useUserStore } from '../stores/user';
+import BaseLogo from '../components/additional/BaseLogo.vue';
 
 
 const isShowNav = ref(true);
@@ -34,15 +35,15 @@ const toggleShowNav = () => {
     <div class="flex flex-col">
       <!-- Header -->
       <div class="fixed top-0 z-50 w-full md:pl-60 flex items-center justify-between bg-slate-200 p-5 ">
-        <div class="flex space-x-5">
+        <div class="flex space-x-5 items-center">
           <div class="flex md:hidden">
             <button id="hamburger" class="pr-1" @click="toggleShowNav">
               <i class="material-icons">menu</i>
             </button>
           </div>
           <div class="pl-4">
-            <router-link to="/">
-              Logo
+            <router-link :to="{ name: 'facil-dashboard' }">
+              <BaseLogo class="h-11 w-11"/>
             </router-link>
           </div>
           <div class="">

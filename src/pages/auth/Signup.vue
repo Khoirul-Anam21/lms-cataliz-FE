@@ -2,6 +2,8 @@
 import { useAuthStore } from '../../stores/auth';
 import LoadingIndicator from '../../components/additional/LoadingIndicator.vue';
 import TheSignupInput from '../../components/TheSignupInput.vue';
+import LogoDisplay from '../../components/additional/LogoDisplay.vue';
+
 
 const authStore = useAuthStore();
 
@@ -11,7 +13,7 @@ const authStore = useAuthStore();
     <div class="flex items-center justify-center w-full h-screen bg-slate-400 md:bg-slate-400 md:justify-center">
         <LoadingIndicator v-show="authStore.$state.isLoading"/>
         <div class="flex flex-col md:flex-row space-y-10 md:space-y-0 justify-center items-center md:bg-slate-600">
-            <h1 class="text-4xl font-bold md:p-6 text-white">Ini Halaman Sign up</h1>
+            <LogoDisplay class="md:w-[400px]"/>
 
             <!-- Signup Card -->
             <TheSignupInput />

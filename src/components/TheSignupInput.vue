@@ -4,10 +4,13 @@ import { useUserStore } from '../stores/user';
 import { useAuthStore } from '../stores/auth';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { TypesEnum, useBaseNotification } from '../composable/notification';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const router = useRouter();
+const { notification } = useBaseNotification();
+
 
 const formData = ref({
     name: '',
@@ -41,8 +44,10 @@ const onSubmit = async () => {
         } else {
             router.push({ name: 'participant-dashboard' })
         }
+
     } catch (error) {
-        console.log(error);
+        authStore.$state.isLoading = false;
+        notification('Failed', 'Failed to signup', { type: TypesEnum.Danger });
     }
 };
 

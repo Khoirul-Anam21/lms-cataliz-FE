@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BaseLogo from '../components/additional/BaseLogo.vue';
+
 
 </script>
 
@@ -10,7 +12,7 @@
         <div class="flex space-x-5">
           <div class="pl-4">
             <router-link to="/">
-              Logo
+              <BaseLogo class="h-11 w-11"/>
             </router-link>
           </div>
           <div class="">
