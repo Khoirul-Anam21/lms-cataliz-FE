@@ -1,7 +1,8 @@
-import axiosInstance from "@/axios";
+import axiosInstance from "../axios";
 
 
 class CourseContentApiRepository {
+    private readonly baseUrl = '/course-contents'
     async fetchParticipantCourseContent(page?: number, limit?: number) {
         const response = await axiosInstance.get('/users/')
         return response;
@@ -12,8 +13,8 @@ class CourseContentApiRepository {
         return response;
     }
 
-    async createCourseContent(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async createCourseContent(body: any) {
+        const response = await axiosInstance.post(this.baseUrl + '/', body);
         return response;
     }
 

@@ -15,7 +15,7 @@ onMounted(async () => {
   window.addEventListener('resize', handleResizeWindow);
   handleResizeWindow();
   await userStore.getUser(cookie.get('id'));
-  navPaneStore.setState('all-course');
+  navPaneStore.setState('dashboard');
 });
 
 
@@ -94,19 +94,6 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
             <button class="p-2 text-red-500 md:hidden" @click="toggleShowNav"><i class="material-icons">close</i></button>
           </div>
           <ul class="relative m-0 list-none px-[0.2rem] pb-12" data-te-sidenav-menu-ref>
-            <li class="relative pt-4">
-              <router-link :to="{ name: 'participant-all-courses' }">
-                <a @click="navPaneStore.setState('all-course')" :class="{ 'selectedNav': getNavState === 'all-course' }"
-                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
-                  data-te-sidenav-link-ref>
-                  <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
-                  </span>
-                  <span class="focused-btn">
-                    All courses
-                  </span>
-                </a>
-              </router-link>
-            </li>
             <li class="relative">
               <router-link :to="{ name: 'participant-dashboard' }">
                 <a @click="navPaneStore.setState('dashboard')" :class="{ 'selectedNav': getNavState === 'dashboard' }"
@@ -120,6 +107,20 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
                 </a>
               </router-link>
             </li>
+            <li class="relative">
+              <router-link :to="{ name: 'participant-all-courses' }">
+                <a @click="navPaneStore.setState('all-course')" :class="{ 'selectedNav': getNavState === 'all-course' }"
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
+                  data-te-sidenav-link-ref>
+                  <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                  </span>
+                  <span class="focused-btn">
+                    All courses
+                  </span>
+                </a>
+              </router-link>
+            </li>
+
             <li class="relative">
               <router-link :to="{ name: 'std-course' }">
                 <a @click="navPaneStore.setState('courses')" :class="{ 'selectedNav': getNavState === 'courses' }"

@@ -1,24 +1,25 @@
-import axiosInstance from "@/axios";
+import axiosInstance from "../axios";
 
 
 class ReportApiRepository {
-    async fetchParticipantReport(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    private baseUrl = '/reports';
+    async fetchParticipantReport() {
+        const response = await axiosInstance.get(this.baseUrl + '/participant')
         return response;
     }
 
-    async fetchParticipantReportDetail(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async fetchParticipantReportDetail(courseId: string) {
+        const response = await axiosInstance.get(this.baseUrl + '/participant/course/' + courseId);
         return response;
     }
 
-    async fetchFacilitatorReport(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async fetchFacilitatorReport() {
+        const response = await axiosInstance.get(this.baseUrl + '/facil')
         return response;
     }
 
-    async fetchFacilitatorReportDetail(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async fetchFacilitatorReportDetail(courseId: string) {
+        const response = await axiosInstance.get(this.baseUrl + '/facil/course/' + courseId);
         return response;
     }
 

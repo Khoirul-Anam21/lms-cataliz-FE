@@ -15,4 +15,4 @@ import ChatItem from '../../components/chat/ChatListItem.vue';
         </div>
     </div>
     <RouterView />
-</template>
+</template>../../components/base/chat/ChatListItem.vue

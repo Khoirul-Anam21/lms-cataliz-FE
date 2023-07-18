@@ -9,6 +9,7 @@ import { useRoute } from 'vue-router';
 import AssignmentParticipantDetail from '../../components/assignment/AssignmentParticipantDetail.vue';
 import ChatArea from '../../components/chat/ChatArea.vue';
 import { useCourseStore } from '../../stores/courses';
+import { useCommentStore } from '../../stores/comment';
 
 // for disabling attributes inherited
 defineOptions({
@@ -24,6 +25,7 @@ const props = defineProps({
 
 const route = useRoute();
 const courseStore = useCourseStore();
+const commentStore = useCommentStore();
 const videoPlayer = ref(null);
 
 const isFacil = computed(() => route.path.includes('facil'));
@@ -31,7 +33,10 @@ const isFacil = computed(() => route.path.includes('facil'));
 const isChatShow: Ref<boolean> = ref(false);
 const loading = ref(true);
 
-const toggleShowChat = () => isChatShow.value = !isChatShow.value;
+const toggleShowChat = () => {
+    isChatShow.value = !isChatShow.value;
+    commentStore.$state.visible = !commentStore.$state.visible
+};
 
 const comments = [{
     text: 'tess',
@@ -205,11 +210,11 @@ const playVideo = () => {
 
         <!-- chat -->
         <article class="fixed bottom-12 right-12 md:bottom-20 md:right-24 flex items-end z-10">
-            <div v-show="isChatShow" class="relative left-[20%] w-[360px] h-[400px] bg-slate-300 overflow-auto rounded-xl">
+            <div v-show="isChatShow" class="relative left-[20%] w-[360px] h-[400px] dashboard-card overflow-auto rounded-xl">
                 <div class="w-[360px] fixed flex flex-col items-end pr-4">
                     <i @click="toggleShowChat" class="fa-solid fa-xmark p-4 cursor-pointer text-red-500"></i>
                 </div>
-                <ChatArea :comments="comments" />
+                <ChatArea :course-id="parsedIdFromRoute" v-show="commentStore.$state.visible"/>
             </div>
             <i @click="toggleShowChat"
                 class="fa-solid fa-comment-dots fa-xl bg-slate-700 text-slate-200 p-6 rounded-full shadow-xl cursor-pointer"></i>
@@ -217,4 +222,4 @@ const playVideo = () => {
 
     </div>
     <RouterView />
-</template>
+</template>../../components/base/chat/ChatArea.vue

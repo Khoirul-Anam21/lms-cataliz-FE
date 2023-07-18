@@ -2,20 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer components{
-  .primary-btn {
-   @apply  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
+@layer components {
+  .number-box {
+    @apply px-5 py-3 md:px-8 md:py-4 flex flex-col items-center
   }
 }
 
-@layer components{
+@layer components {
+  .primary-btn {
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
+  }
+}
+
+@layer components {
+  .dashboard-card {
+    @apply bg-slate-50 border shadow-md text-slate-800
+  }
+}
+
+@layer components {
+  .selected-dashboard-course {
+    @apply bg-slate-700 text-white
+  }
+}
+
+@layer components {
   .selectedNav {
     @apply bg-slate-600 text-white
   }
 }
 
-@layer components{
+@layer components {
   .anti-btn {
     @apply text-red-600 hover:bg-red-200 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
   }
@@ -37,7 +54,7 @@
   .auth-input {
     @apply p-4 border border-t-0 border-l-0 border-r-0
   }
-  
+
 }
 
 
@@ -60,19 +77,19 @@
 }
 
 @layer utilities {
-    .focused-btn {
-      @apply focus:outline-none focus:pointer-events-none;
-    }
+  .focused-btn {
+    @apply focus:outline-none focus:pointer-events-none;
+  }
 }
 
 @layer utilities {
-    .responsive-text {
-      @apply text-sm md:text-lg lg:text-lg
-    }
+  .responsive-text {
+    @apply text-sm md:text-lg lg:text-lg
+  }
 }
 
 @layer components {
-  .markdown-text h1{
+  .markdown-text h1 {
     @apply text-2xl font-bold
   }
 }

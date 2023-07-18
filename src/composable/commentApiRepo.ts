@@ -1,39 +1,41 @@
-import axiosInstance from "@/axios";
+import axiosInstance from "../axios";
 
 
 class CommentApiRepository {
-    async fetchAllCommentByCourse(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+
+    private readonly baseUrl = '/comments'
+    async fetchAllCommentByCourse(courseId: string) {
+        const response = await axiosInstance.get(this.baseUrl + '/course/' + courseId);
         return response;
     }
 
-    async createComment(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async createComment(courseId: string, comment: string, contentId?: string) {
+        const response = await axiosInstance.post(this.baseUrl + '/', { course_id: courseId, comment, content_id: contentId });
         return response;
     }
 
-    async createReply(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async createReply(commentId: string, comment: string) {
+        const response = await axiosInstance.post(this.baseUrl + '/replies', { comment_id: commentId, comment })
         return response;
     }
 
-    async updateComment(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async updateComment(commentId: string, comment: string) {
+        const response = await axiosInstance.put(this.baseUrl + '/' + commentId, { comment });
         return response;
     }
 
-    async updateReply(userId: string) {
-        const response = await axiosInstance.delete('/users/' + userId);
+    async updateReply(replyId: string, comment: string) {
+        const response = await axiosInstance.put(this.baseUrl + '/replies/' + replyId, { comment });
         return response;
     }
 
-    async deleteComment(userId: string) {
-        const response = await axiosInstance.delete('/users/' + userId);
+    async deleteComment(commentId: string) {
+        const response = await axiosInstance.delete(this.baseUrl + '/' + commentId);
         return response;
     }
 
-    async deleteReply(userId: string) {
-        const response = await axiosInstance.delete('/users/' + userId);
+    async deleteReply(replyId: string) {
+        const response = await axiosInstance.delete(this.baseUrl + '/replies/' + replyId);
         return response;
     }
 }

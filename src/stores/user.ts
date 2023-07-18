@@ -4,6 +4,13 @@ import axiosInstance from '../axios.js';
 import { ref } from 'vue';
 import { useUserApiRepo } from '../composable/userApiRepo.js';
 
+export interface UserInterface {
+    _id: string;
+    username: string;
+    photo: string | null;
+    job: string | null;
+  }
+
 const userApiRepo = useUserApiRepo();
 export const useUserStore = defineStore('user', {
     state: () => ({

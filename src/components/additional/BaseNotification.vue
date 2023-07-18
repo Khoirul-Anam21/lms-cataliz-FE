@@ -8,7 +8,7 @@
         :class="{
           'bg-white text-slate-600': props.item.type === undefined,
           'bg-blue-50 text-blue-600': props.item.type === 'info',
-          'bg-green-50 text-green-600': props.item.type === 'success',
+          'bg-green-50 text-green-600  border border-green-400': props.item.type === 'success',
           'bg-yellow-50 text-yellow-600': props.item.type === 'warning',
           'bg-red-50 text-red-600': props.item.type === 'danger'
         }"

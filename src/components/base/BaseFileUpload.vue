@@ -5,6 +5,7 @@ const fileInputRef: Ref<HTMLInputElement | null> = ref(null);
 const fileName: Ref<string | null> = ref(null);
 const file: Ref<FileList | null> = ref(null);
 
+const emit = defineEmits(['model:addThumbnail'])
 
 const deleteFile = (): void => {
     fileName.value = '';
@@ -23,14 +24,13 @@ const unhighlightDropzone = (event: DragEvent): void => {
 
 const handleFileUpload = (event: Event): void => {
     const target = event.target as HTMLInputElement;
-    const files = target.files;
+    const files = target.files as FileList;
     console.log("terupload");
     if (files) {
         file.value = files;
-        fileName.value = files[0].name
+        fileName.value = files[0].name;
+        emit("model:addThumbnail", files[0])
     }
-    // Handle the uploaded files as needed
-    console.log(files);
 };
 
 const handleFileDrop = (event: DragEvent): void => {
@@ -39,10 +39,9 @@ const handleFileDrop = (event: DragEvent): void => {
     console.log("terdrop");
     if (files) {
         file.value = files;
-        fileName.value = files[0].name
+        fileName.value = files[0].name;
+        emit("model:addThumbnail", files[0])
     }
-    // Handle the dropped files as needed
-    console.log(files);
 };
 </script>
 <template>
@@ -53,7 +52,7 @@ const handleFileDrop = (event: DragEvent): void => {
             <div class="flex flex-col items-center justify-center">
                 <div class="text-gray-500 mb-2 text-center">
                     <i class="fa-solid fa-upload fa-xl mb-4 mt-2"></i>
-                    <p >Drag and drop files here</p>
+                    <p>Drag and drop files here</p>
                     <p class="text-sm">(or click to browse)</p>
                 </div>
             </div>

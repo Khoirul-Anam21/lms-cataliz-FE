@@ -4,8 +4,9 @@ import { useUserStore } from '../../stores/user';
 import { computed, onMounted, ref, watch } from 'vue';
 import cookie from '@point-hub/vue-cookie'
 import getFileNameFromUrl from '../../composable/getFileName'
+import { TypesEnum, useBaseNotification } from '../../composable/notification';
 
-
+const { notification } = useBaseNotification()
 const userStore = useUserStore();
 const loading = ref(true);
 const formData = ref({
@@ -29,10 +30,10 @@ onMounted(async () => {
 });
 
 const photo = computed({
-  get(){
+  get() {
     return userStore.$state.user.photo;
   },
-  set(newVal){
+  set(newVal) {
     userStore.$state.user.photo = newVal;
   }
 });
@@ -47,20 +48,21 @@ const handlePhotoChange = (event: Event) => {
 const onSubmit = async () => {
   loading.value = true;
   console.log(userStore.$state.user);
-  const fileName = getFileNameFromUrl(userStore.$state.user.photo);
+  // const fileName = getFileNameFromUrl(userStore.$state.user.photo);
   try {
     const form = new FormData();
-    form.append('username', formData.value.username );
-    form.append('job', formData.value.job );
+    form.append('username', formData.value.username);
+    form.append('job', formData.value.job);
     form.append('photo', formData.value.photo);
     await userStore.updateUser(cookie.get('id'), form);
     loading.value = false;
+    notification('Success', 'Success update account', { type: TypesEnum.Success });
   } catch (error) {
     console.log(error);
   }
 }
 
-watch(userStore.$state.user, (newVal, oldVal)=> {
+watch(userStore.$state.user, (newVal, oldVal) => {
   photo.value = newVal.photo;
 });
 </script>

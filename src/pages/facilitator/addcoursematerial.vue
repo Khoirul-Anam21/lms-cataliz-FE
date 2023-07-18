@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import ContentInput from '../../components/course/ContentInput.vue';
+
+onMounted(() => {
+  console.log(localStorage.getItem('courseId'));
+})
 
 </script>
 

@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { useCourseApiRepo } from '../composable/courseApiRepo.js';
+import { useCourseContentApiRepo } from '../composable/courseContentApiRepo.js';
 
 const courseApiRepo = useCourseApiRepo();
-
+const courseContentApiRepo = useCourseContentApiRepo();
 export interface CourseContentDisplayProps {
     _id: string;
     course: any;
@@ -80,8 +81,6 @@ export const useCourseStore = defineStore('course', {
             const contents = this.$state.currentCourse?.contents ?? [];
             const contentIndex = contents?.findIndex((content) => content._id === contentId) ?? -4;
             this.$state.currentCourseContent = contents[contentIndex];
-            // console.log(response.data);
-            // return response;
         },
         async getParticipantCourses(){
             const response = await courseApiRepo.fetchParticipantCourses();
@@ -92,6 +91,19 @@ export const useCourseStore = defineStore('course', {
             const response = await courseApiRepo.fetchFacilitatorCourses();
             this.$state.facilitatorCourses = response.data.courses;
             return response;
+        },
+        async createCourse(body: any) {
+            const response = await courseApiRepo.createCourse(body);
+            this.$state.currentCourseId = response.data.id;
+            localStorage.setItem('courseId', response.data.id);
+            await this.getCourseById(response.data.id);
+            return response;
+        },
+        async createCourseContent(body: any) {
+            const response = await courseContentApiRepo.createCourseContent(body);
+            // await this.getCourseById(courseId);
+            return response;
         }
+
     }
 })
