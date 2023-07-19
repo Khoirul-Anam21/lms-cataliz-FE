@@ -109,7 +109,7 @@ const goEditCourse = () => {
         </div>
 
         <ul class="text-lg">{{ courseStore.$state.currentCourse?.contents.length }} materi pelajaran</ul>
-        <ul class="text-lg">{{ courseStore.$state.currentCourse?.totalDuration }} jam belajar</ul>
+        <!-- <ul class="text-lg">{{ courseStore.$state.currentCourse?.totalDuration }} jam belajar</ul> -->
         <div v-if="isFacil">
           <button type="button" @click="goFacilMaterials" class="primary-btn mr-2">View
             Material</button>
