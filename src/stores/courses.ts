@@ -103,6 +103,18 @@ export const useCourseStore = defineStore('course', {
             const response = await courseContentApiRepo.createCourseContent(body);
             // await this.getCourseById(courseId);
             return response;
+        },
+        async deleteCourseContent(courseId: string, contentId: string) {
+            const response = await courseContentApiRepo.deleteCourseContent(courseId, contentId);
+            return response;
+        },
+        async updateCourseContent(contentId: string, body: any) {
+            const response = await courseContentApiRepo.updateCourseContent(contentId, body);
+            return response;
+        },
+        async publishCourse(courseId: string) {
+            const response = await courseApiRepo.publishCourse(courseId)
+            return response;
         }
 
     }

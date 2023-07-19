@@ -46,7 +46,7 @@ onMounted(() => {
 
 
       <div class="mt-10 ml-5">
-        <h1 class="text-5xl font-bold">Add New Course</h1>
+        <h1 class="text-5xl font-bold">Add New Course Content</h1>
       </div>
 
       <div class="w-11/12 mt-10 ml-5">

@@ -8,6 +8,7 @@ import { CourseContentDisplayProps } from '@/stores/courses';
 import BaseFileUpload from '../base/BaseFileUpload.vue';
 import { useCourseStore } from '../../stores/courses'
 import { TypesEnum, useBaseNotification } from '../../composable/notification';
+import LoadingIndicator from '../additional/LoadingIndicator.vue';
 
 const materialTypeModel = ref('');
 const markdownText = ref('');
@@ -15,6 +16,7 @@ const modalOpen = ref(false);
 const router = useRouter();
 const courseStore = useCourseStore();
 const { notification } = useBaseNotification();
+const loading = ref(false);
 const props = defineProps<{
     content?: CourseContentDisplayProps
 }>();
@@ -56,6 +58,7 @@ const adjustTextareaHeight = () => {
 
 const goPublishPage = async () => {
     try {
+        loading.value = true;
         if(materialTypeModel.value === 'video') formData.value.reading = ''
         if(materialTypeModel.value === 'reading') formData.value.material = ''
         console.log(formData);
@@ -67,6 +70,7 @@ const goPublishPage = async () => {
         form.append('material', formData.value.material);
         form.append('reading', formData.value.reading ?? markdownText);
         await courseStore.createCourseContent(form);
+        loading.value = false;
         notification('Success', 'create new course content', { type: TypesEnum.Success });
         router.push({ name: 'course-publish' })
     } catch (error) {
@@ -82,6 +86,7 @@ onMounted(() => {
 
 </script>
 <template>
+    <LoadingIndicator v-show="loading"/>
     <form @submit.prevent="goPublishPage">
         <div class="">
             <section class="my-6">

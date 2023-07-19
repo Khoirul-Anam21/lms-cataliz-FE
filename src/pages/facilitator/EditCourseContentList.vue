@@ -15,7 +15,7 @@ import ContentModifyList from '../../components/course/ContentModifyList.vue';
                     title:</label>
                 <h1 class="text-4xl">Fundamental of Web Design</h1>
             </div>
-            <ContentModifyList />
+            <!-- <ContentModifyList /> -->
         </div>
 
     </div>

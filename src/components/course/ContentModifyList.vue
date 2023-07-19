@@ -1,5 +1,33 @@
 <script setup lang="ts">
+import { TypesEnum, useBaseNotification } from '../../composable/notification';
+import { CourseContentDisplayProps, useCourseStore } from '../../stores/courses';
+import { onMounted } from 'vue';
+
 // TODO:give a conditional rendering when edit mode or add mode
+
+const courseSore = useCourseStore();
+
+const props = defineProps<{
+    contents?: CourseContentDisplayProps[]
+}>();
+const { notification } = useBaseNotification();
+const emit = defineEmits(['deleteAndReload'])
+
+const goEditMaterial = () => {
+
+}
+
+const deleteMaterial = async (contentId: string) => {
+    try {
+        emit("deleteAndReload", contentId);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+onMounted(async () => {
+
+})
 
 </script>
 
@@ -22,55 +50,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+            <tr v-for="(item, index) in props.contents" :key="index"
+                class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    What is interaction design
+                    {{ item.title }}
                 </th>
                 <td class="px-6 py-4">
-                    20h 10m
+                    {{ item.duration }}
                 </td>
                 <td class="px-6 py-4">
-                    Video
+                    {{ item.type }}
                 </td>
                 <td class="px-6 py-4 space-x-3">
-                    <router-link :to="{ name: 'material-edit-detail', params: { id: 'idcontent' } }"><i
-                            class="fa-solid fa-pen-to-square fa-lg text-yellow-500"></i></router-link>
-                    <i class="fa-solid fa-trash fa-lg text-red-500"></i>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Steps to make responsive web
-                </th>
-                <td class="px-6 py-4">
-                    20h 10m
-                </td>
-                <td class="px-6 py-4">
-                    Video
-                </td>
-                <td class="px-6 py-4 space-x-3">
-                    <router-link :to="{ name: 'material-edit-detail', params: { id: 'idcontent' } }"><i
-                            class="fa-solid fa-pen-to-square fa-lg text-yellow-500"></i></router-link>
-                    <i class="fa-solid fa-trash fa-lg text-red-500"></i>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Design tools
-                </th>
-                <td class="px-6 py-4">
-                    20h 10m
-                </td>
-                <td class="px-6 py-4">
-                    Reading
-                </td>
-                <td class="px-6 py-4 space-x-3">
-                    <router-link :to="{ name: 'material-edit-detail', params: { id: 'idcontent' } }"><i
-                            class="fa-solid fa-pen-to-square fa-lg text-yellow-500"></i></router-link>
-                    <i class="fa-solid fa-trash fa-lg text-red-500"></i>
-                </td>
-            </tr>
+                    <i class="fa-solid fa-pen-to-square fa-lg text-yellow-500 cursor-pointer" @click="goEditMaterial"></i>
+                    <!-- <router-link :to="{ name: 'material-edit-detail', params: { id: item._id } }">
 
+                    </router-link> -->
+                    <i class="fa-solid fa-trash fa-lg text-red-500 cursor-pointer" @click="deleteMaterial(item._id)"></i>
+                </td>
+            </tr>
 
         </tbody>
 
@@ -86,4 +84,5 @@
                 </router-link>
             </div>
         </div>
-</span></template>
+    </span>
+</template>

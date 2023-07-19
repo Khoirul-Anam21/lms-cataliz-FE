@@ -43,8 +43,8 @@ class CourseApiRepository {
         return response;
     }
 
-    async publishCourse(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async publishCourse(courseId: string) {
+        const response = await axiosInstance.put(this.baseRoute + '/course-publish/' + courseId);
         return response;
     }
 

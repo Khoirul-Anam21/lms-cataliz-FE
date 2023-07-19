@@ -18,13 +18,13 @@ class CourseContentApiRepository {
         return response;
     }
 
-    async updateCourseContent(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async updateCourseContent(contentId: string, body: any) {
+        const response = await axiosInstance.put(this.baseUrl + '/' + contentId);
         return response;
     }
 
-    async deleteCourseContent(userId: string) {
-        const response = await axiosInstance.delete('/users/' + userId);
+    async deleteCourseContent(courseId: string, contentId: string) {
+        const response = await axiosInstance.delete(this.baseUrl + '/' + contentId, { params: { course_id: courseId } });
         return response;
     }
 }
