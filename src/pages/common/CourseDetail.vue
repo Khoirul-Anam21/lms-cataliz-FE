@@ -22,7 +22,6 @@ const commentStore = useCommentStore();
 
 
 const isLoading = ref(false);
-const commentVisible = ref(false);
 
 const courseTitleSplit = computed(() => props.title?.split('-') as string[])
 
@@ -30,8 +29,8 @@ onMounted(async () => {
   isLoading.value = true;
   try {
     await userStore.getUser(cookie.get('id'));
-    console.log(props.title);
     await courseStore.getCourseById(courseTitleSplit.value[1]);
+    commentStore.$state.visible = false;
     isLoading.value = false;
   } catch (error) {
     console.log(error);
@@ -49,39 +48,6 @@ const courseBeingLearned = computed(() => {
   if (beingLearned.length === 0) return false;
   return true;
 });
-
-
-const comments = [{
-  text: 'tess',
-  replies: [
-    {
-      id: 4,
-      text: 'reply',
-      openInput: false
-    },
-    {
-      id: 5,
-      text: 'reply dua',
-      openInput: false
-
-    }
-  ]
-}, {
-  text: 'tess',
-  replies: [
-    {
-      id: 4,
-      text: 'reply',
-      openInput: false
-    },
-    {
-      id: 5,
-      text: 'reply dua',
-      openInput: false
-
-    }
-  ]
-}];
 
 const goMaterials = () => {
   router.push({ name: 'std-materials' });

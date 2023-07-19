@@ -118,7 +118,7 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
                 </a>
               </router-link>
             </li>
-            <li class="relative">
+            <!-- <li class="relative">
               <router-link :to="{ name: 'chats' }">
                 <a @click="navPaneStore.setState('chat')" :class="{ 'selectedNav': getNavState === 'chat' }"
                   class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
@@ -130,7 +130,7 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
                   </span>
                 </a>
               </router-link>
-            </li>
+            </li> -->
 
 
             <li class="relative">

@@ -4,7 +4,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import TheHtmlMarkdownArea from '../TheHtmlMarkdownArea.vue';
 import { useRouter } from 'vue-router';
-import { CourseContentDisplayProps } from '@/stores/courses';
+import { CourseContentDisplayProps } from '../../stores/courses';
 import BaseFileUpload from '../base/BaseFileUpload.vue';
 import { useCourseStore } from '../../stores/courses'
 import { TypesEnum, useBaseNotification } from '../../composable/notification';

@@ -27,7 +27,16 @@ export const useCommentStore = defineStore('comment', {
     actions: {
         async getAllComments(courseId: string) {
             const response = await commentApiRepo.fetchAllCommentByCourse(courseId);
-            this.$state.comments = response.data;
+            const commentResponses = response.data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            this.$state.comments = commentResponses;
+            return response;
+        },
+        async createComment(courseId: string, comment: string) {
+            const response = await commentApiRepo.createComment(courseId, comment);
+            return response;
+        },
+        async createReply(commentId: string, comment: string) {
+            const response = await commentApiRepo.createReply(commentId, comment);
             return response;
         }
     }

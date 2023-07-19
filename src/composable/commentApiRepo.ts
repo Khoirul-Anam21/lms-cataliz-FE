@@ -9,8 +9,8 @@ class CommentApiRepository {
         return response;
     }
 
-    async createComment(courseId: string, comment: string, contentId?: string) {
-        const response = await axiosInstance.post(this.baseUrl + '/', { course_id: courseId, comment, content_id: contentId });
+    async createComment(courseId: string, comment: string) {
+        const response = await axiosInstance.post(this.baseUrl + '/', { course_id: courseId, comment });
         return response;
     }
 
