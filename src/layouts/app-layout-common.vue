@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NavMobileButtons from '../components/NavMobileButtons.vue';
 import BaseLogo from '../components/additional/BaseLogo.vue';
 
 
@@ -19,8 +20,8 @@ import BaseLogo from '../components/additional/BaseLogo.vue';
             <input type="text" class="w-auto rounded-full pl-3 py-1" placeholder="Search">
           </div>
         </div>
-
-        <div class="py-2 md:flex space-x-3">
+        <NavMobileButtons class="md:hidden"/>
+        <div class="hidden py-2 md:flex space-x-3">
 
           <div class="flex-row">
             <router-link to="/login">

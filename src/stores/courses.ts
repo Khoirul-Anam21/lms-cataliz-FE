@@ -112,6 +112,10 @@ export const useCourseStore = defineStore('course', {
             const response = await courseContentApiRepo.updateCourseContent(contentId, body);
             return response;
         },
+        async updateCourse(courseId: string, body: any) {
+            const response = await courseApiRepo.updateCourse(courseId, body);
+            return response;
+        },
         async publishCourse(courseId: string) {
             const response = await courseApiRepo.publishCourse(courseId)
             return response;

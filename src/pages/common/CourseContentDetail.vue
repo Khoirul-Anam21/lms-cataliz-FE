@@ -171,10 +171,10 @@ const playVideo = () => {
             <!-- for reading material -->
             <TabBarView v-if="isReadingMaterial">
                 <template v-slot:Material>
-                    <TheContentReading />
+                    <TheContentReading :content="(courseStore.$state.currentCourseContent?.reading as string)"/>
                 </template>
                 <template v-slot:Description>
-                    <TheMaterialDescription />
+                    <TheMaterialDescription :description="(courseStore.$state.currentCourseContent?.description as string)"/>
                 </template>
                 
                 <template v-slot:Assignment>
@@ -192,7 +192,7 @@ const playVideo = () => {
             <!-- for video material --> 
             <TabBarView v-else>
                 <template v-slot:Description>
-                    <TheMaterialDescription />
+                    <TheMaterialDescription :description="(courseStore.$state.currentCourseContent?.description as string)"/>
                 </template>
                 
                 <template v-slot:Assignment>

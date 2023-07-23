@@ -118,19 +118,6 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
                 </a>
               </router-link>
             </li>
-            <!-- <li class="relative">
-              <router-link :to="{ name: 'chats' }">
-                <a @click="navPaneStore.setState('chat')" :class="{ 'selectedNav': getNavState === 'chat' }"
-                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
-                  data-te-sidenav-link-ref>
-                  <span class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300">
-                  </span>
-                  <span class="focused-btn">
-                    Chating
-                  </span>
-                </a>
-              </router-link>
-            </li> -->
 
 
             <li class="relative">

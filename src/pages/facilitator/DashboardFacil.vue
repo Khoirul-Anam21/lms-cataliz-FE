@@ -58,10 +58,10 @@ onMounted(async () => {
                         <p class="text-sm">Assignments</p>
                     </section>
                     <section
-                        class="px-5 py-3 md:px-8 md:py-4 bg-slate-400 flex flex-col items-center md:hidden dashboard-card">
+                        class="px-5 py-3 md:px-8 md:py-4 flex flex-col items-center md:hidden dashboard-card">
                         <h5 class="text-3xl md:text-4xl font-bold">{{ reportStore.$state.facilReport?.participantTotal }}
                         </h5>
-                        <p class="text-sm">Total Participants</p>
+                        <p class="text-sm">Total Participatns</p>
                     </section>
                 </div>
                 <section class="p-4 pb-8 w-full h-[400px] dashboard-card">

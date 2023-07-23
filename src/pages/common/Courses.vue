@@ -28,7 +28,7 @@ const courses = computed(() => courseStore.$state.courses);
 
 <template>
     <!-- wrapper -->
-    <div class="px-2 md:px-14 pt-20 md:pt-28 space-y-6" :class="{ 'md:ml-64': isFacilOrParticipant }">
+    <div class="px-4 md:px-14 pt-24 md:pt-28 space-y-6" :class="{ 'md:ml-64': isFacilOrParticipant }">
         <div>
             <h1 class="text-4xl pb-2">Welcome {{ userNameIfExist }}</h1>
             <p class="pb-2 border-b-2">Welcome to our Learning Management System (LMS)! As a participant in our platform,

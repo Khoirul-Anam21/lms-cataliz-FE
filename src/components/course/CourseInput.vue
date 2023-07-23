@@ -4,10 +4,12 @@ import { CategoryInterface, useCategoryStore } from '../../stores/category';
 import { CourseDisplayProps, useCourseStore } from '../../stores/courses';
 import { computed, onMounted, ref, watch } from 'vue';
 import { TypesEnum, useBaseNotification } from '../../composable/notification';
+import LoadingIndicator from '../additional/LoadingIndicator.vue';
 
 const props = defineProps<{
     course?: CourseDisplayProps,
-    categories?: CategoryInterface[]
+    categories?: CategoryInterface[],
+    editMode?: boolean
 }>();
 
 const { notification } = useBaseNotification();
@@ -15,6 +17,7 @@ const courseStore = useCourseStore();
 const route = useRoute();
 const router = useRouter();
 const categoryStore = useCategoryStore();
+const loading = ref(false)
 
 
 const formData = ref({
@@ -38,12 +41,29 @@ const toggleDropdown = () => {
     isDropdownOpen.value = !isDropdownOpen.value
 }
 
-const submit = () => {
 
+const submitUpdate = async () => {
+    try {
+        loading.value = true;
+        const form = new FormData();
+        form.append('title', formData.value.title ?? courseStore.$state.currentCourse?.title);
+        form.append('description', formData.value.description ?? courseStore.$state.currentCourse?.description);
+        form.append('category_id', formData.value.category_id);
+        form.append('thumbnail', formData.value.thumbnail);
+        await courseStore.updateCourse(courseStore.$state.currentCourse?._id as string, form);
+        notification('Success', 'Success to create new course', { type: TypesEnum.Success });
+        console.log(formData);
+        loading.value = false;
+        router.push({ name: 'facil-courses' });
+    } catch (error) {
+        console.log(error);
+        notification('Failed', 'Failed to create new course', { type: TypesEnum.Danger });
+    }
 }
 
 const submitAdd = async () => {
     try {
+        loading.value = true;
         const form = new FormData();
         form.append('title', formData.value.title);
         form.append('description', formData.value.description);
@@ -52,6 +72,7 @@ const submitAdd = async () => {
         form.append('thumbnail', formData.value.thumbnail);
         await courseStore.createCourse(form);
         notification('Success', 'Success to create new course', { type: TypesEnum.Success });
+        loading.value = false;
         router.push({ name: 'material-add' });
     } catch (error) {
         notification('Failed', 'Failed to create new course', { type: TypesEnum.Danger });
@@ -83,15 +104,15 @@ const handleThumbail = (event: Event) => {
 onMounted(async () => {
     try {
         await categoryStore.getCategories();
-        if (!courseStore.$state.currentCourse && props.course) {
-            await courseStore.getCourseById(parsedIdFromRoute.value);
-        }
+        await courseStore.getCourseById(parsedIdFromRoute.value);
+        const currentCategory = categoryStore.$state.categories?.filter((category) => category.name === courseStore.$state.currentCourse?.category)[0];
         if (props.course) {
             categoryText.value = courseStore.$state.currentCourse?.category as string;
             formData.value.title = courseStore.$state.currentCourse?.title as string;
             formData.value.description = courseStore.$state.currentCourse?.description as string;
             formData.value.learningPurpose = courseStore.$state.currentCourse?.purpose ?? [];
             formData.value.title = courseStore.$state.currentCourse?.title as string;
+            formData.value.category_id = currentCategory?._id as string;
         }
     } catch (error) {
         console.log(error);
@@ -101,7 +122,8 @@ onMounted(async () => {
 </script>
 
 <template>
-    <form @submit.prevent="submitAdd">
+    <LoadingIndicator v-show="loading" />
+    <form @submit.prevent="editMode ? submitUpdate : submitAdd">
         <section class="mb-6">
             <label for="large-input"
                 class="block mb-5 mt-9 text-sm font-medium text-gray-900 dark:text-black ">Title</label>
@@ -158,16 +180,17 @@ onMounted(async () => {
                 class="block mb-5 mt-9 text-sm font-medium text-gray-900 dark:text-black ">Thumbnail</label>
             <div>
                 <img v-show="props.course?.thumbnail" :src="props.course?.thumbnail" alt="" class="md:w-5/12 md:h-[400px]">
-                <input type="file" accept="image/*" @change="handleThumbail" name="thumbnail" id="thumbnail" required>
+                <input type="file" accept="image/*" @change="handleThumbail" name="thumbnail" id="thumbnail"
+                    :required="!editMode">
             </div>
         </section>
 
         <!-- show only for editing course -->
         <div v-show="props.course" class="flex justify-between w-11/12 mt-10">
             <button class="anti-btn">Delete Course</button>
-            <input type="submit" class="primary-btn" value="Save" @click="submit">
+            <input type="submit" class="primary-btn" value="Save" @click="submitUpdate">
         </div>
-        <input type="submit" value="Add"
+        <input v-show="!editMode" type="submit" value="Add"
             class="text-white mt-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ml-50 ">
     </form>
 </template>
