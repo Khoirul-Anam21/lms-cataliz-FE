@@ -11,6 +11,7 @@ const deleteFile = (): void => {
     fileName.value = '';
     fileInputRef.value = null
     file.value = null
+    emit("model:addThumbnail", '');
 }
 
 const highlightDropzone = (event: DragEvent): void => {

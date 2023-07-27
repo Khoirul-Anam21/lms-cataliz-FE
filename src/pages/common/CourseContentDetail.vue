@@ -38,38 +38,6 @@ const toggleShowChat = () => {
     commentStore.$state.visible = !commentStore.$state.visible
 };
 
-const comments = [{
-    text: 'tess',
-    replies: [
-        {
-            id: 4,
-            text: 'reply',
-            openInput: false
-        },
-        {
-            id: 5,
-            text: 'reply dua',
-            openInput: false
-
-        }
-    ]
-}, {
-    text: 'tess',
-    replies: [
-        {
-            id: 4,
-            text: 'reply',
-            openInput: false
-        },
-        {
-            id: 5,
-            text: 'reply dua',
-            openInput: false
-
-        }
-    ]
-}];
-
 const parsedIdFromRoute = computed(() => {
     const separatorIndex = route.path.indexOf('-');
     console.log(separatorIndex);
@@ -96,10 +64,6 @@ onMounted(async () => {
     }
 });
 
-const playVideo = () => {
-    const player: any = videoPlayer.value;
-    player.play();
-}
 
 </script>
 
@@ -179,10 +143,9 @@ const playVideo = () => {
                 
                 <template v-slot:Assignment>
                     <div v-if="isFacil" class="px-6">
-                        <AssignmentItem v-if="isFacil" />
-                        <router-link :to="{ name: 'assignment-add' }" class="primary-btn">New</router-link>
+                        <AssignmentItem v-if="isFacil" :content-id="(courseStore.$state.currentCourseContent?._id as string)"/>
                     </div>
-                    <AssignmentParticipantDetail v-else />
+                    <AssignmentParticipantDetail v-else :content-id="(courseStore.$state.currentCourseContent?._id as string)"/>
                 </template>
                 <template v-slot:Announcement>
                     <TheAnnouncement />
@@ -197,10 +160,9 @@ const playVideo = () => {
                 
                 <template v-slot:Assignment>
                     <div v-if="isFacil" class="px-6">
-                        <AssignmentItem v-if="isFacil" />
-                        <router-link :to="{ name: 'assignment-add' }" class="primary-btn">New</router-link>
+                        <AssignmentItem v-if="isFacil" :content-id="(courseStore.$state.currentCourseContent?._id as string)"/>
                     </div>
-                    <AssignmentParticipantDetail v-else />
+                    <AssignmentParticipantDetail v-else :content-id="(courseStore.$state.currentCourseContent?._id as string)"/>
                 </template>
                 <template v-slot:Announcement>
                     <TheAnnouncement />

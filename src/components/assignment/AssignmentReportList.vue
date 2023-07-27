@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { SubmissionInterface } from '@/stores/assignment';
 import AssignmentReportItem from './AssignmentReportItem.vue';
+
+const props = defineProps<{
+    submissions: SubmissionInterface[] | null
+}>();
 
 </script>
 
@@ -18,15 +23,18 @@ import AssignmentReportItem from './AssignmentReportItem.vue';
                             Status
                         </th>    
                         <th scope="col" class="pr-10">
-                            Check
+                            Graded
                         </th>    
                     </tr>
                 </thead>
-                <tbody>
-                    <AssignmentReportItem/>
-                    <AssignmentReportItem/>
-                    <AssignmentReportItem/>
-                    <AssignmentReportItem/>
+                
+                <tbody v-if="props.submissions">
+                    <AssignmentReportItem v-for="(item, index) in props.submissions" :key="index" :submission="item"/>
+                </tbody>
+                <tbody v-else class="w-full flex items-center justify-start p-6 ">
+                    <tr>
+                        No submission yet
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -3,11 +3,36 @@ import TabBarView from '../../components/TabBarView.vue';
 import AssignmentInstruction from '../../components/assignment/AssignmentInstruction.vue';
 import AssignmentParticipantList from '../../components/assignment/AssignmentFacilList.vue';
 import AssignmentReportList from '../../components/assignment/AssignmentReportList.vue';
+import { computed, onMounted, ref } from 'vue';
+import { SubmissionInterface, useAssignmentStore } from '../../stores/assignment';
+import { useRoute } from 'vue-router';
+import LoadingIndicator from '../../components/additional/LoadingIndicator.vue';
+
+const loading = ref(false);
+const route = useRoute();
+const assignmentStore = useAssignmentStore();
+
+const assignmentId = computed(() => route.path.split("-")[0]);
+const contentId = computed(() => route.path.split("-")[1]);
+
+onMounted(async ()=>{
+  try {
+    loading.value = true;
+    if (!assignmentStore.$state.currentAssignment) {
+      await assignmentStore.getFacilAssignmentData(contentId.value);
+    }
+    await assignmentStore.getSubmissionsForFacil(contentId.value);
+    loading.value = false;
+  } catch (error) {
+    console.log(error);
+  }
+})
 
 </script>
 
 <template>
   <div class="mt-20 md:mt-28 md:ml-64 mb-20">
+    <LoadingIndicator v-show="loading"/>
     <nav class="inline-flex ml-5" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
@@ -69,17 +94,17 @@ import AssignmentReportList from '../../components/assignment/AssignmentReportLi
       </ol>
     </nav>
 
-    <div class="mt-10 ml-5 font-medium border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-5/12">
-      <h1 class="space-x-1 text-3xl font-bold mb-2">Create simple website</h1>
+    <div class="mt-10 ml-5 font-medium border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-full">
+      <h1 class="space-x-1 text-3xl font-bold mb-2">{{ assignmentStore.$state.currentAssignment?.title }}</h1>
     </div>
 
     <!-- tab: Instruction, Report, CourseParticipant -->
     <TabBarView>
       <template v-slot:Instruction>
-        <AssignmentInstruction/>
+        <AssignmentInstruction :instruction="(assignmentStore.$state.currentAssignment?.instruction as string)"/>
       </template>
       <template v-slot:Report>
-        <AssignmentReportList/>
+        <AssignmentReportList :submissions="(assignmentStore.$state.submissions as SubmissionInterface[])"/>
       </template>
       <template v-slot:Participant>
         <AssignmentParticipantList/>

@@ -21,6 +21,12 @@
 }
 
 @layer components {
+  .basic-card {
+    @apply bg-slate-50 border text-slate-800
+  }
+}
+
+@layer components {
   .selected-dashboard-course {
     @apply bg-slate-700 text-white
   }

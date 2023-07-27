@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
-import VueMarkdown from 'vue-markdown-render';
 
 const props = defineProps({
   content: {

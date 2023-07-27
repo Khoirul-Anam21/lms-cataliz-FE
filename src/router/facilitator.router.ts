@@ -119,9 +119,10 @@ export const facilitatorRouter = [
         ]
     },
     {
-        path: 'assignments/new',
+        path: 'assignments/new/:contentId',
         component: () => import('../pages/facilitator/addassignment.vue'),
-        name: 'assignment-add'
+        name: 'assignment-add',
+        props: true
     },
     {
         path: 'assignments/:id',
