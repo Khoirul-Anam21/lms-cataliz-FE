@@ -10,6 +10,8 @@ import AssignmentParticipantDetail from '../../components/assignment/AssignmentP
 import ChatArea from '../../components/chat/ChatArea.vue';
 import { useCourseStore } from '../../stores/courses';
 import { useCommentStore } from '../../stores/comment';
+import { useAnnouncementStore } from '../../stores/announcement';
+
 
 // for disabling attributes inherited
 defineOptions({
@@ -26,6 +28,7 @@ const props = defineProps({
 const route = useRoute();
 const courseStore = useCourseStore();
 const commentStore = useCommentStore();
+const announcementStore = useAnnouncementStore();
 const videoPlayer = ref(null);
 
 const isFacil = computed(() => route.path.includes('facil'));
@@ -38,7 +41,7 @@ const toggleShowChat = () => {
     commentStore.$state.visible = !commentStore.$state.visible
 };
 
-const parsedIdFromRoute = computed(() => {
+const parsedCourseId = computed(() => {
     const separatorIndex = route.path.indexOf('-');
     console.log(separatorIndex);
     const result = route.path.slice(separatorIndex + 1, separatorIndex + 25);
@@ -55,8 +58,9 @@ onMounted(async () => {
     try {
         loading.value = true
         if (courseStore.$state.currentCourseContent === null) {
-            const courseId = parsedIdFromRoute.value;
+            const courseId = parsedCourseId.value;
             await courseStore.getCourseContentById(courseId, props.id);
+            await announcementStore.getAllAnnouncement(courseId);
         }
         loading.value = false;
     } catch (error) {
@@ -148,7 +152,7 @@ onMounted(async () => {
                     <AssignmentParticipantDetail v-else :content-id="(courseStore.$state.currentCourseContent?._id as string)"/>
                 </template>
                 <template v-slot:Announcement>
-                    <TheAnnouncement />
+                    <TheAnnouncement :course-id="(courseStore.$state.currentCourse?._id as string)" />
                 </template>
             </TabBarView>
 
@@ -165,7 +169,7 @@ onMounted(async () => {
                     <AssignmentParticipantDetail v-else :content-id="(courseStore.$state.currentCourseContent?._id as string)"/>
                 </template>
                 <template v-slot:Announcement>
-                    <TheAnnouncement />
+                    <TheAnnouncement :course-id="(courseStore.$state.currentCourse?._id as string)"/>
                 </template>
             </TabBarView>
         </section>
@@ -176,7 +180,7 @@ onMounted(async () => {
                 <div class="w-[360px] fixed flex flex-col items-end pr-4">
                     <i @click="toggleShowChat" class="fa-solid fa-xmark p-4 cursor-pointer text-red-500"></i>
                 </div>
-                <ChatArea :course-id="parsedIdFromRoute" v-show="commentStore.$state.visible"/>
+                <ChatArea :course-id="parsedCourseId" v-show="commentStore.$state.visible"/>
             </div>
             <i @click="toggleShowChat"
                 class="fa-solid fa-comment-dots fa-xl bg-slate-700 text-slate-200 p-6 rounded-full shadow-xl cursor-pointer"></i>

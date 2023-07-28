@@ -1,14 +1,15 @@
-import axiosInstance from "@/axios";
+import axiosInstance from "../axios";
 
 
 class AnnouncementApiRepository {
-    async fetchAllAnnouncementByCourse(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    private readonly baseUrl = "/announcements";
+    async fetchAllAnnouncementByCourse(courseId: string) {
+        const response = await axiosInstance.get(this.baseUrl + "/course/" + courseId);
         return response;
     }
 
-    async createAnnouncement(page?: number, limit?: number) {
-        const response = await axiosInstance.get('/users/')
+    async createAnnouncement(courseId: string, description: string) {
+        const response = await axiosInstance.post(this.baseUrl, { course_id: courseId, description });
         return response;
     }
 }

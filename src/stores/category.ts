@@ -1,7 +1,4 @@
 import { defineStore } from 'pinia'
-import cookie from '@point-hub/vue-cookie'
-import axiosInstance from '../axios.js';
-import { ref } from 'vue';
 import { useCategoryApiRepo } from '../composable/categoryApiRepo.js';
 
 export interface CategoryInterface {

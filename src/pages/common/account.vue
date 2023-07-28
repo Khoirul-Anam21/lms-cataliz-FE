@@ -20,7 +20,7 @@ const formData = ref({
 onMounted(async () => {
   try {
     const response = await userStore.getUser(cookie.get('id'));
-    console.log(userStore.$state.photoStorage);
+    // console.log(userStore.$state.photoStorage);
     formData.value.job = userStore.$state.user.job;
     formData.value.username = userStore.$state.user.username;
     loading.value = false;
