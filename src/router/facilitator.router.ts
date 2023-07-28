@@ -138,7 +138,8 @@ export const facilitatorRouter = [
                 path: 'submissions/:submitId',
                 component: () => import("../pages/facilitator/assignsubreport.vue"),
                 name: 'submission-detail',
-                meta: { title: 'Submission Info' }
+                meta: { title: 'Submission Info' },
+                props: true
             }
         ]
     },

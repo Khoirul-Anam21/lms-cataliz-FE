@@ -21,7 +21,10 @@ const props = defineProps<{
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Status
-                        </th>    
+                        </th> 
+                        <th scope="col" class="px-6 py-3">
+                            Grade
+                        </th>      
                         <th scope="col" class="pr-10">
                             Graded
                         </th>    
