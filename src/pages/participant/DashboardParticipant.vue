@@ -13,12 +13,12 @@ const loading = ref(false);
 const courseLoading = ref(false);
 const placeholderLoading = ref(true);
 
-const currentDetail = ref('');
-const getDetail = async (id: string) => {
+const getDetail = async (id: string, title: string) => {
     try {
         courseLoading.value = true;
         placeholderLoading.value = false;
         await reportStore.getParticipantReportByCourse(id);
+        reportStore.$state.currentCourseTitle = title;
         courseLoading.value = false;
         if (reportStore.$state.participantReportCourse) placeholderLoading.value = false;
     } catch (error) {
@@ -66,10 +66,10 @@ onMounted(async () => {
                     </section>
                 </div>
                 <section class="p-4 w-full h-[400px] dashboard-card">
-                    <h5 class="">this is a list of course</h5>
+                    <h5 class="">Course list:</h5>
                     <div class="h-full overflow-scroll max-h-full">
-                        <DashboardListItem v-for="(item, index) in reportStore.$state.participantReport?.enrolledCourses"
-                            :key="index" v-on:get-detail="getDetail" :course="item" />
+                        <DashboardListItem v-for="(item, index) in reportStore.$state.participantReport?.enrolledCourses" role="participant"  :title="item.title"
+                            :key="index" v-on:get-detail="getDetail(item._id, item.title)" :course="item" />
                     </div>
                 </section>
             </div>

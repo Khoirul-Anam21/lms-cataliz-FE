@@ -61,6 +61,7 @@ export const useReportStore = defineStore('report', {
         participantReport: null as ParticipantReportInterface | null,
         facilReportCourse: null as FacilReportCourseDetailInterface | null,
         participantReportCourse: null as ParticipantReportCourseDetailInterface | null,
+        currentCourseTitle: ''
     }),
     actions: {
         async getFacilReport() {
@@ -76,10 +77,12 @@ export const useReportStore = defineStore('report', {
         async getParticipantReport() {
             const response = await reportApiRepo.fetchParticipantReport();
             this.$state.participantReport = response.data;
+            console.log(response.data);
             return response;
         },
         async getParticipantReportByCourse(courseId: string) {
             const response = await reportApiRepo.fetchParticipantReportDetail(courseId);
+            console.log(response.data);
             this.$state.participantReportCourse = response.data;
             return response;
         },

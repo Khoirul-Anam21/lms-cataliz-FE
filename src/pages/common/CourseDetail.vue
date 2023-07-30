@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '../../stores/user';
 import { useCommentStore } from '../../stores/comment';
 import cookie from '@point-hub/vue-cookie'
+import { TypesEnum, useBaseNotification } from '../../composable/notification';
 
 const props = defineProps({
   title: {
@@ -19,7 +20,7 @@ const router = useRouter();
 const courseStore = useCourseStore();
 const userStore = useUserStore();
 const commentStore = useCommentStore();
-
+const { notification } = useBaseNotification();
 
 const isLoading = ref(false);
 
@@ -27,9 +28,15 @@ const courseTitleSplit = computed(() => props.title?.split('-') as string[])
 
 onMounted(async () => {
   isLoading.value = true;
+  console.log(props.title);
   try {
     await userStore.getUser(cookie.get('id'));
     await courseStore.getCourseById(courseTitleSplit.value[1]);
+    if (userStore.$state.user.role === 'facilitator') {
+      await courseStore.getFacilCourses();
+    } else {
+      await courseStore.getParticipantCourses();
+    }
     commentStore.$state.visible = false;
     isLoading.value = false;
   } catch (error) {
@@ -51,6 +58,21 @@ const courseBeingLearned = computed(() => {
 
 const goMaterials = () => {
   router.push({ name: 'std-materials' });
+}
+
+const startLearning = async () => {
+  try {
+    isLoading.value = true;
+    notification("Loading", "Learning a course", { type: TypesEnum.Info });
+    await courseStore.startLearningCourse(courseStore.$state.currentCourse?._id as string);
+    await courseStore.getCourseById(courseTitleSplit.value[1]);
+    notification("Congratulations!!", "You are learning this course", { type: TypesEnum.Success });
+    goMaterials();
+    isLoading.value = false;
+  } catch (error) {
+    notification("Failed", "Failed to learn a course", { type: TypesEnum.Danger });
+    console.log(error);
+  }
 }
 
 const goFacilMaterials = () => {
@@ -87,7 +109,7 @@ const goEditCourse = () => {
           <button v-if="courseBeingLearned" type="button" @click="goMaterials"
             class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Continue
             Learning</button>
-          <button v-else type="button" @click="goMaterials"
+          <button v-else type="button" @click="startLearning"
             class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Learn
             now</button>
         </div>
@@ -124,5 +146,3 @@ const goEditCourse = () => {
   </div>
   <RouterView />
 </template>
-
-../../components/base/chat/ChatArea.vue

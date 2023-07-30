@@ -85,6 +85,12 @@ export const useCourseStore = defineStore('course', {
         async getParticipantCourses(){
             const response = await courseApiRepo.fetchParticipantCourses();
             this.$state.participantCourses = response.data.data;
+            console.log(response.data.data);
+            return response;
+        },
+        async startLearningCourse(courseId: string){
+            const response = await courseApiRepo.startLearningCourse(courseId);
+            this.$state.currentCourseId = response.data.id;
             return response;
         },
         async getFacilCourses() {

@@ -57,7 +57,7 @@ export const facilitatorRouter = [
                 path: "edit",
                 component: () => import("../pages/facilitator/EditCourse.vue"),
                 name: 'course-edit',
-                meta: { title: 'Edit Course' }
+                meta: { title: 'Edit Course' }  
 
             },
             {
@@ -74,14 +74,16 @@ export const facilitatorRouter = [
                         path: "",
                         name: 'material-edit',
                         component: () => import("../pages/facilitator/EditCourseContentList.vue"),
-                        meta: { title: 'Edit Course Content' }
+                        meta: { title: 'Edit Course Content' },
+                        // props: true,
 
                     },
                     {
                         path: ":id",
                         name: 'material-edit-detail',
                         component: () => import("../pages/facilitator/EditCourseContentDetail.vue"),
-                        meta: { title: 'Edit Course Content' }
+                        meta: { title: 'Edit Course Content' },
+                        props: true,
                     }
                 ]
             },

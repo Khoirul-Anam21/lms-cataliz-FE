@@ -59,8 +59,13 @@ const adjustTextareaHeight = () => {
 const goPublishPage = async () => {
     try {
         loading.value = true;
-        if(materialTypeModel.value === 'video') formData.value.reading = ''
-        if(materialTypeModel.value === 'reading') formData.value.material = ''
+        if (props.content) {
+            console.log(props.content);
+            await updateContent();
+            return;
+        }
+        if (materialTypeModel.value === 'video') formData.value.reading = ''
+        if (materialTypeModel.value === 'reading') formData.value.material = ''
         console.log(formData);
         const form = new FormData();
         const courseId = localStorage.getItem('courseId') as string;
@@ -79,14 +84,50 @@ const goPublishPage = async () => {
     }
 }
 
+const updateContent = async () => {
+    try {
+        loading.value = true;
+        if (materialTypeModel.value === 'video') formData.value.reading = ''
+        if (materialTypeModel.value === 'reading') formData.value.material = ''
+        console.log(props.content?.course._id);
+
+        const form = new FormData();
+        const courseId = localStorage.getItem('courseId') as string;
+        form.append('course_id', props.content?.course._id);
+        form.append('title', formData.value.title);
+        form.append('description', formData.value.description);
+        if (formData.value.material) form.append('material', formData.value.material);
+        if (formData.value.reading) form.append('reading', formData.value.reading ?? markdownText);
+        await courseStore.updateCourseContent(props.content?._id as string, form);
+        loading.value = false;
+        notification('Success', 'update course content', { type: TypesEnum.Success });
+        router.back();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const fileName = computed(() => {
+    if (props.content && props.content.material) {
+        const splitStr = props.content.material.split('/');
+        return splitStr[splitStr.length - 1];
+    }
+})
+
 onMounted(() => {
+    if (props.content) {
+        formData.value.title = props.content.title;
+        formData.value.description = props.content.description;
+        formData.value.reading = props.content.reading;
+        markdownText.value = props.content.reading;
+    }
     adjustTextareaHeight();
     materialTypeModel.value = 'video';
 });
 
 </script>
 <template>
-    <LoadingIndicator v-show="loading"/>
+    <LoadingIndicator v-show="loading" />
     <form @submit.prevent="goPublishPage">
         <div class="">
             <section class="my-6">
@@ -122,6 +163,15 @@ onMounted(() => {
 
 
         <section v-show="materialTypeModel === 'video'">
+
+            <video v-show="props.content && props.content.material" ref="videoPlayer" controls
+                class="w-full md:w-5/12 h-80">
+                <source :src="props.content?.material" type="video/mp4">
+                <source :src="props.content?.material" type="video/webm">
+                <source :src="props.content?.material" type="video/ogg">
+                <source :src="props.content?.material" type="video/avi">
+                <source :src="props.content?.material" type="video/mkv">
+            </video>
 
             <div class="w-11/12">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black mt-5" for="large_size">Add a
@@ -160,7 +210,7 @@ onMounted(() => {
             </div>
         </section>
 
-        <input type="submit"
+        <input type="submit" :value="props.content ? 'Save' : 'Submit' "
             class="text-white mt-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ml-5 ">
     </form>
 </template>

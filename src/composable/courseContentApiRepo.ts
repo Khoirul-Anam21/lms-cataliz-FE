@@ -19,7 +19,7 @@ class CourseContentApiRepository {
     }
 
     async updateCourseContent(contentId: string, body: any) {
-        const response = await axiosInstance.put(this.baseUrl + '/' + contentId);
+        const response = await axiosInstance.put(this.baseUrl + '/' + contentId, body);
         return response;
     }
 

@@ -1,20 +1,23 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
 import { TypesEnum, useBaseNotification } from '../../composable/notification';
 import { CourseContentDisplayProps, useCourseStore } from '../../stores/courses';
 import { onMounted } from 'vue';
-
 // TODO:give a conditional rendering when edit mode or add mode
 
 const courseSore = useCourseStore();
 
 const props = defineProps<{
-    contents?: CourseContentDisplayProps[]
+    contents?: CourseContentDisplayProps[],
+    editMode?: boolean,
+    courseId?: string
 }>();
+const router = useRouter();
 const { notification } = useBaseNotification();
 const emit = defineEmits(['deleteAndReload'])
 
-const goEditMaterial = () => {
-
+const goEditMaterial = (id: string) => {
+  router.push({ name: 'material-edit-detail', params: { id } })
 }
 
 const deleteMaterial = async (contentId: string) => {
@@ -26,7 +29,9 @@ const deleteMaterial = async (contentId: string) => {
 }
 
 onMounted(async () => {
-
+   if (props.editMode) {
+    localStorage.setItem("courseId", props.courseId as string);
+   }
 })
 
 </script>
@@ -62,7 +67,7 @@ onMounted(async () => {
                     {{ item.type }}
                 </td>
                 <td class="px-6 py-4 space-x-3">
-                    <i class="fa-solid fa-pen-to-square fa-lg text-yellow-500 cursor-pointer" @click="goEditMaterial"></i>
+                    <i class="fa-solid fa-pen-to-square fa-lg text-yellow-500 cursor-pointer" @click="goEditMaterial(item._id)"></i>
                     <!-- <router-link :to="{ name: 'material-edit-detail', params: { id: item._id } }">
 
                     </router-link> -->

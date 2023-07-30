@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import CourseMaterialItem from '../../components/course/CourseContentItem.vue';
 import TheLearningPurposes from '../../components/course/TheLearningPurposes.vue';
 import { computed, onMounted } from 'vue';
 import { useCourseStore } from '../../stores/courses';
 
 const route = useRoute();
+const router = useRouter();
 const courseStore = useCourseStore();
 
 const isFacil = computed(() => route.path.includes('facil'));

@@ -1,12 +1,31 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+import useDateFormatter from '../../composable/dateFormatter';
 import { FacilReportCourseDetailInterface, ParticipantReportCourseDetailInterface } from '../../stores/report';
 
 
 const props = defineProps<{
     facilReportStore?: FacilReportCourseDetailInterface,
     participantReportStore?: ParticipantReportCourseDetailInterface;
-}>()
+}>();
 
+const router = useRouter();
+
+// const goContentDetailParticipant = (id: string) => {
+//     try {
+//         router.push({ name: 'std-material-detail', params: { id } })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+// const goContentDetailFacil = (id: string) => {
+//     try {
+//         router.push({ name: 'facil-material-detail', params: { title: props.courseTitle, id } })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 </script>
 
 <template>
@@ -35,9 +54,9 @@ const props = defineProps<{
             <span>Assignments</span>
             <ul class="p-2 overflow-auto">
                 <li v-for="(item, index) in props.facilReportStore?.assignments" :key="index"
-                    class="p-4 border rounded-md mb-2">
+                    class="p-4 border rounded-md mb-2 cursor-pointer">
                     <h5 class="font-bold">{{ item.title }}</h5>
-                    <p class="text-sm">{{ item.createdAt }}</p>
+                    <p class="text-sm">{{ useDateFormatter(item.createdAt).formattedDate.value }}</p>
                 </li>
             </ul>
         </section>
@@ -68,9 +87,9 @@ const props = defineProps<{
             <div class="">
                 <ul class="p-4 h-[220px] overflow-y-auto">
                 <li v-for="(item, index) in props.participantReportStore?.assignments" :key="index"
-                    class="p-4 border rounded-md mb-2">
+                    class="p-4 border rounded-md mb-2 cursor-pointer">
                     <h5 class="font-bold">{{ item.title }}</h5>
-                    <p class="text-sm">{{ item.createdAt }}</p>
+                    <p class="text-sm">{{ useDateFormatter(item.createdAt).formattedDate.value }}</p>
                 </li>
             </ul>
             </div>

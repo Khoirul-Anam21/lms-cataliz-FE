@@ -67,7 +67,7 @@ onMounted(async () => {
                 <section class="p-4 pb-8 w-full h-[400px] dashboard-card">
                     <h5 class="">Course list:</h5>
                     <div class="h-full overflow-scroll max-h-full">
-                        <DashboardListItem v-for="(item, index) in reportStore.$state.facilReport?.ownedCourses"
+                        <DashboardListItem v-for="(item, index) in reportStore.$state.facilReport?.ownedCourses" role="facilitator" :title="item.title"
                             :key="index" v-on:get-detail="getDetail" :course="item" />
                     </div>
                 </section>

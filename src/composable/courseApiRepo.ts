@@ -28,8 +28,8 @@ class CourseApiRepository {
         return response;
     }
 
-    async startCourseLearning(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async startLearningCourse(courseId: string) {
+        const response = await axiosInstance.post(this.baseRoute + "/student/learnings", { course_id: courseId });
         return response;
     }
 

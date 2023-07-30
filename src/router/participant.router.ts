@@ -38,7 +38,8 @@ export const participantRouter = [
             {
                 path: '',
                 name: 'std-course-detail',
-                component: () => import("../pages/common/CourseDetail.vue")
+                component: () => import("../pages/common/CourseDetail.vue"),
+                props: true
             },
             {
                 path: 'materials',
