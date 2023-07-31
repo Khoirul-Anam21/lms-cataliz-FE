@@ -2,12 +2,14 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { CourseDisplayProps, useCourseStore } from '../../stores/courses';
+// import cookie from '@point-hub/vue-cookie';
+
 
 const route = useRoute();
 const router = useRouter();
 const courseStore = useCourseStore();
 
-router.push({})
+// router.push({})
 const courseDetail = ref('');
 
 const propsCourse = defineProps<{
@@ -16,7 +18,7 @@ const propsCourse = defineProps<{
 
 onMounted(() => {
     // console.log(propsCourse.course);
-    route.path.includes('participant') ? courseDetail.value = 'participant-all-course-detail' : courseDetail.value = 'course-detail';
+    route.path.includes('participant') ? courseDetail.value = 'participant-all-course-detail' : courseDetail.value = 'login';
 })
 
 const goCourseDetail = () => {
