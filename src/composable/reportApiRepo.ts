@@ -4,12 +4,14 @@ import axiosInstance from "../axios";
 class ReportApiRepository {
     private baseUrl = '/reports';
     async fetchParticipantReport() {
-        const response = await axiosInstance.get(this.baseUrl + '/participant')
+        const response = await axiosInstance.get(this.baseUrl + '/participant');
+        console.log(response);
         return response;
     }
 
     async fetchParticipantReportDetail(courseId: string) {
         const response = await axiosInstance.get(this.baseUrl + '/participant/course/' + courseId);
+        console.log(response);
         return response;
     }
 
