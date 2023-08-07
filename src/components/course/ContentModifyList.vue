@@ -5,7 +5,7 @@ import { CourseContentDisplayProps, useCourseStore } from '../../stores/courses'
 import { onMounted } from 'vue';
 // TODO:give a conditional rendering when edit mode or add mode
 
-const courseSore = useCourseStore();
+const courseStore = useCourseStore();
 
 const props = defineProps<{
     contents?: CourseContentDisplayProps[],
@@ -17,7 +17,7 @@ const { notification } = useBaseNotification();
 const emit = defineEmits(['deleteAndReload'])
 
 const goEditMaterial = (id: string) => {
-  router.push({ name: 'material-edit-detail', params: { id } })
+  router.push({ name: 'material-edit-detail', params: { id, title: courseStore.$state.currentCourse?.title } })
 }
 
 const deleteMaterial = async (contentId: string) => {
@@ -32,6 +32,7 @@ onMounted(async () => {
    if (props.editMode) {
     localStorage.setItem("courseId", props.courseId as string);
    }
+   await courseStore.getCourseById(localStorage.getItem("courseId") as string);
 })
 
 </script>

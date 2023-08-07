@@ -18,12 +18,12 @@ const propsCourse = defineProps<{
 
 onMounted(() => {
     // console.log(propsCourse.course);
-    route.path.includes('participant') ? courseDetail.value = 'participant-all-course-detail' : courseDetail.value = 'login';
+    route.path.includes('participant') ? courseDetail.value = 'participant-all-course-detail' : courseDetail.value = 'course-detail';
 })
 
 const goCourseDetail = () => {
     courseStore.$state.currentCourseId = propsCourse.course._id;
-    router.push({ name: courseDetail.value, params: { title: propsCourse.course.title + '-' + courseStore.$state.currentCourseId } });
+    router.push({ name: courseDetail.value, params: { title: propsCourse.course.title + '-' + propsCourse.course._id } });
 }
 
 </script>

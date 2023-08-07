@@ -27,7 +27,10 @@ const formData = ref({
     reading: ''
 })
 
-const toggleOpenModal = () => modalOpen.value = !modalOpen.value;
+const toggleOpenModal = (event: Event) => {
+    event.preventDefault();
+    modalOpen.value = !modalOpen.value;
+};
 
 const htmlContent = computed(() => {
     const html = marked(markdownText.value, { mangle: false, headerIds: false });
@@ -203,7 +206,7 @@ onMounted(() => {
             <div v-show="modalOpen"
                 class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-opacity-50 bg-black">
                 <div
-                    class="mt-20 md:mt-20 relative bg-white p-8 w-[360px] h-[480px] md:w-[1000px] md:h-[600px] whitespace-pre-wrap break-words overflow-auto">
+                    class="mt-20 md:mt-20 md:ml-12 relative bg-white p-8 w-[360px] h-[480px] md:w-[1000px] md:h-[600px] whitespace-pre-wrap break-words overflow-auto">
                     <button @click="toggleOpenModal" class="absolute top-4 right-4 text-red-500">Close preview</button>
                     <the-html-markdown-area :content="htmlContent" class="mt-4" />
                 </div>

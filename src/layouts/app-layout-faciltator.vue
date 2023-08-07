@@ -4,12 +4,14 @@ import TabBarView from '../components/TabBarView.vue';
 import { useUserStore } from '../stores/user';
 import BaseLogo from '../components/additional/BaseLogo.vue';
 import { useNavPaneStore } from '../stores/layoutState';
+import clearCookies from '../composable/clearCookies';
+import { useRouter } from 'vue-router';
 
 
 const isShowNav = ref(true);
 const userStore = useUserStore();
 const navPaneStore = useNavPaneStore();
-
+const router = useRouter();
 
 
 onMounted(() => {
@@ -19,7 +21,17 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResizeWindow);
-})
+});
+
+const logoutUser = async () => {
+  try {
+    navPaneStore.setState("login");
+    clearCookies();
+    await router.push({ name: "login" });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const handleResizeWindow = () => {
   const screenWidth = window.innerWidth;
@@ -60,10 +72,8 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
         <div class="hidden py-2 md:flex space-x-3">
 
           <div class="flex-row">
-            <router-link to="/login">
-              <a href="#"
+              <a @click="logoutUser"
                 class="inline-block text-sm px-4 py-2 leading-none border-black rounded text-black hover:border-transparent hover:text-natural-900 hover:bg-white mt-4 lg:mt-0">Logout</a>
-            </router-link>
           </div>
         </div>
         <!-- Hamburger Button when hidden -->
@@ -136,8 +146,7 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
             </li>
 
             <li class="relative md:hidden">
-              <router-link to="/login">
-                <a @click="navPaneStore.setState('login')" :class="{ 'selectedNav': getNavState === 'login' }"
+                <a @click="logoutUser" :class="{ 'selectedNav': getNavState === 'login' }"
                   class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear motion-reduce:transition-none dark:text-natural-900 "
                   data-te-sidenav-link-ref>
                   <span class="mr-4 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:fill-gray-400 dark:[&>svg]:fill-gray-300">
@@ -147,7 +156,6 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
                     Logout
                   </span>
                 </a>
-              </router-link>
             </li>
           </ul>
         </nav>
@@ -159,4 +167,4 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
     </div>
 
 </div>
-<RouterView /></template>
+<RouterView /></template>../composable/clearCookies

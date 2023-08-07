@@ -6,8 +6,9 @@ const axiosInstance = axios.create({
   timeout: Number(import.meta.env.VITE_TIMEOUT),
 })
 
-axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${cookie.get('accessToken')}`
-
+if (cookie.get("accessToken")){
+  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${cookie.get('accessToken')}`
+}
 axiosInstance.interceptors.request.use(
   (config) => {
     if (process.env.NODE_ENV !== 'production') {

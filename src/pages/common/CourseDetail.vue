@@ -28,13 +28,15 @@ const courseTitleSplit = computed(() => props.title?.split('-') as string[])
 
 onMounted(async () => {
   isLoading.value = true;
-  console.log(props.title);
   try {
-    await userStore.getUser(cookie.get('id'));
+    if (cookie.get("accessToken")) {
+      await userStore.getUser(cookie.get('id'));
+    }
+    console.log(courseTitleSplit.value[1]);
     await courseStore.getCourseById(courseTitleSplit.value[1]);
     if (userStore.$state.user.role === 'facilitator') {
       await courseStore.getFacilCourses();
-    } else {
+    } else if (userStore.$state.user.role === 'student') {
       await courseStore.getParticipantCourses();
     }
     commentStore.$state.visible = false;
@@ -48,6 +50,7 @@ const isFacil = computed(() => userStore.$state.user.role === 'facilitator');
 
 const courseBeingLearned = computed(() => {
   if (isLoading.value) return false;
+  if (!cookie.get("accessToken")) return false;
   const currentCourse = courseStore.$state.currentCourse;
   const participantCourses = courseStore.$state.participantCourses;
   console.log(participantCourses);
@@ -62,6 +65,11 @@ const goMaterials = () => {
 
 const startLearning = async () => {
   try {
+    if (!cookie.get('accessToken')) {
+      router.push({ name: 'login' });
+      notification("Unable to learn", "Please Login / Signup first", { type: TypesEnum.Warning });
+      return;
+    }
     isLoading.value = true;
     notification("Loading", "Learning a course", { type: TypesEnum.Info });
     await courseStore.startLearningCourse(courseStore.$state.currentCourse?._id as string);
@@ -86,7 +94,8 @@ const goEditCourse = () => {
 </script>
 
 <template>
-  <div class="mt-24 md:mt-28 md:mx-14 md:ml-60 mb-20">
+  <div
+    :class="{ 'mt-24 md:mt-28 md:mx-14 md:ml-60 mb-20': cookie.get('accessToken'), 'mt-24 md:mt-28 md:mx-14': !cookie.get('accessToken') }">
     <LoadingIndicator v-show="isLoading" />
     <div class="flex flex-col md:flex-row">
       <img :src="courseStore.$state.currentCourse?.thumbnail" alt="" class="max-w-full h-auto rounded md:w-96 ml-5">
@@ -136,11 +145,11 @@ const goEditCourse = () => {
     <div class="ml-5 py-3 w-11/12 border-b">
       <span class="">{{ courseStore.$state.currentCourse?.description }}</span>
     </div>
-    <div class="flex ml-5 py-4 space-x-4">
+    <div v-show="cookie.get('accessToken')" class="flex ml-5 py-4 space-x-4">
       <span>Show Comment </span>
-      <BaseSwitch :value="commentStore.$state.visible" @update:value="value => commentStore.$state.visible = value"/>
+      <BaseSwitch :value="commentStore.$state.visible" @update:value="value => commentStore.$state.visible = value" />
     </div>
-    <ChatArea :course-id="(courseStore.$state.currentCourse?._id as string)" v-show="commentStore.$state.visible"/>
+    <ChatArea :course-id="(courseStore.$state.currentCourse?._id as string)" v-show="commentStore.$state.visible" />
 
 
   </div>

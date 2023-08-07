@@ -64,6 +64,10 @@ const submitUpdate = async () => {
 const submitAdd = async () => {
     try {
         loading.value = true;
+        if (props.editMode) {
+            await submitUpdate();
+            return;
+        }
         const form = new FormData();
         form.append('title', formData.value.title);
         form.append('description', formData.value.description);
@@ -104,9 +108,9 @@ const handleThumbail = (event: Event) => {
 onMounted(async () => {
     try {
         await categoryStore.getCategories();
-        await courseStore.getCourseById(parsedIdFromRoute.value);
         const currentCategory = categoryStore.$state.categories?.filter((category) => category.name === courseStore.$state.currentCourse?.category)[0];
         if (props.course) {
+            await courseStore.getCourseById(parsedIdFromRoute.value);
             categoryText.value = courseStore.$state.currentCourse?.category as string;
             formData.value.title = courseStore.$state.currentCourse?.title as string;
             formData.value.description = courseStore.$state.currentCourse?.description as string;
@@ -123,7 +127,7 @@ onMounted(async () => {
 
 <template>
     <LoadingIndicator v-show="loading" />
-    <form @submit.prevent="editMode ? submitUpdate : submitAdd">
+    <form @submit.prevent="submitAdd">
         <section class="mb-6">
             <label for="large-input"
                 class="block mb-5 mt-9 text-sm font-medium text-gray-900 dark:text-black ">Title</label>
@@ -188,7 +192,7 @@ onMounted(async () => {
         <!-- show only for editing course -->
         <div v-show="props.course" class="flex justify-between w-11/12 mt-10">
             <button class="anti-btn">Delete Course</button>
-            <input type="submit" class="primary-btn" value="Save" @click="submitUpdate">
+            <input type="submit" class="primary-btn" value="Save">
         </div>
         <input v-show="!editMode" type="submit" value="Add"
             class="text-white mt-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ml-50 ">
