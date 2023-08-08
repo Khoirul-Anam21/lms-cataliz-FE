@@ -12,17 +12,23 @@ const courseStore = useCourseStore();
 const isFacil = computed(() => route.path.includes('facil'));
 
 const parsedIdFromRoute = computed(() => {
-    const separatorIndex = route.path.indexOf('-');
-    console.log(separatorIndex);
-    const result = route.path.slice(separatorIndex + 1, separatorIndex + 25);
-    return result;
+  const separatorIndex = route.path.indexOf('-');
+  console.log(separatorIndex);
+  const result = route.path.slice(separatorIndex + 1, separatorIndex + 25);
+  return result;
 });
+
+
 
 onMounted(async () => {
   try {
     if (!courseStore.$state.currentCourse) {
       await courseStore.getCourseById(parsedIdFromRoute.value);
+      // await courseStore.getParticipantCourses();
+      // console.log(participantCourses);
     }
+    await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
+    console.log(courseStore.$state.currentCourseParticipation);
   } catch (error) {
     console.log(error);
   }
@@ -87,7 +93,7 @@ onMounted(async () => {
 
       <div>
         <CourseMaterialItem v-for="(item, index) in courseStore.$state.currentCourse?.contents" :key="index"
-        :content="item" />
+          :content="item" />
       </div>
 
     </div>

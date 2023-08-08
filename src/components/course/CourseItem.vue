@@ -13,7 +13,7 @@ const courseStore = useCourseStore();
 const courseDetail = ref('');
 
 const propsCourse = defineProps<{
-    course: CourseDisplayProps
+    course: CourseDisplayProps,
 }>()
 
 onMounted(() => {

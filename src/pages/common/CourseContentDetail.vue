@@ -56,11 +56,15 @@ const isReadingMaterial = computed(() => {
     
 onMounted(async () => {
     try {
+        console.log(courseStore.$state.currentCourse);
         loading.value = true
+        const courseId = parsedCourseId.value;
         if (courseStore.$state.currentCourseContent === null) {
-            const courseId = parsedCourseId.value;
             await courseStore.getCourseContentById(courseId, props.id);
             await announcementStore.getAllAnnouncement(courseId);
+        }
+        if (!courseStore.$state.currentCourse) {
+            await courseStore.getCourseById(courseId);
         }
         loading.value = false;
     } catch (error) {
@@ -131,6 +135,7 @@ onMounted(async () => {
                 <source :src="courseStore.$state.currentCourseContent?.material" type="video/avi">
                 <source :src="courseStore.$state.currentCourseContent?.material" type="video/mkv">
             </video>
+            
 
         </section>
 

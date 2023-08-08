@@ -52,6 +52,18 @@ export interface FacilitatorCourseDisplayProps {
     studentCount: number;
 }
 
+export interface CourseProgressInterface {
+    _id: string;
+    user_id: string;
+    course_id: string;
+    contentDetail: {
+        content_id: string,
+        isComplete: boolean;
+    }
+}
+
+
+
 
 export const useCourseStore = defineStore('course', {
     state: () => ({
@@ -59,6 +71,8 @@ export const useCourseStore = defineStore('course', {
         participantCourses: null as ParticipantCourseDisplayProps[] | null,
         facilitatorCourses: null as FacilitatorCourseDisplayProps[] | null,
         currentCourse: null as CourseDisplayProps | null,
+        currentCourseParticipation: null as CourseProgressInterface | null,
+        participationId: null as string | null,
         currentCourseContent: null as CourseContentDisplayProps | null,
         currentCourseId: ''
     }),
@@ -86,6 +100,12 @@ export const useCourseStore = defineStore('course', {
             const response = await courseApiRepo.fetchParticipantCourses();
             this.$state.participantCourses = response.data.data;
             console.log(response.data.data);
+            return response;
+        },
+
+        async getCourseParticipation(course_id: string) {
+            const response = await courseApiRepo.fetchCourseProgress(course_id);
+            this.$state.currentCourseParticipation = response.data;
             return response;
         },
         async startLearningCourse(courseId: string){
