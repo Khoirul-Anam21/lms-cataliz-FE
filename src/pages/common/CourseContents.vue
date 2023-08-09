@@ -13,10 +13,22 @@ const isFacil = computed(() => route.path.includes('facil'));
 
 const parsedIdFromRoute = computed(() => {
   const separatorIndex = route.path.indexOf('-');
-  console.log(separatorIndex);
   const result = route.path.slice(separatorIndex + 1, separatorIndex + 25);
   return result;
 });
+
+const contentList = computed(() => {
+  if (!courseStore.$state.currentCourseParticipation){
+    return [];
+  }
+  const contents = courseStore.$state.currentCourse?.contents;
+  const contentsParticipation = courseStore.$state.currentCourseParticipation?.contentDetail ?? [];
+  const participations = contents?.map((content, index) => {
+    const participationCompletion = contentsParticipation[index];
+    return { ...content, isComplete: participationCompletion.isComplete };
+  })
+  return participations;
+})
 
 
 
@@ -24,11 +36,8 @@ onMounted(async () => {
   try {
     if (!courseStore.$state.currentCourse) {
       await courseStore.getCourseById(parsedIdFromRoute.value);
-      // await courseStore.getParticipantCourses();
-      // console.log(participantCourses);
     }
     await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
-    console.log(courseStore.$state.currentCourseParticipation);
   } catch (error) {
     console.log(error);
   }
@@ -92,7 +101,7 @@ onMounted(async () => {
       </section>
 
       <div>
-        <CourseMaterialItem v-for="(item, index) in courseStore.$state.currentCourse?.contents" :key="index"
+        <CourseMaterialItem v-for="(item, index) in contentList" :key="index"
           :content="item" />
       </div>
 

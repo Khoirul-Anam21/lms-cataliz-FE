@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CourseContentDisplayProps, useCourseStore } from '../../stores/courses';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const props = defineProps<{
@@ -42,10 +42,8 @@ const goMaterialDetail = () => {
                 </p>
             </span>
             <div class="mt-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6   h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
+                <i v-if="props.content.isComplete" class="fa-solid fa-circle-check fa-2xl text-green-500"></i>
+                <div v-else class="w-7 h-7 rounded-full bg-transparent border-4 border-slate-400"></div>
             </div>
         </div>
     </a>

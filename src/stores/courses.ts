@@ -59,7 +59,7 @@ export interface CourseProgressInterface {
     contentDetail: {
         content_id: string,
         isComplete: boolean;
-    }
+    }[]
 }
 
 
@@ -106,6 +106,10 @@ export const useCourseStore = defineStore('course', {
         async getCourseParticipation(course_id: string) {
             const response = await courseApiRepo.fetchCourseProgress(course_id);
             this.$state.currentCourseParticipation = response.data;
+            return response;
+        },
+        async completeCourseContent(participation_id: string, content_id: string) {
+            const response = await courseApiRepo.completeCourseContentProgress(participation_id, content_id);
             return response;
         },
         async startLearningCourse(courseId: string){

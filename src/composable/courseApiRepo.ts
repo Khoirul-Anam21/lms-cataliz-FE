@@ -38,8 +38,8 @@ class CourseApiRepository {
         return response;
     }
 
-    async completeCourseContentProgress(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body);
+    async completeCourseContentProgress(participation_id: string, content_id: string) {
+        const response = await axiosInstance.patch(this.baseRoute + "/course-participation/" + participation_id, { courseContent_id: content_id });
         return response;
     }
 
