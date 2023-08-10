@@ -130,7 +130,12 @@ const markAsDone = async () => {
         participationLoading.value = true;
         await courseStore.completeCourseContent(courseStore.$state.currentCourseParticipation?._id as string, courseStore.currentCourseContent?._id as string);
         await courseStore.getCourseParticipation(parsedCourseId.value);
-        await courseStore.getCourseContentById(parsedCourseId.value, props.id);
+        const contents = courseStore.$state.currentCourse?.contents ?? [];
+        const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
+        if (!contents[currentIndex]) {
+            return;
+        }
+        await courseStore.getCourseContentById(courseStore.$state.currentCourse?._id as string, contents[currentIndex]._id as string);
         // courseLearnt.value = true;
         // completed.value = true; 
         console.log(completed.value);
@@ -158,7 +163,6 @@ onMounted(async () => {
             }
             const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex]._id)[0];
             contents[currentIndex].isComplete = contentParticipation?.isComplete as boolean;
-            console.log(contentParticipation);
             courseStore.$state.currentCourseContent = contents[currentIndex];
         }
         loading.value = false;
