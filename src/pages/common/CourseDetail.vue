@@ -24,7 +24,16 @@ const { notification } = useBaseNotification();
 
 const isLoading = ref(false);
 
-const courseTitleSplit = computed(() => props.title?.split('-') as string[])
+const courseTitleSplit = computed(() => props.title?.split('-') as string[]);
+
+const completed = computed(() => {
+  if (!courseStore.$state.currentCourseParticipation){
+    return;
+  }
+  const completions = courseStore.$state.currentCourseParticipation.contentDetail;
+  const isComplete = completions.every(participation => participation.isComplete);
+  return isComplete;
+})
 
 onMounted(async () => {
   isLoading.value = true;
@@ -39,12 +48,14 @@ onMounted(async () => {
     } else if (userStore.$state.user.role === 'student') {
       await courseStore.getParticipantCourses();
     }
+    if (!isFacil.value) await courseStore.getCourseParticipation(courseTitleSplit.value[1]);
     commentStore.$state.visible = false;
     isLoading.value = false;
   } catch (error) {
     console.log(error);
   }
 });
+
 
 const isFacil = computed(() => userStore.$state.user.role === 'facilitator');
 
@@ -106,6 +117,9 @@ const goEditCourse = () => {
         </div>
 
         <ul class="text-lg">{{ courseStore.$state.currentCourse?.contents.length }} materi pelajaran</ul>
+        <br>
+        <p v-if="completed && !isFacil" class="p-4 bg-green-200 text-green-900 rounded-lg w-fit"> <i class="fa-solid fa-check-to-slot fa-xl mr-2"></i> You have completed this course</p>
+
         <!-- <ul class="text-lg">{{ courseStore.$state.currentCourse?.totalDuration }} jam belajar</ul> -->
         <div v-if="isFacil">
           <button type="button" @click="goFacilMaterials" class="primary-btn mr-2">View

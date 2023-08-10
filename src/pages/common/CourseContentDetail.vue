@@ -57,16 +57,18 @@ const isReadingMaterial = computed(() => {
 
 const goPrevious = async () => {
     try {
-        await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
-
         const title = courseStore.$state.currentCourse?.title + "-" + courseStore.$state.currentCourse?._id
         const contents = courseStore.$state.currentCourse?.contents ?? [];
         const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
         if (!contents[currentIndex - 1]) {
             return;
         }
-        const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex - 1]._id)[0];
-        contents[currentIndex - 1].isComplete = contentParticipation?.isComplete as boolean;
+        await courseStore.getCourseContentById(courseStore.$state.currentCourse?._id as string, contents[currentIndex - 1]._id as string);
+        if (!isFacil.value) {
+            await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
+            const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex - 1]._id)[0];
+            contents[currentIndex - 1].isComplete = contentParticipation?.isComplete as boolean;
+        }
         const params = { title, id: contents[currentIndex - 1]._id }
         if (isFacil.value) {
             routerInstance.push({ name: 'facil-material-detail', params });
@@ -81,16 +83,19 @@ const goPrevious = async () => {
 
 const goNext = async () => {
     try {
-        await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
-
         const title = courseStore.$state.currentCourse?.title + "-" + courseStore.$state.currentCourse?._id
         const contents = courseStore.$state.currentCourse?.contents ?? [];
         const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
         if (!contents[currentIndex + 1]) {
             return;
         }
-        const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex + 1]._id)[0];
-        contents[currentIndex + 1].isComplete = contentParticipation?.isComplete as boolean;
+        await courseStore.getCourseContentById(courseStore.$state.currentCourse?._id as string, contents[currentIndex + 1]._id as string);
+
+        if (!isFacil.value) {
+            await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
+            const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex - 1]._id)[0];
+            contents[currentIndex + 1].isComplete = contentParticipation?.isComplete as boolean;
+        }
         const params = { title, id: contents[currentIndex + 1]._id }
         if (isFacil.value) {
             routerInstance.push({ name: 'facil-material-detail', params });
@@ -107,17 +112,17 @@ const goNext = async () => {
 
 const completed = computed(() => {
     if (!courseStore.$state.currentCourse) {
-            return;
-        }
-        const contents = courseStore.$state.currentCourse?.contents ?? [];
-        const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
-        if (!contents[currentIndex]) {
-            return;
-        }
-        const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex]._id)[0];
-        const completedContent = ref(contentParticipation?.isComplete);
-        const completedReactive = reactive({completedContent});
-        return completedReactive.completedContent;
+        return;
+    }
+    const contents = courseStore.$state.currentCourse?.contents ?? [];
+    const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
+    if (!contents[currentIndex]) {
+        return;
+    }
+    const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex]._id)[0];
+    const completedContent = ref(contentParticipation?.isComplete);
+    const completedReactive = reactive({ completedContent });
+    return completedReactive.completedContent;
 })
 const markAsDone = async () => {
     try {
@@ -144,16 +149,18 @@ onMounted(async () => {
             await announcementStore.getAllAnnouncement(courseId);
         }
         await courseStore.getCourseById(courseId);
-        await courseStore.getCourseParticipation(courseId);
-        const contents = courseStore.$state.currentCourse?.contents ?? [];
-        const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
-        if (!contents[currentIndex]) {
-            return;
+        if (!isFacil.value) {
+            await courseStore.getCourseParticipation(courseId);
+            const contents = courseStore.$state.currentCourse?.contents ?? [];
+            const currentIndex = contents?.findIndex(content => content._id === courseStore.$state.currentCourseContent?._id);
+            if (!contents[currentIndex]) {
+                return;
+            }
+            const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex]._id)[0];
+            contents[currentIndex].isComplete = contentParticipation?.isComplete as boolean;
+            console.log(contentParticipation);
+            courseStore.$state.currentCourseContent = contents[currentIndex];
         }
-        const contentParticipation = courseStore.$state.currentCourseParticipation?.contentDetail.filter((participation) => participation.content_id === contents[currentIndex]._id)[0];
-        contents[currentIndex].isComplete = contentParticipation?.isComplete as boolean;
-        console.log(contentParticipation);
-        courseStore.$state.currentCourseContent = contents[currentIndex];
         loading.value = false;
     } catch (error) {
         console.log(error);
@@ -219,9 +226,9 @@ onMounted(async () => {
             </video>
             <div class="flex items-center justify-between w-5/12 pt-4">
                 <button @click="goPrevious" class="outline-btn">Previous</button>
-                <button v-if="completed" v-show="!participationLoading" class="secondary-btn bg-green-300 text-green-900"
-                    disabled>Already Learnt</button>
-                <button v-else @click="markAsDone" v-show="!participationLoading" class="secondary-btn">Mark as
+                <button v-if="completed" v-show="!participationLoading && !isFacil"
+                    class="secondary-btn bg-green-300 text-green-900" disabled>Already Learnt</button>
+                <button v-else @click="markAsDone" v-show="!participationLoading && !isFacil" class="secondary-btn">Mark as
                     Done</button>
                 <button v-show="participationLoading" class="secondary-btn" disabled>Learning...</button>
                 <button @click="goNext" class="outline-btn">Next</button>

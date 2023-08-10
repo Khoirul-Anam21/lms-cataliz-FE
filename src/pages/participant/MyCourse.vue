@@ -9,7 +9,10 @@ const courseStore = useCourseStore();
 const toggleOpenDropdown = ()=> dropdownOpen.value = !dropdownOpen.value;
 
 onMounted(async ()=> {
-    await courseStore.getParticipantCourses();
+    if (!courseStore.$state.participantCourses) {
+        await courseStore.getParticipantCourses();
+    }
+    console.log(courseStore.$state.participantCourses);
 });
 
 </script>
@@ -28,9 +31,7 @@ onMounted(async ()=> {
                 </button>
                     <div v-show="dropdownOpen" class="absolute right-0 mt-2 py-2 bg-white border rounded-md shadow-lg">
                         <!-- Dropdown content -->
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 1</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 2</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 3</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">coming soon</a>
                     </div>
                 </div>
         </div>

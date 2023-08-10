@@ -31,6 +31,8 @@ const isFacil = computed(() => {
   return null;
 });
 
+
+
 const addNewAnnouncement = async () => {
   try {
     loading.value = true;
@@ -46,15 +48,17 @@ const addNewAnnouncement = async () => {
   }
 }
 
+const announcements = computed(() => {
+  return announcementStore.$state.announcements;
+})
 
 onMounted(async () => {
   try {
     loading.value = true;
     await userStore.getUser(cookie.get('id'));
-    if (!announcementStore.announcements) {
-      await announcementStore.getAllAnnouncement(props.courseId);
-    }
-    console.log(announcementStore.$state.announcements);
+    console.log(props.courseId);
+    await announcementStore.getAllAnnouncement(props.courseId);
+    // console.log(announcementStore.$state.announcements);
     loading.value = false;
   } catch (error) {
     console.log(error);
@@ -96,7 +100,7 @@ onMounted(async () => {
 
         <div class="ml-3">
           <span v-if="userId === item.user.id" class="text-2xl font-semibold text-gray-900 dark:text-black">You</span>
-          <span v-else class="text-2xl font-semibold text-gray-900 dark:text-black">{{ item.user.username }}</span>
+          <span v-else class="text-2xl font-semibold text-gray-900 dark:text-black">{{ item.user.username }} (Facilitator)</span>
           <p class="text-lg">{{ useDateFormatter(item.createdAt).formattedDate.value }} - {{
             useDateFormatter(item.createdAt).formattedTime.value }}</p>
         </div>

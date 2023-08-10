@@ -18,8 +18,8 @@ class CourseApiRepository {
         return response;
     }
 
-    async fetchCourseParticipant(courseId: string) {
-        const response = await axiosInstance.get(this.baseRoute + '/course-participation/course/' + courseId)
+    async fetchCourseParticipants(course_id: string) {
+        const response = await axiosInstance.get(this.baseRoute + '/course-participant/' + course_id);
         return response;
     }
 

@@ -29,11 +29,14 @@ export const useAnnouncementStore = defineStore('announcement', {
         },
         async getAllAnnouncement(courseId: string) {
             const response = await announcementApiRepo.fetchAllAnnouncementByCourse(courseId);
+            console.log(response.data.announcements);
             if (response.data.announcements.length > 0) {
                 this.$state.announcements = response.data.announcements.sort((a, b) =>
                     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
+                return response;
             }
+            this.$state.announcements = [];
             return response;
         }
     }

@@ -18,10 +18,12 @@ const parsedIdFromRoute = computed(() => {
 });
 
 const contentList = computed(() => {
-  if (!courseStore.$state.currentCourseParticipation){
+  if (!courseStore.$state.currentCourseParticipation && !isFacil.value){
     return [];
   }
   const contents = courseStore.$state.currentCourse?.contents;
+  console.log(contents);
+  if (isFacil.value) return contents;
   const contentsParticipation = courseStore.$state.currentCourseParticipation?.contentDetail ?? [];
   const participations = contents?.map((content, index) => {
     const participationCompletion = contentsParticipation[index];
@@ -37,7 +39,7 @@ onMounted(async () => {
     if (!courseStore.$state.currentCourse) {
       await courseStore.getCourseById(parsedIdFromRoute.value);
     }
-    await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
+    if (!isFacil.value) await courseStore.getCourseParticipation(courseStore.$state.currentCourse?._id as string);
   } catch (error) {
     console.log(error);
   }

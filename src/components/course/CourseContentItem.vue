@@ -41,7 +41,8 @@ const goMaterialDetail = () => {
                     <span>{{ duration }}</span>
                 </p>
             </span>
-            <div class="mt-3">
+            <i v-if="isFacil" class="fa-solid fa-chevron-right fa-xl mt-3"></i>
+            <div v-else class="mt-3">
                 <i v-if="props.content.isComplete" class="fa-solid fa-circle-check fa-2xl text-green-500"></i>
                 <div v-else class="w-7 h-7 rounded-full bg-transparent border-4 border-slate-400"></div>
             </div>

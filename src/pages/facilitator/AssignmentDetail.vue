@@ -22,6 +22,7 @@ onMounted(async ()=>{
       await assignmentStore.getFacilAssignmentData(contentId.value);
     }
     await assignmentStore.getSubmissionsForFacil(contentId.value);
+    console.log(assignmentStore.$state.submissions);
     loading.value = false;
   } catch (error) {
     console.log(error);

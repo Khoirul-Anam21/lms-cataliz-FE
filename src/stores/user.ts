@@ -8,7 +8,7 @@ export interface UserInterface {
     _id: string;
     username: string;
     photo: string | null;
-    job: string | null;
+    job?: string | null;
   }
 
 const userApiRepo = useUserApiRepo();

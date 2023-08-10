@@ -15,7 +15,7 @@ const toggleOpenDropdown = () => {
 onMounted(async () => {
     try {
         loading.value = true;
-        const response = await courseStore.getFacilCourses();
+        await courseStore.getFacilCourses();
     } catch (error) {
         console.log(error);
     }
@@ -37,9 +37,7 @@ onMounted(async () => {
                 </button>
                 <div v-show="dropdownOpen" class="absolute right-0 mt-2 py-2 bg-white border rounded-md shadow-lg">
                     <!-- Dropdown content -->
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 1</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 2</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 3</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">coming soon</a>
                 </div>
             </div>
 

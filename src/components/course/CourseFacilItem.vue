@@ -13,7 +13,6 @@ const publishStatus = computed(() => props.course.published ? 'published' : 'dra
 const tesParam = ref('tetes');
 
 onMounted(async () =>{
-    console.log(props.course);
 });
 
 </script>

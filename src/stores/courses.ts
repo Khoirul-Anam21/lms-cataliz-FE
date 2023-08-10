@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useCourseApiRepo } from '../composable/courseApiRepo.js';
 import { useCourseContentApiRepo } from '../composable/courseContentApiRepo.js';
+import { UserInterface } from './user.js';
 
 const courseApiRepo = useCourseApiRepo();
 const courseContentApiRepo = useCourseContentApiRepo();
@@ -74,13 +75,13 @@ export const useCourseStore = defineStore('course', {
         currentCourseParticipation: null as CourseProgressInterface | null,
         participationId: null as string | null,
         currentCourseContent: null as CourseContentDisplayProps | null,
-        currentCourseId: ''
+        currentCourseId: '',
+        courseParticipants: null as UserInterface[] | null
     }),
     actions: {
         async getAllCourse() {
             const response = await courseApiRepo.fetchAllCourses();
             this.$state.courses = response.data.courses;
-            console.log(this.$state.courses);
             return response;
         },
         async getCourseById(courseId: string) {
@@ -98,8 +99,14 @@ export const useCourseStore = defineStore('course', {
         },
         async getParticipantCourses(){
             const response = await courseApiRepo.fetchParticipantCourses();
-            this.$state.participantCourses = response.data.data;
-            console.log(response.data.data);
+            const data = response.data.data as any[];
+            this.$state.participantCourses = data;
+            return response;
+        },
+
+        async getCourseParticipantsInFacil(course_id: string) {
+            const response = await courseApiRepo.fetchCourseParticipants(course_id);
+            this.$state.courseParticipants = response.data.participants;
             return response;
         },
 
