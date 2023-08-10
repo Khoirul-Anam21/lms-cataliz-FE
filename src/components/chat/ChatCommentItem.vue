@@ -6,17 +6,16 @@ import { useUserStore } from '../../stores/user';
 import useDateFormatter from '../../composable/dateFormatter';
 
 const props = defineProps<{
-    comment: CommentInterface
+    comment: CommentInterface,
+    courseId: string,
 }>();
-const commentData = reactive(props.comment);
 const userStore = useUserStore();
 
-const baseInputModels: string[] = new Array(commentData.replies.length).fill('')
 
-const inputModels = reactive(baseInputModels);
 const showReplyForm = ref(false);
-const currentReplyId = ref('');
 const replyText = ref('');
+const loading = ref(false);
+
 
 
 const commentStore = useCommentStore()
@@ -24,21 +23,32 @@ const toggleCommentForm = () => {
     showReplyForm.value = !showReplyForm.value;
 };
 
-const toggleReplyForm = (id: string) => {
-    if (currentReplyId.value !== id) {
-        currentReplyId.value = id;
+const replies = computed(() => {
+    if (!commentStore.$state.comments){
         return;
     }
-    currentReplyId.value = '';
-}
+    const comment = commentStore.$state.comments.filter(commentData => commentData._id === props.comment._id)[0];
+    return comment.replies.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+});
+
+// const toggleReplyForm = (id: string) => {
+//     if (currentReplyId.value !== id) {
+//         currentReplyId.value = id;
+//         return;
+//     }
+//     currentReplyId.value = '';
+// }
 
 
 const submitReply = async (commentId: string, commentText: string) => {
     try {
-        commentStore.$state.visible = false;
+        showReplyForm.value = false;
+        loading.value = true
         await commentStore.createReply(commentId, commentText);
-        currentReplyId.value = '';
-        commentStore.$state.visible = true;
+        await commentStore.getAllComments(props.courseId);
+        replyText.value = '';
+        loading.value = false;
+        // currentReplyId.value = '';
     } catch (error) {
         console.log(error); 
     }
@@ -74,9 +84,9 @@ const submitReply = async (commentId: string, commentText: string) => {
                 class="reply-submit-button mt-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                 @click="submitReply(comment._id, replyText)">Submit</button>
         </div>
-
+        <p v-show="loading" class="px-2">. . .</p>
         <!-- replies -->
-        <div v-for="(reply, index) in commentData.replies" :key="reply._id" class="reply flex flex-col mt-4 ml-10">
+        <div v-for="(reply, index) in replies" :key="reply._id" class="reply flex flex-col mt-4 ml-10">
             <div class="flex flex-col items-start">
                 <!-- profile identity -->
                 <div class="flex items-center mb-1">

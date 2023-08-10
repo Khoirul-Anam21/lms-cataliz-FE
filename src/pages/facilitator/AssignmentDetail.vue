@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import TabBarView from '../../components/TabBarView.vue';
 import AssignmentInstruction from '../../components/assignment/AssignmentInstruction.vue';
-import AssignmentParticipantList from '../../components/assignment/AssignmentFacilList.vue';
 import AssignmentReportList from '../../components/assignment/AssignmentReportList.vue';
 import { computed, onMounted, ref } from 'vue';
 import { SubmissionInterface, useAssignmentStore } from '../../stores/assignment';
@@ -106,9 +105,6 @@ onMounted(async ()=>{
       </template>
       <template v-slot:Report>
         <AssignmentReportList :submissions="(assignmentStore.$state.submissions as SubmissionInterface[])"/>
-      </template>
-      <template v-slot:Participant>
-        <AssignmentParticipantList/>
       </template>
     </TabBarView>
 

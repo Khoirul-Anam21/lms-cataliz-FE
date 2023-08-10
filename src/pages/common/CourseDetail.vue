@@ -9,6 +9,7 @@ import { useUserStore } from '../../stores/user';
 import { useCommentStore } from '../../stores/comment';
 import cookie from '@point-hub/vue-cookie'
 import { TypesEnum, useBaseNotification } from '../../composable/notification';
+import TheFacilCourseParticipant from "../../components/course/TheFacilCourseParticipants.vue"
 
 const props = defineProps({
   title: {
@@ -23,6 +24,7 @@ const commentStore = useCommentStore();
 const { notification } = useBaseNotification();
 
 const isLoading = ref(false);
+const participantPopupOpen = ref(false);
 
 const courseTitleSplit = computed(() => props.title?.split('-') as string[]);
 
@@ -108,6 +110,9 @@ const goEditCourse = () => {
   <div
     :class="{ 'mt-24 md:mt-28 md:mx-14 md:ml-60 mb-20': cookie.get('accessToken'), 'mt-24 md:mt-28 md:mx-14': !cookie.get('accessToken') }">
     <LoadingIndicator v-show="isLoading" />
+    <div v-show="participantPopupOpen" class="fixed z-10 w-full md:w-[768px] h-[480px] md:h-[512px] bg-slate-100 rounded-lg shadow-xl m-4 overflow-auto">
+      <TheFacilCourseParticipant :course-id="courseTitleSplit[1]" @close-modal="()=> participantPopupOpen = !participantPopupOpen"/>
+    </div>
     <div class="flex flex-col md:flex-row">
       <img :src="courseStore.$state.currentCourse?.thumbnail" alt="" class="max-w-full h-auto rounded md:w-96 ml-5">
       <div class="ml-5 space-y-1">
@@ -127,6 +132,8 @@ const goEditCourse = () => {
           <button type="button" @click="goEditCourse"
             class="mt-5 text-slate-800 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit
             Course</button>
+            <button type="button" @click="() => participantPopupOpen = !participantPopupOpen"
+            class="mt-5 text-slate-800 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">View Participant</button>
         </div>
         <div v-else>
           <button v-if="courseBeingLearned" type="button" @click="goMaterials"
@@ -163,7 +170,7 @@ const goEditCourse = () => {
       <span>Show Comment </span>
       <BaseSwitch :value="commentStore.$state.visible" @update:value="value => commentStore.$state.visible = value" />
     </div>
-    <ChatArea :course-id="(courseStore.$state.currentCourse?._id as string)" v-show="commentStore.$state.visible" />
+    <ChatArea :course-id="courseTitleSplit[1]" v-show="commentStore.$state.visible" />
 
 
   </div>
