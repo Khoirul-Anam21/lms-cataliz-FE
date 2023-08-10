@@ -50,7 +50,7 @@ onMounted(async () => {
     } else if (userStore.$state.user.role === 'student') {
       await courseStore.getParticipantCourses();
     }
-    if (!isFacil.value) await courseStore.getCourseParticipation(courseTitleSplit.value[1]);
+    if (!isFacil.value && cookie.get("accessToken")) await courseStore.getCourseParticipation(courseTitleSplit.value[1]);
     commentStore.$state.visible = false;
     isLoading.value = false;
   } catch (error) {
