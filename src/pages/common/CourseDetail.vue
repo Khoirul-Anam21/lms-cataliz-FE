@@ -45,9 +45,9 @@ onMounted(async () => {
     }
     console.log(courseTitleSplit.value[1]);
     await courseStore.getCourseById(courseTitleSplit.value[1]);
-    if (userStore.$state.user.role === 'facilitator') {
+    if (userStore.$state.user?.role === 'facilitator') {
       await courseStore.getFacilCourses();
-    } else if (userStore.$state.user.role === 'student') {
+    } else if (userStore.$state.user?.role === 'student') {
       await courseStore.getParticipantCourses();
     }
     if (!isFacil.value && cookie.get("accessToken")) await courseStore.getCourseParticipation(courseTitleSplit.value[1]);
@@ -59,7 +59,7 @@ onMounted(async () => {
 });
 
 
-const isFacil = computed(() => userStore.$state.user.role === 'facilitator');
+const isFacil = computed(() => userStore.$state.user?.role === 'facilitator');
 
 const courseBeingLearned = computed(() => {
   if (isLoading.value) return false;

@@ -53,7 +53,7 @@ onMounted(async () => {
                         <p class="text-sm">Course Owned</p>
                     </section>
                     <section class="number-box dashboard-card">
-                        <h5 class="text-3xl md:text-4xl font-bold">{{ reportStore.$state.facilReport?.totalAssignments }}
+                        <h5 class="text-3xl md:text-4xl font-bold">{{ reportStore.$state.facilReport?.totalAssignments ?? 0 }}
                         </h5>
                         <p class="text-sm">Assignments</p>
                     </section>

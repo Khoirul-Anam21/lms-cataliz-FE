@@ -8,11 +8,7 @@ class UserApiRepository {
         return response;
     }
     async updateUser(userId: string, body: any) {
-        const response = await axiosInstance.put('/users/' + userId, body, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
+        const response = await axiosInstance.put('/users/' + userId, body);
         return response;
     }
     async deleteUser(userId: string) {

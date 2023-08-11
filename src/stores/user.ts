@@ -9,13 +9,15 @@ export interface UserInterface {
     username: string;
     photo: string | null;
     job?: string | null;
+    email?: string;
+    role?: string;
   }
 
 const userApiRepo = useUserApiRepo();
 export const useUserStore = defineStore('user', {
     state: () => ({
         user: {
-            id: '',
+            _id: '',
             username: '',
             email: '',
             role: '',
@@ -28,23 +30,11 @@ export const useUserStore = defineStore('user', {
     actions: {
         async getUser(userId: string) {
             const response = await userApiRepo.fetchUser(userId);
-            this.$state.user.id = response.data._id;
-            this.$state.user.username = response.data.username;
-            this.$state.user.email = response.data.email;
-            this.$state.user.job = response.data.job;
-            this.$state.user.role = response.data.role;
-            this.$state.user.photo = response.data.photo;
+            this.$state.user = response.data;
             return response;
         },
         async updateUser(userId: string, body: any) {
-            await userApiRepo.updateUser(userId, body);
-            const response = await userApiRepo.fetchUser(userId);
-            this.$state.user.id = response.data._id;
-            this.$state.user.username = response.data.username;
-            this.$state.user.email = response.data.email;
-            this.$state.user.job = response.data.job;
-            this.$state.user.role = response.data.role;
-            this.$state.user.photo = response.data.photo;
+            const response = await userApiRepo.updateUser(userId, body);
             return response;
         }
     }

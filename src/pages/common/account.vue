@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import LoadingIndicator from '../../components/additional/LoadingIndicator.vue';
 import { useUserStore } from '../../stores/user';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
 import cookie from '@point-hub/vue-cookie'
 import getFileNameFromUrl from '../../composable/getFileName'
 import { TypesEnum, useBaseNotification } from '../../composable/notification';
+import { useRouter } from 'vue-router';
 
 const { notification } = useBaseNotification()
 const userStore = useUserStore();
+const router = useRouter();
 const loading = ref(true);
 const formData = ref({
   photo: '',
@@ -19,8 +21,10 @@ const formData = ref({
 
 onMounted(async () => {
   try {
-    const response = await userStore.getUser(cookie.get('id'));
+    await userStore.getUser(cookie.get('id'));
+    console.log(cookie.get('id'));
     // console.log(userStore.$state.photoStorage);
+    console.log(userStore.$state.user.photo);
     formData.value.job = userStore.$state.user.job;
     formData.value.username = userStore.$state.user.username;
     loading.value = false;
@@ -45,26 +49,30 @@ const handlePhotoChange = (event: Event) => {
   formData.value.photo = file;
 }
 
+// const userData = computed(() => {
+//   if (userStore.$state.user)
+// })
+
 const onSubmit = async () => {
   loading.value = true;
-  console.log(userStore.$state.user);
   // const fileName = getFileNameFromUrl(userStore.$state.user.photo);
   try {
     const form = new FormData();
     form.append('username', formData.value.username);
     form.append('job', formData.value.job);
     form.append('photo', formData.value.photo);
-    await userStore.updateUser(cookie.get('id'), form);
+    await userStore.updateUser(userStore.$state.user._id, form);
+    router.go(0);
+    await userStore.getUser(userStore.$state.user._id);
+
     loading.value = false;
     notification('Success', 'Success update account', { type: TypesEnum.Success });
+    await nextTick();
   } catch (error) {
     console.log(error);
   }
 }
 
-watch(userStore.$state.user, (newVal, oldVal) => {
-  photo.value = newVal.photo;
-});
 </script>
 
 <template>

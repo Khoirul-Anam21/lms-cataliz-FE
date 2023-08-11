@@ -90,8 +90,11 @@ const getNavState = computed(() => navPaneStore.$state.currentState);
           <div class="flex justify-between ml-7 border-b-2 border-solid border-gray-100">
             <!--Profile identity-->
             <a class="mb-3 flex space-x-3 py-6 outline-none" href="#!">
-              <img :src="userStore.$state.user.photo" alt=""
+              <img v-if="userStore.$state.user.photo" :src="userStore.$state.user.photo" alt=""
                 class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <div v-else class="flex items-center justify-center w-10 h-10 bg-slate-200 text-slate-600 rounded-full">
+                  <i class="fa-solid fa-user fa-xl"></i>
+                </div>
               <div class="">
                 <span>{{ userStore.$state.user.username }}</span>
                 <p class="text-xs text-slate-500">{{ userStore.$state.user.role }}</p>
