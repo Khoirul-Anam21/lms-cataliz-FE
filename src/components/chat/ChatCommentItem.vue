@@ -65,7 +65,7 @@ const submitReply = async (commentId: string, commentText: string) => {
                 <img v-if="comment.user.photo" :src="comment.user.photo" alt="" class="w-8 h-8 rounded-full">
                 <div v-else class="w-8 h-8 rounded-full bg-slate-500"></div>
                 <section class="ml-2 -space-y-1">
-                    <h3 v-if="comment.user._id === userStore.$state.user.id" class="font-bold">{{ comment.user.username }}
+                    <h3 v-if="comment.user._id === userStore.$state.user._id" class="font-bold">{{ comment.user.username }}
                         (You)</h3>
                     <h3 v-else class="font-bold">{{ comment.user.username }} </h3>
                     <p class="text-sm text-slate-600">{{ useDateFormatter(comment.createdAt).formattedDate.value }} - {{
@@ -93,7 +93,7 @@ const submitReply = async (commentId: string, commentText: string) => {
                     <img v-if="reply.user.photo" :src="reply.user.photo" alt="" class="w-8 h-8 rounded-full">
                     <div v-else class="w-8 h-8 rounded-full bg-slate-500"></div>
                     <section class="ml-2 -space-y-1">
-                        <h3 v-if="reply.user._id === userStore.$state.user.id" class="font-bold">{{ reply.user.username }}
+                        <h3 v-if="reply.user._id === userStore.$state.user._id" class="font-bold">{{ reply.user.username }}
                             (You)</h3>
                         <h3 v-else class="font-bold">{{ reply.user.username }} </h3>
                         <p class="text-sm text-slate-600">{{ useDateFormatter(reply.createdAt).formattedDate.value }} - {{

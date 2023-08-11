@@ -19,7 +19,7 @@ const announcementDescription = ref('');
 
 const userId = computed(() => {
   if (userStore.$state.user) {
-    return userStore.$state.user.id
+    return userStore.$state.user._id
   }
   return null;
 });
