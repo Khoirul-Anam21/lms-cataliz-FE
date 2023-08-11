@@ -49,13 +49,9 @@ const handlePhotoChange = (event: Event) => {
   formData.value.photo = file;
 }
 
-// const userData = computed(() => {
-//   if (userStore.$state.user)
-// })
 
 const onSubmit = async () => {
   loading.value = true;
-  // const fileName = getFileNameFromUrl(userStore.$state.user.photo);
   try {
     const form = new FormData();
     form.append('username', formData.value.username);
