@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { emit } from 'process';
 import { useCourseStore } from '../../stores/courses';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const loading = ref(false);
 const courseStore = useCourseStore();
+const route = useRoute()
+
+const isFacil = computed(() => route.path.includes('facil'));
+
 
 defineEmits(['closeModal'])
 
@@ -15,7 +20,9 @@ const props = defineProps<{
 onMounted(async () => {
   try {
     loading.value = true;
-    await courseStore.getCourseParticipantsInFacil(props.courseId);
+    if (isFacil.value) {
+      await courseStore.getCourseParticipantsInFacil(props.courseId);
+    }
   } catch (error) {
     console.log(error);
   }
