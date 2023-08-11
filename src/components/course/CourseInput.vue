@@ -191,7 +191,6 @@ onMounted(async () => {
 
         <!-- show only for editing course -->
         <div v-show="props.course" class="flex justify-between w-11/12 mt-10">
-            <button class="anti-btn">Delete Course</button>
             <input type="submit" class="primary-btn" value="Save">
         </div>
         <input v-show="!editMode" type="submit" value="Add"
