@@ -88,7 +88,6 @@ onMounted(async () => {
     <nav class="inline-flex ml-5" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
-          <router-link to="/mycourse">
             <a href="#"
               class="text-xl inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
               <svg aria-hidden="true" class="w-5 h-5 mr-2 inline-flex" fill="currentColor" viewBox="0 0 20 20"
@@ -98,11 +97,9 @@ onMounted(async () => {
                 </path>
               </svg>
               My Course</a>
-          </router-link>
         </li>
         <li>
           <div class="inline-flex items-center">
-            <router-link to="/materialcourse">
               <svg aria-hidden="true" class="w-6 h-6 text-gray-400 inline-flex" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -110,13 +107,11 @@ onMounted(async () => {
                   clip-rule="evenodd"></path>
               </svg>
               <a href="#"
-                class="ml-1 text-xl text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Material</a>
-            </router-link>
+                class="ml-1 text-xl font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Material</a>
           </div>
         </li>
         <li>
           <div class="inline-flex items-center">
-            <router-link to="/assignment">
               <svg aria-hidden="true" class="w-6 h-6 text-gray-400 inline-flex" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -124,14 +119,12 @@ onMounted(async () => {
                   clip-rule="evenodd"></path>
               </svg>
               <a href="#"
-                class="ml-1 text-xl text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Assignment</a>
-            </router-link>
+                class="ml-1 text-xl font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Assignment</a>
           </div>
         </li>
 
         <li>
           <div class="inline-flex items-center">
-            <router-link to="/assignreport">
               <svg aria-hidden="true" class="w-6 h-6 text-gray-400 inline-flex" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -139,14 +132,12 @@ onMounted(async () => {
                   clip-rule="evenodd"></path>
               </svg>
               <a href="#"
-                class="ml-1 text-xl text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Report</a>
-            </router-link>
+                class="ml-1 text-xl  font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Report</a>
           </div>
         </li>
 
         <li>
           <div class="inline-flex items-center">
-            <router-link to="/assignreport">
               <svg aria-hidden="true" class="w-6 h-6 text-gray-400 inline-flex" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -156,7 +147,6 @@ onMounted(async () => {
               <a href="#"
                 class="ml-1 text-xl text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Submission
                 Report</a>
-            </router-link>
           </div>
         </li>
       </ol>

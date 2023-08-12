@@ -53,7 +53,6 @@ onMounted(async () => {
     <nav class="mt-20 md:mt-28 inline-flex" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
-          <router-link to="/mycourse">
             <a href="#"
               class="md:text-xl inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
               <svg aria-hidden="true" class="w-5 h-5 mr-2 inline-flex" fill="currentColor" viewBox="0 0 20 20"
@@ -63,11 +62,9 @@ onMounted(async () => {
                 </path>
               </svg>
               My Course</a>
-          </router-link>
         </li>
         <li>
           <div class="inline-flex items-center">
-            <router-link to="/materialcourse">
               <svg aria-hidden="true" class="w-6 h-6 text-gray-400 inline-flex" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -76,7 +73,6 @@ onMounted(async () => {
               </svg>
               <a href="#"
                 class="ml-1 md:text-xl text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Material</a>
-            </router-link>
           </div>
         </li>
       </ol>

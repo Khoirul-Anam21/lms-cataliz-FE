@@ -55,16 +55,12 @@ onMounted(async () => {
   <div class="mt-20 md:mt-28 md:ml-64 mb-20">
     <div class="mt-20">
       <div class="inline-flex rounded-md shadow-sm" role="group">
-        <router-link to="/mycourse">
           <button type="button"
             class="px-4 py-2 text-sm font-medium text-natural-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-black dark:hover:text-white dark:focus:bg-gray-700 text-xl">
             My Course</button>
-        </router-link>
-        <router-link to="/addcourse">
           <button type="button"
             class="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border-t border-b border-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-black dark:hover:text-white dark:focus:bg-gray-700 text-xl">
             Add New Course</button>
-        </router-link>
       </div>
     </div>
 
@@ -76,7 +72,6 @@ onMounted(async () => {
       <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
         <li
           class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-          <router-link to="/addcoursedesc">
             <span
               class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:font-light after:text-gray-200 dark:after:text-gray-500">
               <svg aria-hidden="true" class="w-4 h-4 mr-2 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -87,11 +82,9 @@ onMounted(async () => {
               </svg>
               Course<span class="hidden sm:inline-flex sm:ml-2">Description</span>
             </span>
-          </router-link>
         </li>
         <li
           class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-          <router-link to="/addcoursematerial">
             <span
               class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:font-light after:text-gray-200 dark:after:text-gray-500">
               <svg aria-hidden="true" class="w-4 h-4 mr-2 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -102,11 +95,9 @@ onMounted(async () => {
               </svg>
               Material<span class="hidden sm:inline-flex sm:ml-2"></span>
             </span>
-          </router-link>
         </li>
         <li
           class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-          <router-link to="/addcoursepublish">
             <span
               class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:font-light after:text-gray-200 dark:after:text-gray-500">
               <svg aria-hidden="true" class="w-4 h-4 mr-2 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -117,7 +108,6 @@ onMounted(async () => {
               </svg>
               Publish<span class="hidden sm:inline-flex sm:ml-2">Course</span>
             </span>
-          </router-link>
         </li>
       </ol>
     </div>
